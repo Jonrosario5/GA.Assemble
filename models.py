@@ -41,8 +41,10 @@ class User(UserMixin, Model):
             raise ValueError("User already exists")
 
 class User_Topics(Model):
-    topic = ForeignKeyField(Topic,backref="usertopics"),
-    user = ForeignKeyField(User,backref="usertopics"),
+    topic = ForeignKeyField(
+        model=Topic,backref="usertopics"),
+    user = ForeignKeyField(
+        model=User,backref="usertopics"),
     can_help = BooleanField(default=False)  
 
     class Meta:
@@ -60,8 +62,10 @@ class Event(Model):
 
     
 class User_Events(Model):
-    user = ForeignKeyField(User, backref="user")
-    event = ForeignKeyField(Event, backref="event")
+    user = ForeignKeyField(
+        model=User, backref="user")
+    event = ForeignKeyField(
+        model=Event, backref="event")
     type = BooleanField()
 
     class Meta:
