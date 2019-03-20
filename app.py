@@ -74,9 +74,15 @@ def login():
                 flash("your email or password doesn't match", "error")
     return render_template('login.html', form=form)
 
-@app.route('/topic')
-def working():
-    form=forms.TopicForm
+@app.route('/topic', methods=('GET','POST'))
+def topic():
+    form=forms.TopicForm()
+    if form.validate_on_submit():
+        flash("Successful signup!",'success')
+        models.Topic.create_topic(
+            name=form.name.data
+        )
+        return redirect(url_for('index'))
     return render_template('topic.html',form=form)
 
 
