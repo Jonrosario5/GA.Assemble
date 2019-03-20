@@ -103,9 +103,9 @@ def event():
     if form.validate_on_submit():
         flash('Event created', 'success')
         models.Event.create_event(
-            title=form.title.data
-            time=form.time.data
-            location=form.location.data
+            title=form.title.data,
+            event_time=form.event_time.data,
+            location=form.location.data,
             details=form.details.data
         )
         return redirect(url_for('index'))

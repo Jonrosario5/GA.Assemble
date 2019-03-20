@@ -61,6 +61,6 @@ class TopicForm(Form):
 
 class EventForm(Form):
     title = StringField('Title', validators=[DataRequired()])
-    time = DateTimeField('Time', validators=[DataRequired()])
+    event_time = DateTimeField('Time', validators=[DataRequired()])
     location = StringField('Location', validators=[DataRequired()])
     details = StringField('Details', validators=[DataRequired()])
