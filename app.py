@@ -80,7 +80,9 @@ def login():
                 ## creates session
                 login_user(user)
                 flash("You've been logged in", "success")
-                return redirect(url_for('index'))
+                user_id = user.id
+                
+                return redirect(url_for('profile.html',user_topics=user_topics,user_events=user_events,user=user))
             else:
                 flash("your email or password doesn't match", "error")
     return render_template('login.html', form=form)
@@ -97,6 +99,7 @@ def topic():
     return render_template('topic.html',form=form)
 
 
+
 @app.route('/event', methods=('GET', 'POST'))
 def event():
     eventForm=forms.EventForm()
@@ -111,6 +114,19 @@ def event():
         flash('Event created', 'success')
         return redirect(url_for('index'))
     return render_template('event.html', form=eventForm)              
+
+
+
+@app.route('/user',methods=["GET","POST","DELETE","PUT"])
+def user_profile():
+    user = g.user._get_current_object()
+    user_id = user.id
+    user_topics = models.User_Topics.select(models.User_Topics.user == user_id)
+    user_events = models.User_Events.select(models.User_Events.user == user_id)
+    return render_template('profile.html',user_events=user_events,user_topics=user_profile,user=user)
+
+
+
 
 
 
