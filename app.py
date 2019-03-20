@@ -39,9 +39,9 @@ def after_request(response):
     g.db.close()
     return response
 
-@app.route('/')
+@app.route('/landing')
 def index():
-    return("Working?")
+    return render_template('landing.html')
 
 @app.route('/signup',methods=["GET","POST"])
 def signup():
@@ -75,9 +75,15 @@ def login():
                 flash("your email or password doesn't match", "error")
     return render_template('login.html', form=form)
 
-@app.route('/topic')
-def working():
-    form=forms.TopicForm
+@app.route('/topic', methods=('GET','POST'))
+def topic():
+    form=forms.TopicForm()
+    if form.validate_on_submit():
+        flash("Successful signup!",'success')
+        models.Topic.create_topic(
+            name=form.name.data
+        )
+        return redirect(url_for('index'))
     return render_template('topic.html',form=form)
 
 
@@ -87,11 +93,5 @@ def working():
 
 if __name__ == '__main__':
     models.initialize()
-    try:
-        models.Topic.create_topic(
-            name="Javascript"
-            )
-    except ValueError:
-        pass
 
     app.run(debug=DEBUG, port=PORT)
