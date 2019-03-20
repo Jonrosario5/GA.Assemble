@@ -7,7 +7,7 @@ from flask_bcrypt import generate_password_hash
 DATABASE = SqliteDatabase('whatchuknow.db')
 
 class Topic(Model):
-    name = CharField(50)
+    name = CharField(50, unique=True)
     class Meta:
         database = DATABASE
 

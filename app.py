@@ -92,11 +92,5 @@ def topic():
 
 if __name__ == '__main__':
     models.initialize()
-    try:
-        models.Topic.create_topic(
-            name="Javascript"
-            )
-    except ValueError:
-        pass
 
     app.run(debug=DEBUG, port=PORT)
