@@ -5,6 +5,7 @@ from flask_bcrypt import check_password_hash
 
 import models
 import forms
+import json
 
 DEBUG = True
 PORT = 8000
@@ -39,9 +40,17 @@ def after_request(response):
     g.db.close()
     return response
 
-@app.route('/landing')
+@app.route('/')
 def index():
     return render_template('landing.html')
+
+@app.route('/main')
+def main():
+    with open('topics.json') as topics_data:
+        topics = json.load(topics_data)
+        with open('events.json') as events_data:
+            events = json.load(events_data)
+            return render_template('main.html', topics=topics, events=events)
 
 @app.route('/signup',methods=["GET","POST"])
 def signup():
@@ -55,7 +64,8 @@ def signup():
             password=form.password.data
         )
         return redirect(url_for('index'))
-    return render_template('register.html', form=form)
+    topics = models.Topic.select()
+    return render_template('register.html', form=form,topics=topics)
 
 @app.route('/login', methods=('GET','POST'))
 def login():

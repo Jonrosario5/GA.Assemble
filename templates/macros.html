@@ -1,11 +1,23 @@
 {% macro render_field(field) %}
+    <div class="field">
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <div class="notification error">{{ error }}</div>
+            {% endfor %}
+        {% endif %}
+        {{ field(placeholder=field.label.text) }}
+    </div>
+{% endmacro %}
 
-<div class="field">
-  {% if field.errors %} {% for error in field.errors %}
-  <div class="notification error">{{ error }}</div>
-  {% endfor %} {% endif %}
+{% macro render_topic(topic) %}
+    <div data-id={{topic.id}} class='columns'>
+        <h1 class='column'>{{topic.name}}</h1>
+    </div>
+{% endmacro %}
 
-  {{ field(placeholder=field.label.text) }}
-</div>
-
+{% macro render_event(event) %}
+    <div data-id={{event.id}}>
+        <h1 class='has-background-black has-text-white'>{{event.title}}</h1>
+        <h2>{{event.details}}</h2>
+    </div>
 {% endmacro %}

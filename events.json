@@ -1,0 +1,22 @@
+[{
+    "title": "Meeting up to discuss Python",
+    "time": "2019-03-20",
+    "location": "At GA",
+    "topic_id": 1,
+    "details": "Come help us with Python, it's crazy.",
+    "id": 1
+},{
+    "title": "Flask sync up",
+    "time": "2019-03-21",
+    "location": "At GA",
+    "topic_id": 2,
+    "details": "Anyone who wants to learn Flask should come",
+    "id": 2
+},{
+    "title": "Flask templates",
+    "time": "2019-03-20",
+    "location": "At Joe & The Juice",
+    "topic_id": 2,
+    "details": "Know about Flask templates? Help us!",
+    "id": 3
+}]

@@ -4,9 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css'/>
     <title>Main</title>
 </head>
 <body>
-    
+    {% include 'nav.html' %}
+    {% from 'macros.html' import render_topic, render_event %}
+    <h1> Team Up </h1>
+    <div class='columns'>
+        <div class='column is-one-third'>
+            {% for topic in topics %}
+            {{ render_topic(topic) }}
+            {% endfor %}
+        </div>
+        <div class='column is-two-third'>
+            {% for event in events %}
+            {{ render_event(event) }}
+            {% endfor %}
+        </div>
+    </div>
 </body>
 </html>
