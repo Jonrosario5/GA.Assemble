@@ -2,9 +2,11 @@ from flask_wtf import FlaskForm as Form
 
 from models import User
 
-from wtforms import StringField, PasswordField, TextAreaField, DateTimeField
+
+from wtforms import StringField, PasswordField, TextAreaField, DateField
 from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
                                Length, EqualTo)
+from wtforms.fields.html5 import DateTimeField
 
 
 def name_exists(form, field):
@@ -61,6 +63,5 @@ class TopicForm(Form):
 
 class EventForm(Form):
     title = StringField('Title', validators=[DataRequired()])
-    event_time = DateTimeField('Time', validators=[DataRequired()])
     location = StringField('Location', validators=[DataRequired()])
     details = StringField('Details', validators=[DataRequired()])

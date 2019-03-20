@@ -1,5 +1,5 @@
 from flask import Flask, g
-from flask import render_template, flash, redirect, url_for
+from flask import render_template, flash, redirect, url_for, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import check_password_hash
 
@@ -99,17 +99,18 @@ def topic():
 
 @app.route('/event', methods=('GET', 'POST'))
 def event():
-    form=forms.EventForm()
-    if form.validate_on_submit():
-        flash('Event created', 'success')
+    eventForm=forms.EventForm()
+    if eventForm.validate_on_submit():
         models.Event.create_event(
-            title=form.title.data,
-            event_time=form.event_time.data,
-            location=form.location.data,
-            details=form.details.data
+            title=eventForm.title.data,
+            event_time=request.form.get('event_time'),
+            location=eventForm.location.data,
+            details=eventForm.details.data
         )
+
+        flash('Event created', 'success')
         return redirect(url_for('index'))
-    return render_template('event.html', form=form)              
+    return render_template('event.html', form=eventForm)              
 
 
 
