@@ -4,7 +4,7 @@ from flask_login import LoginManager, login_user, logout_user, login_required, c
 from flask_bcrypt import check_password_hash
 
 import models
-# import forms
+import forms
 
 DEBUG = True
 PORT = 8000
@@ -38,22 +38,57 @@ def after_request(response):
     g.db.close()
     return response
 
-
-@app.route('/',methods=["POST"])
+@app.route('/')
 def index():
-    models.User.create_user()
+    return("Working?")
 
+@app.route('/signup',methods=["GET","POST"])
+def signup():
+    form = forms.RegisterForm()
+    if form.validate_on_submit():
+        flash("Successful signup!",'success')
+        models.User.create_user(
+            username=form.username.data,
+            fullname=form.fullname.data,
+            email=form.email.data,
+            password=form.password.data
+        )
+        return redirect(url_for('index'))
+    return render_template('register.html', form=form)
+
+@app.route('/login', methods=('GET','POST'))
+def login():
+    form = forms.LoginForm()
+    if form.validate_on_submit():
+        try:
+            user = models.User.get(models.User.email == form.email.data)
+        except models.DoesNotExist:
+            flash("Your email doesn't exist")
+        else:
+            if check_password_hash(user.password, form.password.data):
+                ## creates session
+                login_user(user)
+                flash("You've been logged in", "success")
+                return redirect(url_for('index'))
+            else:
+                flash("your email or password doesn't match", "error")
+    return render_template('login.html', form=form)
+
+@app.route('/topic')
+def working():
+    form=forms.TopicForm
+    return render_template('topic.html',form=form)
+
+
+                
 
 
 
 if __name__ == '__main__':
     models.initialize()
     try:
-        models.User.create_user(
-            username='firstUser',
-            email="first@user.com",
-            password='password',
-            admin=True
+        models.Topic.create_topic(
+            name="Javascript"
             )
     except ValueError:
         pass
