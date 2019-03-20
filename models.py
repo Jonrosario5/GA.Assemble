@@ -58,13 +58,18 @@ class User_Topics(Model):
 
 class Event(Model):
     title = CharField(100)
-    time = DateTimeField()
+    time = DateTimeField(format='%Y-%m-%d %H:%M:%S')
     location = CharField(200)
     details = TextField(500)
 
     class Meta:
         database = DATABASE
-
+    @classmethod
+    def create_event(cls, title, time, location, details):
+        title = title,
+        time = time,
+        location = location,
+        details = details
     
 class User_Events(Model):
     user = ForeignKeyField(
