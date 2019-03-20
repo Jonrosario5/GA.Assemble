@@ -48,6 +48,11 @@ class User_Topics(Model):
     class Meta:
         database = DATABASE
 
+    @classmethod
+    def create_usertopic(cls, topic, user, can_help=False):
+        topic = topic,
+        user= user,
+        can_help = can_help
 
 class Event(Model):
     title = CharField(100)

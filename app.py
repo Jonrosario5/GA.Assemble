@@ -38,9 +38,9 @@ def after_request(response):
     g.db.close()
     return response
 
-@app.route('/')
+@app.route('/landing')
 def index():
-    return("Working?")
+    return render_template('landing.html')
 
 @app.route('/signup',methods=["GET","POST"])
 def signup():
