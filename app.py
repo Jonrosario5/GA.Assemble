@@ -55,7 +55,8 @@ def signup():
             password=form.password.data
         )
         return redirect(url_for('index'))
-    return render_template('register.html', form=form)
+    topics = models.Topic.select()
+    return render_template('register.html', form=form,topics=topics)
 
 @app.route('/login', methods=('GET','POST'))
 def login():

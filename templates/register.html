@@ -6,6 +6,10 @@
     {% for field in form %}
         {{ render_field(field) }}
     {% endfor %}
+    {% for topic in topics%}
+    <input type="checkbox" name="checks" method="POST">{{topic.name}}</input>
+
+    {% endfor %}
     <button type="submit" id="submit">Register!</button>
 </form>
 
