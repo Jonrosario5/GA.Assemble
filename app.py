@@ -1,4 +1,4 @@
-from flask import Flask, g
+from flask import Flask, g,request
 from flask import render_template, flash, redirect, url_for
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import check_password_hash
@@ -82,7 +82,7 @@ def login():
                 flash("You've been logged in", "success")
                 user_id = user.id
                 
-                return redirect(url_for('profile.html',user_topics=user_topics,user_events=user_events,user=user))
+                return redirect(url_for('profile.html'))
             else:
                 flash("your email or password doesn't match", "error")
     return render_template('login.html', form=form)
@@ -117,9 +117,18 @@ def topic():
 def user_profile():
     user = g.user._get_current_object()
     user_id = user.id
+    topics = models.Topic.select()
     user_topics = models.User_Topics.select(models.User_Topics.user == user_id)
     user_events = models.User_Events.select(models.User_Events.user == user_id)
-    return render_template('profile.html',user_events=user_events,user_topics=user_profile,user=user)
+
+    form=forms.User_Topics()
+    if form.validate_on_submit() and request.method == "POST":
+        print(topics)
+    else:
+        print('nope')
+
+
+    return render_template('profile.html',user_events=user_events,user_topics=user_profile,user=user, topics=topics,form=form)
 
 
 

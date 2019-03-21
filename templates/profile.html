@@ -9,13 +9,23 @@
 </head>
 <body>
     {% include 'nav.html' %}
+    <br>
     <h1> {{user.fullname}} </h1>
+    <br>
+
     <div class='columns'>
         <div class='column is-one-half'>
             HI
         </div>
+        {% from 'macros.html' import render_field %}
         <div class='column is-two-half'>
-            USER
+        <form method="POST">
+                {% for field in form %}
+                {{ render_field(field) }}
+                {% endfor %}
+                <input type="submit" value="Submit">
+        </form>
+
         </div>
     </div>
 </body>
