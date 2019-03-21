@@ -86,7 +86,7 @@ class User_Events(Model):
         database = DATABASE
 
     @classmethod
-    def create_user_event(cls, user, event, isHost=False):
+    def create_user_event(cls, user, event, isHost=True):
         cls.create(
            user = user,
            event = event,
