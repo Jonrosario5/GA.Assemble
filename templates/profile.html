@@ -1,32 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css'/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css"
+    />
     <title>GA Assemble</title>
-</head>
-<body>
+  </head>
+  <body>
     {% include 'nav.html' %}
-    <br>
-    <h1> {{user.fullname}} </h1>
-    <br>
+    <br />
+    <h1>{{ user.fullname }}</h1>
+    <br />
 
-    <div class='columns'>
-        <div class='column is-one-half'>
-            HI
-        </div>
-        {% from 'macros.html' import render_topics_field %}
-        <div class='column is-two-half'>
+    {% from 'macros.html' import render_topics_field, render_user_event %}
+    <div class="columns">
+      <div class="column is-one-half">
+        HI
+
+        <h2>Upcoming Events</h2>
+        {% for user_event in user_events %}
+        {{ render_user_event(user_event) }}
+        {% endfor %}
+      </div>
+      <div class="column is-two-half">
         <form method="POST">
-                {% for field in form %}
-                {{ render_topics_field(field) }}
-                {% endfor %}
-                <input type="submit" value="Submit">
+          {% for field in form %}
+          {{ render_topics_field(field) }}
+          {% endfor %}
+          <input type="submit" value="Submit" />
         </form>
-
-        </div>
+      </div>
     </div>
-</body>
+  </body>
 </html>

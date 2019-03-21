@@ -34,4 +34,9 @@
 {% endmacro %}
 
 
+{% macro render_user_event(user_event) %}
+    <div data-id={{user_event.id}}>
+        <h1 class='has-background-black has-text-white'>{{user_event.title}}</h1>
+        <h2>{{user_event.details}}</h2>
     </div>
+{% endmacro %}
