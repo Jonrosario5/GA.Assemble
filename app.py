@@ -136,7 +136,8 @@ def event():
 
 
 
-@app.route('/user',methods=["GET","POST","DELETE","PUT"])
+@app.route('/user',methods=["GET","POST"])
+# @login_required
 def user_profile():
     user = g.user._get_current_object()
     user_id = user.id
@@ -144,15 +145,28 @@ def user_profile():
     user_topics = models.User_Topics.select(models.User_Topics.user == user_id)
     user_events = models.User_Events.select(models.User_Events.user == user_id)
 
+    # breakpoint()
+
     form=forms.User_Topics()
     if form.validate_on_submit() and request.method == "POST":
-        print(topics)
+    #    models.User_Topics.create_usertopic(user = user,can_help = form.data.can_help)
+        print(topics.where(models.Topic.id == 1).get().name)
     else:
-        print('nope')
-
+        print("nope")
 
     return render_template('profile.html',user_events=user_events,user_topics=user_profile,user=user, topics=topics,form=form)
 
+# (Pdb) topics.where(models.Topic.id == 1)
+# <peewee.ModelSelect object at 0x110538518>
+
+# (Pdb) topics.where(models.Topic.id == 1).get()
+# <Topic: 1>
+
+# (Pdb) topics.where(models.Topic.id == 1).get().id
+# 1
+
+# (Pdb) topics.where(models.Topic.id == 1).get().name
+# 'Purple Rain'
 
 
 
