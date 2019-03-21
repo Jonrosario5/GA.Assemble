@@ -80,11 +80,18 @@ class User_Events(Model):
         model=User, backref="user")
     event = ForeignKeyField(
         model=Event, backref="event")
-    type = BooleanField()
+    isHost = BooleanField()
 
     class Meta:
         database = DATABASE
 
+    @classmethod
+    def create_user_event(cls, user, event, isHost=True):
+        cls.create(
+           user = user,
+           event = event,
+           isHost = isHost
+        )
 
 
 

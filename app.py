@@ -116,9 +116,16 @@ def event():
             title=eventForm.title.data,
             event_time=request.form.get('event_time'),
             location=eventForm.location.data,
-            details=eventForm.details.data
+            details=eventForm.details.data )
+
+        event = models.Event.get(models.Event.title == eventForm.title.data)
+
+        models.User_Events.create_user_event(
+            user=g.user._get_current_object(),
+            event=event,
+            isHost=True
         )
-        
+
         flash('Event created', 'success')
         return redirect(url_for('index'))
     return render_template('event.html', form=eventForm)              
