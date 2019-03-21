@@ -1,12 +1,13 @@
 from flask_wtf import FlaskForm as Form
 
 from models import User
+from models import Topic
 
-
-from wtforms import StringField, PasswordField, TextAreaField, DateField
+from wtforms import StringField, PasswordField, TextAreaField, DateTimeField, BooleanField, SelectMultipleField
 from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
                                Length, EqualTo)
 from wtforms.fields.html5 import DateTimeField
+
 
 
 def name_exists(form, field):
@@ -65,3 +66,7 @@ class EventForm(Form):
     title = StringField('Title', validators=[DataRequired()])
     location = StringField('Location', validators=[DataRequired()])
     details = StringField('Details', validators=[DataRequired()])
+
+class User_Topics(Form):
+    topics = SelectMultipleField('Topics', choices=[('JS','Javascript'),('PY','Python')])
+    can_help = BooleanField('Can Help')

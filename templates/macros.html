@@ -11,8 +11,9 @@
 
 {% macro render_topic(topic) %}
     <div data-id={{topic.id}} class='columns'>
-        <h1 class='column'>{{topic.name}}</h1>
+       <input name={{topic.name}} type="checkbox">{{topic.name}}</input>
     </div>
+    
 {% endmacro %}
 
 {% macro render_event(event) %}
@@ -21,3 +22,6 @@
         <h2>{{event.details}}</h2>
     </div>
 {% endmacro %}
+
+
+    </div>
