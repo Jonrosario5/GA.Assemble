@@ -6,6 +6,7 @@ from models import Topic
 from wtforms import StringField, PasswordField, TextAreaField, DateTimeField, BooleanField, SelectMultipleField
 from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
                                Length, EqualTo)
+from wtforms.fields.html5 import DateTimeField
 
 
 
@@ -63,7 +64,6 @@ class TopicForm(Form):
 
 class EventForm(Form):
     title = StringField('Title', validators=[DataRequired()])
-    time = DateTimeField('Time', validators=[DataRequired()])
     location = StringField('Location', validators=[DataRequired()])
     details = StringField('Details', validators=[DataRequired()])
 

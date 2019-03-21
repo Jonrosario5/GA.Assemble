@@ -1,5 +1,5 @@
-from flask import Flask, g,request
-from flask import render_template, flash, redirect, url_for
+from flask import Flask, g
+from flask import render_template, flash, redirect, url_for, request
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import check_password_hash
 
@@ -87,6 +87,13 @@ def login():
                 flash("your email or password doesn't match", "error")
     return render_template('login.html', form=form)
 
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash("You've been logged out", 'success')
+    return redirect(url_for('index'))
+
 @app.route('/topic', methods=('GET','POST'))
 def topic():
     form=forms.TopicForm()
@@ -99,19 +106,24 @@ def topic():
     return render_template('topic.html',form=form)
 
 
-# @app.route('/event', methods=('GET', 'POST'))
-# def event():
-#     form=forms.EventForm()
-#     if form.validate_on_submit():
-#         flash('Event created', 'success')
-#         models.Event.create_event(
-#             title=form.title.data
-#             time=form.time.data
-#             location=form.location.data
-#             details=form.details.data
-#         )
-#         return redirect(url_for('index'))
-#     return render_template('event.html', form=form)
+
+@app.route('/event', methods=('GET', 'POST'))
+def event():
+    eventForm=forms.EventForm()
+    if eventForm.validate_on_submit():
+
+        models.Event.create_event(
+            title=eventForm.title.data,
+            event_time=request.form.get('event_time'),
+            location=eventForm.location.data,
+            details=eventForm.details.data
+        )
+        
+        flash('Event created', 'success')
+        return redirect(url_for('index'))
+    return render_template('event.html', form=eventForm)              
+
+
 
 @app.route('/user',methods=["GET","POST","DELETE","PUT"])
 def user_profile():
@@ -129,6 +141,7 @@ def user_profile():
 
 
     return render_template('profile.html',user_events=user_events,user_topics=user_profile,user=user, topics=topics,form=form)
+
 
 
 
