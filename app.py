@@ -1,5 +1,9 @@
 from flask import Flask, g
+<<<<<<< HEAD
 from flask import render_template, flash, redirect, url_for, request, jsonify
+=======
+from flask import render_template, flash, redirect, url_for, request
+>>>>>>> master
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import check_password_hash
 
@@ -92,7 +96,9 @@ def login():
                 ## creates session
                 login_user(user)
                 flash("You've been logged in", "success")
-                return redirect(url_for('index'))
+                user_id = user.id
+                
+                return redirect(url_for('user_profile'))
             else:
                 flash("your email or password doesn't match", "error")
     return render_template('login.html', form=form)
@@ -116,6 +122,75 @@ def topic():
     return render_template('topic.html',form=form)
 
 
+<<<<<<< HEAD
+=======
+
+@app.route('/event', methods=('GET', 'POST'))
+def event():
+    # passes list of topics for dropdown menu
+    topics = models.Topic.select()
+    # event form
+    eventForm=forms.EventForm()
+    if eventForm.validate_on_submit():
+
+        models.Event.create_event(
+            title=eventForm.title.data,
+            event_time=request.form.get('event_time'),
+            location=eventForm.location.data,
+            details=eventForm.details.data,
+            topic=request.form.get('topics')
+             )
+
+        event = models.Event.get(models.Event.title == eventForm.title.data)
+
+        models.User_Events.create_user_event(
+            user=g.user._get_current_object(),
+            event=event,
+            isHost=True
+        )
+        flash('Event created', 'success')
+        return redirect(url_for('index'))
+    return render_template('event.html', form=eventForm, topics=topics)              
+
+
+
+@app.route('/user',methods=["GET","POST"])
+# @login_required
+def user_profile():
+    user = g.user._get_current_object()
+    user_id = user.id
+    topics = models.Topic.select()
+    user_topics = models.User_Topics.select(models.User_Topics.user == user_id)
+    user_events = models.User_Events.select(models.User_Events.user == user_id)
+
+    # breakpoint()
+
+    form=forms.User_Topics()
+    if form.validate_on_submit() and request.method == "POST":
+    #    models.User_Topics.create_usertopic(user = user,can_help = form.data.can_help)
+        print(topics.where(models.Topic.id == 1).get().name)
+    else:
+        print("nope")
+
+    return render_template('profile.html',user_events=user_events,user_topics=user_profile,user=user, topics=topics,form=form)
+
+# (Pdb) topics.where(models.Topic.id == 1)
+# <peewee.ModelSelect object at 0x110538518>
+
+# (Pdb) topics.where(models.Topic.id == 1).get()
+# <Topic: 1>
+
+# (Pdb) topics.where(models.Topic.id == 1).get().id
+# 1
+
+# (Pdb) topics.where(models.Topic.id == 1).get().name
+# 'Purple Rain'
+
+
+
+
+
+>>>>>>> master
 if __name__ == '__main__':
     models.initialize()
     # app.jinja_env.auto_reload = True
