@@ -62,17 +62,19 @@ class Event(Model):
     event_time = DateTimeField()
     location = CharField(200)
     details = TextField(500)
+    topic = ForeignKeyField(model=Topic,backref="event")
 
     class Meta:
         database = DATABASE
     
     @classmethod
-    def create_event(cls, title, event_time, location, details):
+    def create_event(cls, title, event_time, location, details, topic):
         cls.create(
             title = title,
             event_time = event_time,
             location = location,
-            details = details
+            details = details,
+            topic = topic
             )
     
 class User_Events(Model):

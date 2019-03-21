@@ -17,8 +17,8 @@
 {% endmacro %}
 
 {% macro render_event_topic(topic) %}
-    <option data-id={{topic.id}} value={{topic.name}}>{{topic.name}}</option>
- {% endmacro %}
+    <option data-id={{topic.id}} name={{topic.id}} value={{topic.id}}>{{topic.name}}</option>
+{% endmacro %}
 
 {% macro render_event(event) %}
     <div data-id={{event.id}}>

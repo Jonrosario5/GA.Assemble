@@ -119,7 +119,9 @@ def event():
             title=eventForm.title.data,
             event_time=request.form.get('event_time'),
             location=eventForm.location.data,
-            details=eventForm.details.data )
+            details=eventForm.details.data,
+            topic=request.form.get('topics')
+             )
 
         event = models.Event.get(models.Event.title == eventForm.title.data)
 
