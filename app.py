@@ -1,5 +1,5 @@
 from flask import Flask, g
-from flask import render_template, flash, redirect, url_for, request
+from flask import render_template, flash, redirect, url_for, request, jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import check_password_hash
 
@@ -50,10 +50,19 @@ def main():
         topics = json.load(topics_data)
         with open('events.json') as events_data:
             events = json.load(events_data)
-            # if request.method == 'POST':
-            #     selected_topic = json.load(request)
-            # else: selected_topic = ''
-            return render_template('main.html', topics=topics, events=events, selected_topic='test')
+            if request.method == 'POST':
+                new_topic = request.get_json(force=True)
+                selected_topic = new_topic['selected_topic']
+                print(selected_topic)
+            else: selected_topic = 'test'
+            return render_template('main.html', topics=topics, events=events, selected_topic=selected_topic)
+
+@app.route('/_new_topic', methods=['POST'])
+def new_topic():
+    new_topic = request.get_json(force=True)
+    selected_topic = new_topic['selected_topic']
+    print(selected_topic)
+    return redirect(url_for('main', selected_topic=selected_topic))
 
 @app.route('/signup',methods=["GET","POST"])
 def signup():
@@ -109,5 +118,6 @@ def topic():
 
 if __name__ == '__main__':
     models.initialize()
-
+    # app.jinja_env.auto_reload = True
+    # app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(debug=DEBUG, port=PORT)

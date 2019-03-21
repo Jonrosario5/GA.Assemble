@@ -17,7 +17,8 @@ $(document).ready(function() {
         console.log($(this).attr('data-name'));
         updateTopic($(this).attr('data-name'));
         $('.event-header').text(`Upcoming ${selected_topic} Events`);
-        $.post('/main', {'selected_topic':`${selected_topic}`});
+        let data = {"selected_topic": selected_topic}
+        $.post('/_new_topic', JSON.stringify(data));
     });
     
     $(`div .event`).click(function(){
