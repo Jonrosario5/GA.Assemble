@@ -82,7 +82,7 @@ def login():
                 flash("You've been logged in", "success")
                 user_id = user.id
                 
-                return redirect(url_for('profile.html'))
+                return redirect(url_for('user_profile'))
             else:
                 flash("your email or password doesn't match", "error")
     return render_template('login.html', form=form)
