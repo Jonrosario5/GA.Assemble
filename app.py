@@ -109,6 +109,9 @@ def topic():
 
 @app.route('/event', methods=('GET', 'POST'))
 def event():
+    # passes list of topics for dropdown menu
+    topics = models.Topic.select()
+    # event form
     eventForm=forms.EventForm()
     if eventForm.validate_on_submit():
 
@@ -125,10 +128,9 @@ def event():
             event=event,
             isHost=True
         )
-
         flash('Event created', 'success')
         return redirect(url_for('index'))
-    return render_template('event.html', form=eventForm)              
+    return render_template('event.html', form=eventForm, topics=topics)              
 
 
 

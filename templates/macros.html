@@ -16,6 +16,10 @@
     
 {% endmacro %}
 
+{% macro render_event_topic(topic) %}
+    <option data-id={{topic.id}} value={{topic.name}}>{{topic.name}}</option>
+ {% endmacro %}
+
 {% macro render_event(event) %}
     <div data-id={{event.id}}>
         <h1 class='has-background-black has-text-white'>{{event.title}}</h1>
