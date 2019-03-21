@@ -17,11 +17,11 @@
         <div class='column is-one-half'>
             HI
         </div>
-        {% from 'macros.html' import render_field %}
+        {% from 'macros.html' import render_topics_field %}
         <div class='column is-two-half'>
         <form method="POST">
                 {% for field in form %}
-                {{ render_field(field) }}
+                {{ render_topics_field(field) }}
                 {% endfor %}
                 <input type="submit" value="Submit">
         </form>

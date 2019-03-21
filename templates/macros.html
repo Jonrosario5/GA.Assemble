@@ -16,6 +16,12 @@
     
 {% endmacro %}
 
+{% macro render_topics_field(field) %}
+    <div class="topics_field">
+      {{ field }}
+    </div>
+{% endmacro %}
+
 {% macro render_event(event) %}
     <div data-id={{event.id}}>
         <h1 class='has-background-black has-text-white'>{{event.title}}</h1>
