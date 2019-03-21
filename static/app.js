@@ -1,11 +1,27 @@
 $(document).ready(function() {
     console.log('jQuery connected')
-    // Check for click events on the navbar burger icon
+
+    let selected_topic = '';
+
+    function updateTopic(newTopic) {
+        selected_topic = newTopic;
+    }
+    
     $(".navbar-burger").click(function() {
-  
-        // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
         $(".navbar-burger").toggleClass("is-active");
         $(".navbar-menu").toggleClass("is-active");
-  
+    });
+
+    $('div .topic').click(function(){
+        console.log($(this).attr('data-id'));
+        console.log($(this).attr('data-name'));
+        updateTopic($(this).attr('data-name'));
+        $('.event-header').text(`Upcoming ${selected_topic} Events`);
+        $.post('/main', {'selected_topic':`${selected_topic}`});
+    });
+    
+    $(`div .event`).click(function(){
+        console.log($(this).children('.modal'))
+        $(this).children('.modal').toggleClass('is-active')
     });
 });
