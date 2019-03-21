@@ -52,30 +52,48 @@ class User_Topics(Model):
 
     @classmethod
     def create_usertopic(cls, topic, user, can_help=False):
-        topic = topic,
-        user= user,
-        can_help = can_help
-
+        cls.create(
+            topic = topic,
+            user= user,
+            can_help = can_help
+        )
 class Event(Model):
     title = CharField(100)
-    time = DateField()
+    event_time = DateTimeField()
     location = CharField(200)
     details = TextField(500)
+    topic = ForeignKeyField(model=Topic,backref="event")
 
     class Meta:
         database = DATABASE
-
+    
+    @classmethod
+    def create_event(cls, title, event_time, location, details, topic):
+        cls.create(
+            title = title,
+            event_time = event_time,
+            location = location,
+            details = details,
+            topic = topic
+            )
     
 class User_Events(Model):
     user = ForeignKeyField(
         model=User, backref="user")
     event = ForeignKeyField(
         model=Event, backref="event")
-    type = BooleanField()
+    isHost = BooleanField()
 
     class Meta:
         database = DATABASE
 
+    @classmethod
+    def create_user_event(cls, user, event, isHost=True):
+        cls.create(
+           user = user,
+           event = event,
+           isHost = isHost
+        )
 
 
 
