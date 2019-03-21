@@ -16,6 +16,12 @@
     
 {% endmacro %}
 
+{% macro render_topics_field(field) %}
+    <div class="topics_field">
+      {{ field }}
+    </div>
+{% endmacro %}
+
 {% macro render_event_topic(topic) %}
     <option data-id={{topic.id}} name={{topic.id}} value={{topic.id}}>{{topic.name}}</option>
 {% endmacro %}
