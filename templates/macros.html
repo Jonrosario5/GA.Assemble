@@ -1,42 +1,59 @@
 {% macro render_field(field) %}
-    <div class="field">
-        {% if field.errors %}
-            {% for error in field.errors %}
-                <div class="notification error">{{ error }}</div>
-            {% endfor %}
-        {% endif %}
-        {{ field(placeholder=field.label.text) }}
-    </div>
-{% endmacro %}
-
-{% macro render_topic(topic) %}
-    <div data-id={{topic.id}} class='columns'>
-       <input name={{topic.name}} type="checkbox">{{topic.name}}</input>
-    </div>
-    
-{% endmacro %}
-
-{% macro render_topics_field(field) %}
-    <div class="topics_field">
-      {{ field }}
-    </div>
-{% endmacro %}
-
-{% macro render_event_topic(topic) %}
-    <option data-id={{topic.id}} name={{topic.id}} value={{topic.id}}>{{topic.name}}</option>
-{% endmacro %}
-
-{% macro render_event(event) %}
-    <div data-id={{event.id}}>
-        <h1 class='has-background-black has-text-white'>{{event.title}}</h1>
-        <h2>{{event.details}}</h2>
-    </div>
-{% endmacro %}
-
+<div class="field">
+  {% if field.errors %} {% for error in field.errors %}
+  <div class="notification error">{{ error }}</div>
+  {% endfor %} {% endif %}
+  {{ field(placeholder=field.label.text) }}
+</div>
+{% endmacro %} {% macro render_topic(topic) %}
+<div
+  data-id="{{ topic.id }}"
+  data-name="{{ topic.name }}"
+  class="topic tile box is-child has-background-light"
+>
+  <a href="{{url_for('main', topicid=topic.id)}}">
+    <p class="title has-text-centered">{{ topic.name }}</p>
+  </a>
+</div>
+{% endmacro %} {% macro render_topics_field(field) %}
+<div class="topics_field">
+  {{ field }}
+</div>
 
 {% macro render_user_event(user_event) %}
-    <div data-id={{user_event.id}}>
-        <h1 class='has-background-black has-text-white'>{{user_event}}</h1>
-        <h2>{{user_event}}</h2>
+<div data-id="{{ user_event.id }}">
+  <h1 class="has-background-black has-text-white">{{ user_event }}</h1>
+  <h2>{{ user_event }}</h2>
+</div>
+
+{% endmacro %} {% endmacro %} {% macro render_event_topic(topic) %}
+<option data-id="{{ topic.id }}" name="{{ topic.id }}" value="{{ topic.id }}">{{
+  topic.name
+}}</option>
+{% endmacro %} {% macro render_event(event) %}
+<div
+  data-id="{{ event.id }}"
+  class="event tile box is-child has-background-light"
+>
+  <a role="button">
+    <p class="title">{{ event.title }}</p>
+    <p class="subtitle">{{ event.details }}</p>
+  </a>
+  <div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">{{ event.title }}</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <!-- Content ... -->
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success">Save changes</button>
+        <button class="button">Cancel</button>
+      </footer>
     </div>
+  </div>
+</div>
 {% endmacro %}
