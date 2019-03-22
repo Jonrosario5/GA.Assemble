@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm as Form
 from models import User
 from models import Topic
 
-from wtforms import StringField, PasswordField, TextAreaField, DateTimeField, BooleanField, SelectMultipleField
+from wtforms import StringField, PasswordField, TextAreaField, DateTimeField, BooleanField, SelectMultipleField,SubmitField
 from wtforms.widgets import ListWidget, CheckboxInput
 from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
                                Length, EqualTo,Required)
@@ -78,12 +78,11 @@ class MultiCheckboxField(SelectMultipleField):
 class User_Topics(Form):
     # topics = SelectField('Topics', choices=[('JS','Javascript'),('PY','Python')])
     can_help = BooleanField('Can Help')
-    topics = MultiCheckboxField('Proses', [Required(message='Please tick your task')], choices=[('nyapu','Nyapu'), ('ngepel','Ngepel')])
-
-    def topics_selector(request, id):
-        topic = Topic.query.get(id)
-        form = User_Topics(request.POST, obj=topic)
-        form.topics.choices = [(t.id, t.name) for t in Topic.query.order_by('name')]
+    submit = SubmitField('Add')
+    # def topics_selector(request, id):
+    #     topic = Topic.query.get(id)
+    #     form = User_Topics(request.POST, obj=topic)
+    #     form.topics.choices = [(t.id, t.name) for t in Topic.query.order_by('name')]
 
     # def topics_select(request):
     #     form = User_Topics(request.POST, obj=Topic)

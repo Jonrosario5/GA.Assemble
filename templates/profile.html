@@ -7,24 +7,24 @@
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css'/>
     <title>GA Assemble</title>
 </head>
-<body>
+<body class="has-navbar-fixed-top">
     {% include 'nav.html' %}
     <br>
-    <h1> {{user.fullname}} </h1>
-    <br>
-
+  
     <div class='columns'>
         <div class='column is-one-half'>
-            HI
+            HI  {{user.fullname}}
         </div>
         {% from 'macros.html' import render_topics_field %}
         <div class='column is-two-half'>
-        <form method="POST">
+                {% for topic in topics %}
+                <h4>{{topic.name}}</h4>
                 {% for field in form %}
+            <form method="POST">
                 {{ render_topics_field(field) }}
+            </form>
                 {% endfor %}
-                <input type="submit" value="Submit">
-        </form>
+                {% endfor %}
 
         </div>
     </div>
