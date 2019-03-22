@@ -41,21 +41,17 @@ class User(UserMixin, Model):
             raise ValueError("User already exists")
 
 class User_Topics(Model):
-    topic = ForeignKeyField(
-        model=Topic,backref="usertopics"),
-    user = ForeignKeyField(
-        model=User,backref="usertopics"),
-    can_help = BooleanField(default=False)  
+    topic = ForeignKeyField(model=Topic,backref="event")
+    user = ForeignKeyField(model=User,backref="usertopics")
 
     class Meta:
         database = DATABASE
 
     @classmethod
-    def create_usertopic(cls, topic, user, can_help=False):
+    def create_usertopic(cls,topic, user):
         cls.create(
             topic = topic,
-            user= user,
-            can_help = can_help
+            user= user
         )
 class Event(Model):
     title = CharField(100)

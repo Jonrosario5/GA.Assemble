@@ -15,16 +15,35 @@
         <div class='column is-one-half'>
             HI  {{user.fullname}}
         </div>
-        {% from 'macros.html' import render_topics_field %}
+        
+        {% from 'macros.html' import render_topics_field, render_user_page_topics, render_user_topic %}
         <div class='column is-two-half'>
-                {% for topic in topics %}
-                <h4>{{topic.name}}</h4>
-                {% for field in form %}
-            <form method="POST">
-                {{ render_topics_field(field) }}
-            </form>
+            <div>
+                <H2 style="text-decoration:underline">Current Topics</H2>
+                {% for user_topic in user_topics %}
+              
+                    <div>
+                        {{user_topic.topic.name}}
+                    </div>
+
                 {% endfor %}
-                {% endfor %}
+    
+
+            </div>
+            <br>
+            <div>
+                <H2 style="text-decoration:underline">Add Topics</H2>
+                    {% for topic in topics %}
+
+                    {{ render_user_page_topics(topic) }}
+
+                    {% for field in form %}
+                <form method="POST">
+                    {{ render_topics_field(field) }}
+                </form>
+                    {% endfor %}
+                    {% endfor %}
+            </div>
 
         </div>
     </div>

@@ -152,24 +152,29 @@ def event():
 
 
 @app.route('/user',methods=["GET","POST"])
+@app.route('/user/<topicid>',methods=["GET","POST"])
 # @login_required
-def user_profile():
+def user_profile(topicid=None):
     user = g.user._get_current_object()
     user_id = user.id
     topics = models.Topic.select()
-    user_topics = models.User_Topics.select(models.User_Topics.user == user_id)
-    user_events = models.User_Events.select(models.User_Events.user == user_id)
-
-    # breakpoint()
-
+    user_topics = models.User_Topics.select().where(models.User_Topics.user_id == user.id)
+    user_events = models.User_Events.select().where(models.User_Events.user == user_id)
     form=forms.User_Topics()
-    if form.validate_on_submit() and request.method == "POST":
-    #    models.User_Topics.create_usertopic(user = user,can_help = form.data.can_help)
-        print(topics.where(models.Topic.id == 1).get().name)
+    if topicid != None:
+        user_topics_count = models.User_Topics.select().where(models.User_Topics.user_id == user.id and models.User_Topics.topic_id == topicid).count()
+        if user_topics_count > 0:
+            flash('Already Exists')
+            print('Working')
+        else:
+            models.User_Topics.create_usertopic(
+            topic=topicid,
+            user=user.id
+            )
+        
     else:
-        print("nope")
-
-    return render_template('profile.html',user_events=user_events,user_topics=user_profile,user=user, topics=topics,form=form)
+        print('error')
+    return render_template('profile.html',user_events=user_events,user_topics=user_topics,user=user, topics=topics,form=form)
 
 # (Pdb) topics.where(models.Topic.id == 1)
 # <peewee.ModelSelect object at 0x110538518>
