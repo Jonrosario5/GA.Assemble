@@ -11,11 +11,10 @@
 
 {% macro render_topic(topic) %}
     <div data-id={{topic.id}} data-name={{topic.name}} class='topic tile box is-child has-background-light'> 
-        <a>
+        <a href="{{url_for('main', topicid=topic.id)}}">
             <p class='title has-text-centered'>{{topic.name}}</p>
         </a>
     </div>
-    
 {% endmacro %}
 
 {% macro render_topics_field(field) %}
@@ -52,6 +51,3 @@
         </div>
     </div>
 {% endmacro %}
-
-
-    </div>
