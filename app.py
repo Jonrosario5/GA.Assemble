@@ -47,25 +47,12 @@ def index():
 @app.route('/main')
 @app.route('/main/<topicid>', methods=['GET'])
 def main(topicid=None):
-    print(topicid)
     if topicid != None:
         events = models.Event.select().where(models.Event.topic_id == topicid)
     else:
         events = models.Event.select()
     topics = models.Topic.select()
     return render_template('main.html', topics=topics, events=events)
-    
-    
-    # with open('topics.json') as topics_data:
-    #     topics = json.load(topics_data)
-    #     with open('events.json') as events_data:
-    #         events = json.load(events_data)
-    #         if request.method == 'POST':
-    #             new_topic = request.get_json(force=True)
-    #             selected_topic = new_topic['selected_topic']
-    #             print(selected_topic)
-    #         else: selected_topic = 'test'
-    #         return render_template('main.html', topics=topics, events=events, selected_topic=selected_topic)
 
 @app.route('/signup',methods=["GET","POST"])
 def signup():
