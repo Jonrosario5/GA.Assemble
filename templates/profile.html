@@ -8,18 +8,30 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css"
     />
+    
     <title>GA Assemble</title>
   </head>
   <body class="has-navbar-fixed-top">
     {% include 'nav.html' %}
     <br>
   
-{% from 'macros.html' import render_user_event %}
+{% from 'macros.html' import render_user_event, render_edit_user %}
 
     <div class='columns'>
         <div class='column is-one-half'>
-            <div>
-                HI  {{user.fullname}}
+            <div class="userHeader" style="text-align:center">
+                Welcome to GA.Assemble( )  
+                <br>
+                <span>{{user.fullname}}</span>
+                <br>
+                <img src="https://media.giphy.com/media/rRZfOOKROFUqs/giphy.gif" style="border-radius:50%">
+            </div>
+            <br>
+            <div class="editUser">
+                {% for field in form %}
+                    {{ render_edit_user(field) }}
+                {% endfor %}
+                <a href="#">edit</a>
             </div>
         <br>
         <div>
@@ -52,14 +64,10 @@
 
                     {{ render_user_page_topics(topic) }}
 
-                    {% for field in form %}
-                <form method="POST">
-                    {{ render_topics_field(field) }}
-                </form>
-                    {% endfor %}
                     {% endfor %}
             </div>
         </div>
-
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js'></script>
+        <script src="{{ url_for('static', filename='app.js')}}"></script>
   </body>
 </html>

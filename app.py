@@ -146,16 +146,16 @@ def user_profile(topicid=None):
     user = g.user._get_current_object()
     user_id = user.id
     topics = models.Topic.select()
+    form = forms.Edit_User_Form()
     user_topics = models.User_Topics.select().where(models.User_Topics.user_id == user.id)
     user_events = models.User_Events.select().where(models.User_Events.user == user_id)
-    form=forms.User_Topics()
     if topicid != None:
         user_topics_count = models.User_Topics.select().where(models.User_Topics.user_id == user.id and models.User_Topics.topic_id == topicid).count()
         if user_topics_count > 0:
             flash('Already Exists')
             print('Working')
             return redirect('user')
-            
+
         else:
             models.User_Topics.create_usertopic(
             topic=topicid,
@@ -164,7 +164,7 @@ def user_profile(topicid=None):
             return redirect('user')
     else:
         print('error')
-    return render_template('profile.html',user_events=user_events,user_topics=user_topics,user=user, topics=topics,form=form)
+    return render_template('profile.html',user_events=user_events,user_topics=user_topics,user=user, topics=topics, form=form)
 
 @app.route('/usertopic/delete/<topicid>',methods=["GET","POST"])
 def delete_user_topic(topicid=None):
