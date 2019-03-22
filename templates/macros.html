@@ -21,9 +21,22 @@
 </div>
 {% endmacro %} {% macro render_user_event(user_event) %}
 <div data-id="{{ user_event.id }}">
-  <h1 class="has-background-black has-text-white">ID: {{ user_event.id }}</h1>
-  <h2>Event id: {{ user_event.isHost }}</h2>
+  <h1 class="has-background-black has-text-white">
+    Title: {{ user_event.event.title }}
+  </h1>
+  <h2>Event details: {{ user_event.event.details }}</h2>
+  <h2>Event time: {{ user_event.event.event_time }}</h2>
   <a>Edit Event</a>
+</div>
+
+{% endmacro %} {% macro render_attending_event(attending_event) %}
+<div data-id="{{ attending_event.id }}">
+  <h1 class="has-background-black has-text-white">
+    Title: {{ attending_event.event.title }}
+  </h1>
+  <h2>Event details: {{ attending_event.event.details }}</h2>
+  <h2>Event time: {{ attending_event.event_time }}</h2>
+  <a>Unattend</a>
 </div>
 
 {% endmacro %} {% macro render_event_topic(topic) %}
@@ -38,6 +51,7 @@
   <a role="button">
     <p class="title">{{ event.title }}</p>
     <p class="subtitle">{{ event.details }}</p>
+    <a href="{{url_for('attend_event', eventid=event.id)}}">Attend Event</a>
   </a>
   <div class="modal">
     <div class="modal-background"></div>

@@ -150,6 +150,23 @@ def event():
         return redirect(url_for('index'))
     return render_template('event.html', form=eventForm, topics=topics)              
 
+@app.route('/attend/<eventid>', methods=['GET', 'POST'])
+def attend_event(eventid=None):
+    user_events_count = models.User_Events.select().where((models.User_Events.user_id == g.user._get_current_object().id) & (models.User_Events.event_id == eventid)).count()
+
+    if eventid != None and user_events_count <= 0:
+        models.User_Events.create_user_event(
+            user=g.user._get_current_object(),
+            event=eventid,
+            isHost=False
+        )
+        return redirect(url_for('user_profile'))
+    else:
+        print('Working?')
+
+    return redirect('main')
+    
+
 
 
 @app.route('/user',methods=["GET","POST"])
@@ -159,36 +176,20 @@ def user_profile():
     user_id = user.id
     topics = models.Topic.select()
     user_topics = models.User_Topics.select(models.User_Topics.user == user_id)
-    user_events = models.User_Events.select().where(models.User_Events.user == user_id)
-    # test = models.User_Events.select(models.User.username, models.Event.id).join(models.User).join(models.Event).where(models.User_Events.user == user_id, models.User.id == 1, models.Event.id == 1)
-    # print(test)
+    user_events = models.User_Events.select(models.Event.title, models.Event.details, models.Event.event_time).join(models.Event).where(models.User_Events.user == user_id, models.User_Events.event == models.Event.id, models.User_Events.isHost == True) 
+    
+    attending_events = models.User_Events.select().where(models.User_Events.user == user_id, models.User_Events.isHost != True)
     # for user_event in user_events:
-        # event = models.Event.get(user_event.event)
-    # print(user_id)
-    # print(user_events)
-    # print(user)
-
-
+    #     print(user_event.event.title)
     form=forms.User_Topics()
+
     if form.validate_on_submit() and request.method == "POST":
     #    models.User_Topics.create_usertopic(user = user,can_help = form.data.can_help)
         print(topics.where(models.Topic.id == 1).get().name)
     else:
         print("nope")
 
-    return render_template('profile.html',user_events=user_events,user_topics=user_profile,user=user, topics=topics,form=form)
-
-# (Pdb) topics.where(models.Topic.id == 1)
-# <peewee.ModelSelect object at 0x110538518>
-
-# (Pdb) topics.where(models.Topic.id == 1).get()
-# <Topic: 1>
-
-# (Pdb) topics.where(models.Topic.id == 1).get().id
-# 1
-
-# (Pdb) topics.where(models.Topic.id == 1).get().name
-# 'Purple Rain'
+    return render_template('profile.html',user_events=user_events, attending_events=attending_events,user_topics=user_profile,user=user, topics=topics,form=form)
 
 
 
