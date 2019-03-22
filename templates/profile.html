@@ -17,15 +17,20 @@
         <div class='column is-one-half'>
             HI
         </div>
-        {% from 'macros.html' import render_topics_field %}
+        {% from 'macros.html' import render_topics_field, render_topic %}
         <div class='column is-two-half'>
-        <form method="POST">
+            <form method="POST">
+                {% for topic in topics %}
+                <div class="topic_select">
+                    <h3 data-id={{topic.id}}>{{topic.name}}</h3>
+                </div>
                 {% for field in form %}
                 {{ render_topics_field(field) }}
                 {% endfor %}
-                <input type="submit" value="Submit">
-        </form>
+                {% endfor %}
 
+            </form>
+       
         </div>
     </div>
 </body>

@@ -150,7 +150,8 @@ def user_profile():
     form=forms.User_Topics()
     if form.validate_on_submit() and request.method == "POST":
     #    models.User_Topics.create_usertopic(user = user,can_help = form.data.can_help)
-        print(topics.where(models.Topic.id == 1).get().name)
+        print(form.data['can_help'])
+        print(topics[0].name)
     else:
         print("nope")
 
