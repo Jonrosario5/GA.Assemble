@@ -20,10 +20,12 @@
       <div class="column is-one-half">
         HI {{ user.fullname }}
 
-        <h2>Events You're Hosting</h2>
+        <h2>Events You're Hosting:</h2>
         {% for user_event in user_events %}
         {{ render_user_event(user_event) }}
         {% endfor %}
+
+        <h2>Events You're Attending:</h2>
       </div>
 
       <div class="column is-two-half">

@@ -135,7 +135,8 @@ def event():
             event_time=request.form.get('event_time'),
             location=eventForm.location.data,
             details=eventForm.details.data,
-            topic=request.form.get('topics')
+            topic=request.form.get('topics'),
+            created_by_id=g.user._get_current_object()
              )
 
         event = models.Event.get(models.Event.title == eventForm.title.data)
@@ -158,10 +159,14 @@ def user_profile():
     user_id = user.id
     topics = models.Topic.select()
     user_topics = models.User_Topics.select(models.User_Topics.user == user_id)
-    user_events = models.User_Events.select(models.User_Events.user == user_id)
-    print(user_id)
-    print(user_events)
-    print(user)
+    user_events = models.User_Events.select().where(models.User_Events.user == user_id)
+    # test = models.User_Events.select(models.User.username, models.Event.id).join(models.User).join(models.Event).where(models.User_Events.user == user_id, models.User.id == 1, models.Event.id == 1)
+    # print(test)
+    # for user_event in user_events:
+        # event = models.Event.get(user_event.event)
+    # print(user_id)
+    # print(user_events)
+    # print(user)
 
 
     form=forms.User_Topics()
