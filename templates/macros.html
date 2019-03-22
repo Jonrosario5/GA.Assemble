@@ -5,7 +5,9 @@
   {% endfor %} {% endif %}
   {{ field(placeholder=field.label.text) }}
 </div>
-{% endmacro %} {% macro render_topic(topic) %}
+{% endmacro %}
+
+ {% macro render_topic(topic) %}
 <div
   data-id="{{ topic.id }}"
   data-name="{{ topic.name }}"
@@ -15,11 +17,15 @@
     <p class="title has-text-centered">{{ topic.name }}</p>
   </a>
 </div>
-{% endmacro %} {% macro render_topics_field(field) %}
+{% endmacro %} 
+
+{% macro render_topics_field(field) %}
 <div class="topics_field">
   {{ field }}
 </div>
-{% endmacro %} {% macro render_user_event(user_event) %}
+{% endmacro %} 
+
+{% macro render_user_event(user_event) %}
 <div data-id="{{ user_event.id }}">
   <h1 class="has-background-black has-text-white">ID: {{ user_event.id }}</h1>
   <h2>Event id: {{ user_event.isHost }}</h2>

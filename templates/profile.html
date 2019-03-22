@@ -14,9 +14,23 @@
     {% include 'nav.html' %}
     <br>
   
+{% from 'macros.html' import render_user_event %}
+
     <div class='columns'>
         <div class='column is-one-half'>
-            HI  {{user.fullname}}
+            <div>
+                HI  {{user.fullname}}
+            </div>
+        <br>
+        <div>
+                <h2>Events You're Hosting:</h2>
+                {% for user_event in user_events %}
+                {{ render_user_event(user_event) }}
+                {% endfor %}
+        
+                <h2>Events You're Attending:</h2>
+        </div>
+
         </div>
         
         {% from 'macros.html' import render_topics_field, render_user_page_topics, render_user_topic %}
@@ -47,29 +61,5 @@
             </div>
         </div>
 
-    <!-- {% from 'macros.html' import render_topics_field, render_user_event %} -->
-
-    <!-- <div class="columns">
-      <div class="column is-one-half">
-        HI {{ user.fullname }}
-
-        <h2>Events You're Hosting:</h2>
-        {% for user_event in user_events %}
-        {{ render_user_event(user_event) }}
-        {% endfor %}
-
-        <h2>Events You're Attending:</h2>
-      </div>
-
-      <div class="column is-two-half">
-        {% for topic in topics %}
-        <h4>{{ topic.name }}</h4>
-        {% for field in form %}
-        <form method="POST">
-          {{ render_topics_field(field) }}
-        </form>
-        {% endfor %} {% endfor %}
-      </div>
-    </div> -->
   </body>
 </html>
