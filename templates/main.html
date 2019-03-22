@@ -22,7 +22,7 @@
             </div>
         </div>
         <div class='column is-two-thirds'>
-            <h1 class='event-header has-text-centered is-size-1'>All Upcoming Events {{selected_topic}}</h1>
+            <h1 class='event-header has-text-centered is-size-1'>Upcoming Events {{selected_topic}}</h1>
             <div class='event-list tile is-parent is-vertical'>
                 {% for event in events %}
                 {{ render_event(event) }}
