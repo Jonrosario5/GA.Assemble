@@ -135,7 +135,8 @@ def event():
             event_time=request.form.get('event_time'),
             location=eventForm.location.data,
             details=eventForm.details.data,
-            topic=request.form.get('topics')
+            topic=request.form.get('topics'),
+            created_by_id=g.user._get_current_object()
              )
 
         event = models.Event.get(models.Event.title == eventForm.title.data)

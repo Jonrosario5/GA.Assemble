@@ -1,13 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css'/>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css"
+    />
     <title>GA Assemble</title>
-</head>
-<body class="has-navbar-fixed-top">
+  </head>
+  <body class="has-navbar-fixed-top">
     {% include 'nav.html' %}
     <br>
   
@@ -45,7 +48,29 @@
                     {% endfor %}
             </div>
 
-        </div>
+    {% from 'macros.html' import render_topics_field, render_user_event %}
+
+    <div class="columns">
+      <div class="column is-one-half">
+        HI {{ user.fullname }}
+
+        <h2>Events You're Hosting:</h2>
+        {% for user_event in user_events %}
+        {{ render_user_event(user_event) }}
+        {% endfor %}
+
+        <h2>Events You're Attending:</h2>
+      </div>
+
+      <div class="column is-two-half">
+        {% for topic in topics %}
+        <h4>{{ topic.name }}</h4>
+        {% for field in form %}
+        <form method="POST">
+          {{ render_topics_field(field) }}
+        </form>
+        {% endfor %} {% endfor %}
+      </div>
     </div>
-</body>
+  </body>
 </html>

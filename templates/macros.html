@@ -1,22 +1,32 @@
 {% macro render_field(field) %}
-    <div class="field">
-        {% if field.errors %}
-            {% for error in field.errors %}
-                <div class="notification error">{{ error }}</div>
-            {% endfor %}
-        {% endif %}
-        {{ field(placeholder=field.label.text) }}
-    </div>
-{% endmacro %}
+<div class="field">
+  {% if field.errors %} {% for error in field.errors %}
+  <div class="notification error">{{ error }}</div>
+  {% endfor %} {% endif %}
+  {{ field(placeholder=field.label.text) }}
+</div>
+{% endmacro %} {% macro render_topic(topic) %}
+<div
+  data-id="{{ topic.id }}"
+  data-name="{{ topic.name }}"
+  class="topic tile box is-child has-background-light"
+>
+  <a href="{{url_for('main', topicid=topic.id)}}">
+    <p class="title has-text-centered">{{ topic.name }}</p>
+  </a>
+</div>
+{% endmacro %} {% macro render_topics_field(field) %}
+<div class="topics_field">
+  {{ field }}
+</div>
+{% endmacro %} {% macro render_user_event(user_event) %}
+<div data-id="{{ user_event.id }}">
+  <h1 class="has-background-black has-text-white">ID: {{ user_event.id }}</h1>
+  <h2>Event id: {{ user_event.isHost }}</h2>
+  <a>Edit Event</a>
+</div>
 
-{% macro render_topic(topic) %}
-    <div data-id={{topic.id}} data-name={{topic.name}} class='topic tile box is-child has-background-light'> 
-        <a href="{{url_for('main', topicid=topic.id)}}">
-            <p class='title has-text-centered'>{{topic.name}}</p>
-        </a>
-    </div>
-{% endmacro %}
-
+<<<<<<< HEAD
 {% macro render_user_page_topics(topic)%}
     <div>
         <h6>{{ topic.name }}</h6>
@@ -37,34 +47,36 @@
 {% macro render_topics_field(field) %}
     <div class="topics_field">
       {{ field }}
+=======
+{% endmacro %} {% macro render_event_topic(topic) %}
+<option data-id="{{ topic.id }}" name="{{ topic.id }}" value="{{ topic.id }}">{{
+  topic.name
+}}</option>
+{% endmacro %} {% macro render_event(event) %}
+<div
+  data-id="{{ event.id }}"
+  class="event tile box is-child has-background-light"
+>
+  <a role="button">
+    <p class="title">{{ event.title }}</p>
+    <p class="subtitle">{{ event.details }}</p>
+  </a>
+  <div class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">{{ event.title }}</p>
+        <button class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <!-- Content ... -->
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success">Save changes</button>
+        <button class="button">Cancel</button>
+      </footer>
+>>>>>>> 84dbc831dcbf0e10a5d0607eca37c85bc5d7d02a
     </div>
-{% endmacro %}
-
-{% macro render_event_topic(topic) %}
-    <option data-id={{topic.id}} name={{topic.id}} value={{topic.id}}>{{topic.name}}</option>
-{% endmacro %}
-
-{% macro render_event(event) %}
-    <div data-id={{event.id}} class='event tile box is-child has-background-light'>
-        <a role='button'>
-            <p class='title'>{{event.title}}</p>
-            <p class='subtitle'>{{event.details}}</p>
-        </a>
-        <div class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">{{event.title}}</p>
-                    <button class="delete" aria-label="close"></button>
-                </header>
-                <section class="modal-card-body">
-                    <!-- Content ... -->
-                </section>
-                <footer class="modal-card-foot">
-                    <button class="button is-success">Save changes</button>
-                    <button class="button">Cancel</button>
-                </footer>
-            </div>
-        </div>
-    </div>
+  </div>
+</div>
 {% endmacro %}
