@@ -137,6 +137,23 @@ def event():
         return redirect(url_for('index'))
     return render_template('event.html', form=eventForm, topics=topics)              
 
+@app.route('/attend/<eventid>', methods=['GET', 'POST'])
+def attend_event(eventid=None):
+    user_events_count = models.User_Events.select().where((models.User_Events.user_id == g.user._get_current_object().id) & (models.User_Events.event_id == eventid)).count()
+
+    if eventid != None and user_events_count <= 0:
+        models.User_Events.create_user_event(
+            user=g.user._get_current_object(),
+            event=eventid,
+            isHost=False
+        )
+        return redirect(url_for('user_profile'))
+    else:
+        print('Working?')
+
+    return redirect('main')
+    
+
 
 
 @app.route('/user',methods=["GET","POST"])
@@ -146,9 +163,19 @@ def user_profile(topicid=None):
     user = g.user._get_current_object()
     user_id = user.id
     topics = models.Topic.select()
+<<<<<<< HEAD
     form = forms.Edit_User_Form()
     user_topics = models.User_Topics.select().where(models.User_Topics.user_id == user.id)
     user_events = models.User_Events.select().where(models.User_Events.user == user_id)
+=======
+    user_topics = models.User_Topics.select(models.User_Topics.user == user_id)
+    user_events = models.User_Events.select(models.Event.title, models.Event.details, models.Event.event_time).join(models.Event).where(models.User_Events.user == user_id, models.User_Events.event == models.Event.id, models.User_Events.isHost == True) 
+    
+    attending_events = models.User_Events.select().where(models.User_Events.user == user_id, models.User_Events.isHost != True)
+   
+    form=forms.User_Topics()
+
+>>>>>>> 23088fb923ecf7f2ae9067e657fac5df6824095e
     if topicid != None:
         user_topics_count = models.User_Topics.select().where(models.User_Topics.user_id == user.id and models.User_Topics.topic_id == topicid).count()
         if user_topics_count > 0:
@@ -164,7 +191,11 @@ def user_profile(topicid=None):
             return redirect('user')
     else:
         print('error')
+<<<<<<< HEAD
     return render_template('profile.html',user_events=user_events,user_topics=user_topics,user=user, topics=topics, form=form)
+=======
+    return render_template('profile.html',user_events=user_events,attending_events=attending_events,user_topics=user_topics,user=user, topics=topics,form=form)
+>>>>>>> 23088fb923ecf7f2ae9067e657fac5df6824095e
 
 @app.route('/usertopic/delete/<topicid>',methods=["GET","POST"])
 def delete_user_topic(topicid=None):
