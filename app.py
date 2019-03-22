@@ -44,13 +44,25 @@ def after_request(response):
 def index():
     return render_template('landing.html')
 
-@app.route('/main')
+@app.route('/main', methods=['GET','POST'])
 def main():
     with open('topics.json') as topics_data:
         topics = json.load(topics_data)
         with open('events.json') as events_data:
             events = json.load(events_data)
-            return render_template('main.html', topics=topics, events=events)
+            if request.method == 'POST':
+                new_topic = request.get_json(force=True)
+                selected_topic = new_topic['selected_topic']
+                print(selected_topic)
+            else: selected_topic = 'test'
+            return render_template('main.html', topics=topics, events=events, selected_topic=selected_topic)
+
+@app.route('/_new_topic', methods=['POST'])
+def new_topic():
+    new_topic = request.get_json(force=True)
+    selected_topic = new_topic['selected_topic']
+    print(selected_topic)
+    return redirect(url_for('main', selected_topic=selected_topic))
 
 @app.route('/signup',methods=["GET","POST"])
 def signup():
@@ -175,5 +187,6 @@ def user_profile():
 
 if __name__ == '__main__':
     models.initialize()
-
+    # app.jinja_env.auto_reload = True
+    # app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(debug=DEBUG, port=PORT)
