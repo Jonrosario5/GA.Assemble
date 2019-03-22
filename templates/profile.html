@@ -10,29 +10,30 @@
     />
     <title>GA Assemble</title>
   </head>
-  <body>
+  <body class="has-navbar-fixed-top">
     {% include 'nav.html' %}
-    <br />
-    <h1>{{ user.fullname }}</h1>
     <br />
 
     {% from 'macros.html' import render_topics_field, render_user_event %}
+
     <div class="columns">
       <div class="column is-one-half">
-        HI
+        HI {{ user.fullname }}
 
         <h2>Events You're Hosting</h2>
         {% for user_event in user_events %}
         {{ render_user_event(user_event) }}
         {% endfor %}
       </div>
+
       <div class="column is-two-half">
+        {% for topic in topics %}
+        <h4>{{ topic.name }}</h4>
+        {% for field in form %}
         <form method="POST">
-          {% for field in form %}
           {{ render_topics_field(field) }}
-          {% endfor %}
-          <input type="submit" value="Submit" />
         </form>
+        {% endfor %} {% endfor %}
       </div>
     </div>
   </body>
