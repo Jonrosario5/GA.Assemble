@@ -78,7 +78,6 @@ class MultiCheckboxField(SelectMultipleField):
 class User_Topics(Form):
     # topics = SelectField('Topics', choices=[('JS','Javascript'),('PY','Python')])
     can_help = BooleanField('Can Help')
-    submit = SubmitField('Add')
     # def topics_selector(request, id):
     #     topic = Topic.query.get(id)
     #     form = User_Topics(request.POST, obj=topic)

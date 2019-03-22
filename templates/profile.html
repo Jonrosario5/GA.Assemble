@@ -12,10 +12,9 @@
   </head>
   <body class="has-navbar-fixed-top">
     {% include 'nav.html' %}
-    <br />
-
-    {% from 'macros.html' import render_topics_field, render_user_event,
-    render_attending_event %}
+    <br>
+  
+{% from 'macros.html' import render_user_event, render_attending_event, render_topics_field, render_user_page_topics, render_user_topic %}
 
     <div class="columns">
       <div class="column is-one-half">
@@ -32,17 +31,34 @@
           {{ render_attending_event(attending_event) }}
           {% endfor %}
         </div>
-      </div>
+        
+        <div class='column is-two-half'>
+            <div>
+                <H2 style="text-decoration:underline">Current Topics</H2>
+                {% for user_topic in user_topics %}
+              
+                    {{ render_user_topic(user_topic) }}
 
-      <div class="column is-two-half">
-        {% for topic in topics %}
-        <h4>{{ topic.name }}</h4>
-        {% for field in form %}
-        <form method="POST">
-          {{ render_topics_field(field) }}
-        </form>
-        {% endfor %} {% endfor %}
-      </div>
-    </div>
+                {% endfor %}
+    
+
+            </div>
+            <br>
+            <div>
+                <H2 style="text-decoration:underline">Add Topics</H2>
+                    {% for topic in topics %}
+
+                    {{ render_user_page_topics(topic) }}
+
+                    {% for field in form %}
+                <form method="POST">
+                    {{ render_topics_field(field) }}
+                </form>
+                    {% endfor %}
+                    {% endfor %}
+            </div>
+        </div>
+
+
   </body>
 </html>

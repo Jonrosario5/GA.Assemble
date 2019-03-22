@@ -47,25 +47,12 @@ def index():
 @app.route('/main')
 @app.route('/main/<topicid>', methods=['GET'])
 def main(topicid=None):
-    print(topicid)
     if topicid != None:
         events = models.Event.select().where(models.Event.topic_id == topicid)
     else:
         events = models.Event.select()
     topics = models.Topic.select()
     return render_template('main.html', topics=topics, events=events)
-    
-    
-    # with open('topics.json') as topics_data:
-    #     topics = json.load(topics_data)
-    #     with open('events.json') as events_data:
-    #         events = json.load(events_data)
-    #         if request.method == 'POST':
-    #             new_topic = request.get_json(force=True)
-    #             selected_topic = new_topic['selected_topic']
-    #             print(selected_topic)
-    #         else: selected_topic = 'test'
-    #         return render_template('main.html', topics=topics, events=events, selected_topic=selected_topic)
 
 @app.route('/signup',methods=["GET","POST"])
 def signup():
@@ -170,8 +157,9 @@ def attend_event(eventid=None):
 
 
 @app.route('/user',methods=["GET","POST"])
+@app.route('/user/<topicid>',methods=["GET","POST"])
 # @login_required
-def user_profile():
+def user_profile(topicid=None):
     user = g.user._get_current_object()
     user_id = user.id
     topics = models.Topic.select()
@@ -179,18 +167,35 @@ def user_profile():
     user_events = models.User_Events.select(models.Event.title, models.Event.details, models.Event.event_time).join(models.Event).where(models.User_Events.user == user_id, models.User_Events.event == models.Event.id, models.User_Events.isHost == True) 
     
     attending_events = models.User_Events.select().where(models.User_Events.user == user_id, models.User_Events.isHost != True)
-    # for user_event in user_events:
-    #     print(user_event.event.title)
+   
     form=forms.User_Topics()
 
-    if form.validate_on_submit() and request.method == "POST":
-    #    models.User_Topics.create_usertopic(user = user,can_help = form.data.can_help)
-        print(topics.where(models.Topic.id == 1).get().name)
+    if topicid != None:
+        user_topics_count = models.User_Topics.select().where(models.User_Topics.user_id == user.id and models.User_Topics.topic_id == topicid).count()
+        if user_topics_count > 0:
+            flash('Already Exists')
+            print('Working')
+            return redirect('user')
+            
+        else:
+            models.User_Topics.create_usertopic(
+            topic=topicid,
+            user=user.id
+            )
+            return redirect('user')
     else:
-        print("nope")
+        print('error')
+    return render_template('profile.html',user_events=user_events,attending_events=attending_events,user_topics=user_topics,user=user, topics=topics,form=form)
 
-    return render_template('profile.html',user_events=user_events, attending_events=attending_events,user_topics=user_profile,user=user, topics=topics,form=form)
+@app.route('/usertopic/delete/<topicid>',methods=["GET","POST"])
+def delete_user_topic(topicid=None):
+    user = g.user._get_current_object()
+    user_id = user.id
+    if topicid != None:
+        delete_topic = models.User_Topics.delete().where(models.User_Topics.user_id == user.id and models.User_Topics.topic_id == topicid)
+        delete_topic.execute()
 
+        return redirect('user')
 
 
 
