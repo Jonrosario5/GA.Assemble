@@ -34,7 +34,7 @@
     Title: {{ attending_event.event.title }}
   </h1>
   <h2>Event details: {{ attending_event.event.details }}</h2>
-  <h2>Event time: {{ attending_event.event_time }}</h2>
+  <h2>Event time: {{ attending_event.event.event_time }}</h2>
   <a>Unattend</a>
 </div>
 
@@ -50,6 +50,7 @@
   <a role="button">
     <p class="title">{{ event.title }}</p>
     <p class="subtitle">{{ event.details }}</p>
+    <a href="{{url_for('attend_event', eventid=event.id)}}">Attend Event</a>
   </a>
   <div class="modal">
     <div class="modal-background"></div>
@@ -62,63 +63,30 @@
         <!-- Content ... -->
       </section>
       <footer class="modal-card-foot">
-        <a href="{{url_for('attend_event', eventid=event.id)}}">Attend Event</a>
         <button class="button is-success">Save changes</button>
         <button class="button">Cancel</button>
       </footer>
-      {% endmacro %} {% macro render_user_page_topics(topic)%}
-      <div>
-        <h6>{{ topic.name }}</h6>
-        <a href="{{url_for('user_profile', topicid=topic.id)}}"> Add </a>
-      </div>
-      {% endmacro %} {% macro render_user_topic(user_topic)%}
-      <div>
-        <h6>{{ user_topic.topic.name }}</h6>
-        <a href="{{url_for('delete_user_topic', topicid=user_topic.topic.id)}}">
-          Delete
-        </a>
-      </div>
-      {% endmacro %} {% macro render_topics_field(field) %}
-      <div class="topics_field">
-        {{ field }}
-      </div>
     </div>
   </div>
-  {% endmacro %} {% macro render_event_topic(topic) %}
-  <option
-    data-id="{{ topic.id }}"
-    name="{{ topic.id }}"
-    value="{{ topic.id }}"
-    >{{ topic.name }}</option
-  >
-  {% endmacro %} {% macro render_event(event) %}
-  <div
-    data-id="{{ event.id }}"
-    class="event tile box is-child has-background-light"
-  >
-    <a role="button">
-      <p class="title">{{ event.title }}</p>
-      <span class="tag is-info is-size-4 is-pulled-right">{{
-        event.topic.name
-      }}</span>
-      <p class="subtitle">{{ event.details }}</p>
-    </a>
-    <div class="modal">
-      <div class="modal-background"></div>
-      <div class="modal-card">
-        <header class="modal-card-head">
-          <p class="modal-card-title">{{ event.title }}</p>
-          <button class="delete" aria-label="close"></button>
-        </header>
-        <section class="modal-card-body">
-          <!-- Content ... -->
-        </section>
-        <footer class="modal-card-foot">
-          <button class="button is-success">Save changes</button>
-          <button class="button">Cancel</button>
-        </footer>
-      </div>
-    </div>
-  </div>
-  {% endmacro %}
 </div>
+{% endmacro %} {% macro render_user_page_topics(topic)%}
+<div>
+  <h6>{{ topic.name }}</h6>
+  <a href="{{url_for('user_profile', topicid=topic.id)}}"> Add </a>
+</div>
+{% endmacro %} {% macro render_user_topic(user_topic) %}
+<div>
+  <h6>{{ user_topic.topic.name }}</h6>
+  <a href="{{url_for('delete_user_topic', topicid=user_topic.topic.id)}}">
+    Delete
+  </a>
+</div>
+{% endmacro %} {% macro render_topics_field(field) %}
+<div class="topics_field">
+  {{ field }}
+</div>
+{% endmacro %} {% macro render_event_topic(topic) %}
+<option data-id="{{ topic.id }}" name="{{ topic.id }}" value="{{ topic.id }}">{{
+  topic.name
+}}</option>
+{% endmacro %}

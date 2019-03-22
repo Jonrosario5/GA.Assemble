@@ -148,9 +148,6 @@ def attend_event(eventid=None):
             isHost=False
         )
         return redirect(url_for('user_profile'))
-    else:
-        print('Working?')
-
     return redirect('main')
     
 
