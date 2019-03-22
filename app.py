@@ -144,8 +144,10 @@ def user_profile():
     topics = models.Topic.select()
     user_topics = models.User_Topics.select(models.User_Topics.user == user_id)
     user_events = models.User_Events.select(models.User_Events.user == user_id)
+    print(user_id)
+    print(user_events)
+    print(user)
 
-    # breakpoint()
 
     form=forms.User_Topics()
     if form.validate_on_submit() and request.method == "POST":
