@@ -167,28 +167,27 @@ def user_profile(topicid=None):
         if user_topics_count > 0:
             flash('Already Exists')
             print('Working')
+            return redirect('user')
+            
         else:
             models.User_Topics.create_usertopic(
             topic=topicid,
             user=user.id
             )
-        
+            return redirect('user')
     else:
         print('error')
     return render_template('profile.html',user_events=user_events,user_topics=user_topics,user=user, topics=topics,form=form)
 
-# (Pdb) topics.where(models.Topic.id == 1)
-# <peewee.ModelSelect object at 0x110538518>
+@app.route('/usertopic/delete/<topicid>',methods=["GET","POST"])
+def delete_user_topic(topicid=None):
+    user = g.user._get_current_object()
+    user_id = user.id
+    if topicid != None:
+        delete_topic = models.User_Topics.delete().where(models.User_Topics.user_id == user.id and models.User_Topics.topic_id == topicid)
+        delete_topic.execute()
 
-# (Pdb) topics.where(models.Topic.id == 1).get()
-# <Topic: 1>
-
-# (Pdb) topics.where(models.Topic.id == 1).get().id
-# 1
-
-# (Pdb) topics.where(models.Topic.id == 1).get().name
-# 'Purple Rain'
-
+        return redirect('user')
 
 
 

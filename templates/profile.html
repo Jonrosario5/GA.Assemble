@@ -25,9 +25,7 @@
                 <H2 style="text-decoration:underline">Current Topics</H2>
                 {% for user_topic in user_topics %}
               
-                    <div>
-                        {{user_topic.topic.name}}
-                    </div>
+                    {{ render_user_topic(user_topic) }}
 
                 {% endfor %}
     
@@ -47,10 +45,11 @@
                     {% endfor %}
                     {% endfor %}
             </div>
+        </div>
 
-    {% from 'macros.html' import render_topics_field, render_user_event %}
+    <!-- {% from 'macros.html' import render_topics_field, render_user_event %} -->
 
-    <div class="columns">
+    <!-- <div class="columns">
       <div class="column is-one-half">
         HI {{ user.fullname }}
 
@@ -71,6 +70,6 @@
         </form>
         {% endfor %} {% endfor %}
       </div>
-    </div>
+    </div> -->
   </body>
 </html>
