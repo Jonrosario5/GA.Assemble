@@ -12,8 +12,6 @@ $(document).ready(function() {
         $(".navbar-menu").toggleClass("is-active");
     });
 
-    $('div[data-id]')
-
     // $('div .topic').click(function(){
     //     console.log($(this).attr('data-name'));
     //     updateTopic($(this).attr('data-name'));
