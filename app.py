@@ -2,6 +2,8 @@ from flask import Flask, g
 from flask import render_template, flash, redirect, url_for, request, jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import check_password_hash
+from peewee import fn
+from peewee import *
 
 import models
 import forms
@@ -51,8 +53,9 @@ def main(topicid=None):
         events = models.Event.select().where(models.Event.topic_id == topicid)
     else:
         events = models.Event.select()
-    topics = models.Topic.select()
-    return render_template('main.html', topics=topics, events=events)
+    topics = models.Topic.select(models.Topic.id, models.Topic.name, fn.COUNT(models.User_Topics.user_id).alias('num_of_followers')).join(models.User_Topics, JOIN.LEFT_OUTER, on=(models.Topic.id == models.User_Topics.topic_id)).group_by(models.Topic.id, models.Topic.name)
+    eventForm=forms.EventForm()
+    return render_template('main.html', topics=topics, events=events, form=eventForm)
 
 @app.route('/signup',methods=["GET","POST"])
 def signup():

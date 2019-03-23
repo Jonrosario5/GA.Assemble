@@ -43,7 +43,6 @@ class User(UserMixin, Model):
 class User_Topics(Model):
     topic = ForeignKeyField(model=Topic,backref="event")
     user = ForeignKeyField(model=User,backref="usertopics")
-
     class Meta:
         database = DATABASE
 

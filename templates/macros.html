@@ -5,17 +5,27 @@
   {% endfor %} {% endif %}
   {{ field(placeholder=field.label.text) }}
 </div>
-{% endmacro %} {% macro render_topic(topic) %}
+{% endmacro %} 
+
+{% macro render_topic(topic) %}
 <div
   data-id="{{ topic.id }}"
   data-name="{{ topic.name }}"
-  class="topic tile box is-child has-background-light"
->
+  class="topic tile box is-child has-background-light">
   <a href="{{url_for('main', topicid=topic.id)}}">
-    <p class="title has-text-centered">{{ topic.name }}</p>
+    <p class="title has-text-left">{{ topic.name }}</p>
+    <p class="subtitle has-text-right">
+        {% if topic.num_of_followers %}
+        Students: {{topic.num_of_followers}}
+        {% else %}
+        Students: 0
+        {% endif %}
+    </p>
   </a>
 </div>
-{% endmacro %} {% macro render_topics_field(field) %}
+{% endmacro %} 
+
+{% macro render_topics_field(field) %}
 <div class="topics_field">
   {{ field }}
 </div>

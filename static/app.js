@@ -6,7 +6,7 @@ $(document).ready(function() {
         $(".navbar-menu").toggleClass("is-active");
     });
     
-    $(`div .event`).click(function(){
+    $(`div .add-event`).click(function(){
         console.log($(this).children('.modal'))
         $(this).children('.modal').toggleClass('is-active')
     });
