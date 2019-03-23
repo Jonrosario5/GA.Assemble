@@ -68,7 +68,10 @@ class EventForm(Form):
     location = StringField('Location', validators=[DataRequired()])
     details = StringField('Details', validators=[DataRequired()])
 
-
+class Edit_User_Form(Form):
+    fullname = StringField('Fullname')
+    username = StringField('Username')
+    submit_edit = SubmitField('Edit')
 
 class MultiCheckboxField(SelectMultipleField):
 	widget			= ListWidget(prefix_label=False)

@@ -89,4 +89,28 @@
 <option data-id="{{ topic.id }}" name="{{ topic.id }}" value="{{ topic.id }}">{{
   topic.name
 }}</option>
+
+{% endmacro %} {% macro render_edit_user(field) %}
+
+{{ field }}
+
+{% endmacro %} {% macro render_edit_user_macro(field) %}
+
+<div class="modal">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <header class="modal-card-head">
+      <p class="modal-card-title">Edit Profile</p>
+      <button class="delete" aria-label="close"></button>
+    </header>
+    <section class="modal-card-body">
+      Jon
+    </section>
+    <footer class="modal-card-foot">
+      <button class="button is-success">Save changes</button>
+      <button class="button">Cancel</button>
+    </footer>
+  </div>
+</div>
+
 {% endmacro %}
