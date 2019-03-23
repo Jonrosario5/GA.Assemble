@@ -7,23 +7,32 @@
     <div class="modal-card">
       <header class="modal-card-head">
         <p class="modal-card-title">Host an Event</p>
-        <button class="delete" aria-label="close"></button>
+        <button class="delete toggle-event-modal" aria-label="close"></button>
       </header>
       <form method="POST" action="{{ url_for('event') }}" class="form">
         <section class="modal-card-body">
-          <!-- <form method="POST" action="{{ url_for('event') }}" class="form"> -->
           {{ form.hidden_tag() }}
             {% for field in form %}
             {{ render_field(field) }}
             {% endfor %}
-          <label>Pick your subject:</label>
-          <select name="topics">
-            {% for topic in topics %}
-            {{render_event_topic(topic)}}
-            {% endfor %}
-          </select>
-          <label>Pick a time</label>
-          <input id="event_time" type="datetime-local" name="event_time" value />
+          <div class='level'>
+            <div class='level-left'>
+              <label class='label level-item'>Pick your subject:</label>
+              <select name="topics" class='select level-item is-size-6'>
+                  {% for topic in topics %}
+                  {{render_event_topic(topic)}}
+                  {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class='level'>
+            <div class='level-left'>
+              <label class='label level-item'>Pick a time</label>
+              <input class='input level-item' id="event_time" type="datetime-local" name="event_time" value />
+            </div>
+          </div>
+          <label class='label'>Event Details</label>
+          <textarea name='details' class='textarea'></textarea>
         </section>
         <footer class="modal-card-foot">
           <button type='submit' class="button is-success toggle-event-modal">Create Event</a>

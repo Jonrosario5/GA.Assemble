@@ -1,9 +1,11 @@
 {% macro render_field(field) %}
 <div class="field">
-  {% if field.errors %} {% for error in field.errors %}
+  {% if field.errors %} 
+  {% for error in field.errors %}
   <div class="notification error">{{ error }}</div>
-  {% endfor %} {% endif %}
-  {{ field(placeholder=field.label.text) }}
+  {% endfor %} 
+  {% endif %}
+  {{ field(placeholder=field.label.text, class='input') }}
 </div>
 {% endmacro %} 
 
@@ -70,10 +72,19 @@
 
 {% macro render_event(event) %}
     <div data-id={{event.id}} class='event tile box is-child has-background-light'>
-        <a role='button'>
-            <p class='title'>{{event.title}}</p>
-            <span class="tag is-info is-size-4 is-pulled-right">{{event.topic.name}}</span>
+        <div class='level'>
+            <div class='level-left'>
+                <p class="level-item tag is-info is-size-6">{{event.topic.name}}</p>
+                <p class='level-item title'>{{event.title}}</p>
+            </div>
+            <div class='level-right'>
+                <p class='level-item'>{{event.event_time}}</p>
+                <p class='level-item'>{{event.location}}</p>
+            </div>
+        </div>
+        <div class='level'>
             <p class='subtitle'>{{event.details}}</p>
-        </a>
+            <p class='level-item'>Hosted By {{event.created_by_id.username}}</p>
+        </div>
     </div>
 {% endmacro %}
