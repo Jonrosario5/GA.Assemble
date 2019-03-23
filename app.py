@@ -44,6 +44,8 @@ def after_request(response):
 def index():
     return render_template('landing.html')
 
+### LIST EVENTS ###
+
 @app.route('/main')
 @app.route('/main/<topicid>', methods=['GET'])
 def main(topicid=None):
@@ -53,6 +55,8 @@ def main(topicid=None):
         events = models.Event.select()
     topics = models.Topic.select()
     return render_template('main.html', topics=topics, events=events)
+
+### SIGN UP ###
 
 @app.route('/signup',methods=["GET","POST"])
 def signup():
@@ -68,6 +72,8 @@ def signup():
         return redirect(url_for('index'))
     topics = models.Topic.select()
     return render_template('register.html', form=form,topics=topics)
+
+###LOGIN###
 
 @app.route('/login', methods=('GET','POST'))
 def login():
@@ -89,6 +95,8 @@ def login():
                 flash("your email or password doesn't match", "error")
     return render_template('login.html', form=form)
 
+### LOG OUT ###
+
 @app.route('/logout')
 @login_required
 def logout():
@@ -107,7 +115,7 @@ def topic():
         return redirect(url_for('index'))
     return render_template('topic.html',form=form)
 
-
+### CREATE EVENTS ###
 
 @app.route('/event', methods=('GET', 'POST'))
 def event():
@@ -137,6 +145,8 @@ def event():
         return redirect(url_for('index'))
     return render_template('event.html', form=eventForm, topics=topics)              
 
+### ATTEND EVENTS ###
+
 @app.route('/attend/<eventid>', methods=['GET', 'POST'])
 def attend_event(eventid=None):
     user_events_count = models.User_Events.select().where((models.User_Events.user_id == g.user._get_current_object().id) & (models.User_Events.event_id == eventid)).count()
@@ -149,9 +159,21 @@ def attend_event(eventid=None):
         )
         return redirect(url_for('user_profile'))
     return redirect('main')
+
+### UNATTEND EVENTS ###   
+
+@app.route('/unattend/<eventid>', methods=['GET', 'POST'])
+def unattend_event(eventid=None):   
+    user = g.user._get_current_object()
+    if eventid != None:
+        unattend_this_event = models.User_Events.delete().where(models.User_Events.user_id == user.id and models.User_Events.event_id == eventid)
+        unattend_this_event.execute()
+
+        return redirect(url_for('user_profile'))
+    return redirect('user')
     
 
-
+### USER PROFILE ###
 
 @app.route('/user',methods=["GET","POST"])
 @app.route('/user/<topicid>',methods=["GET","POST"])
@@ -183,6 +205,9 @@ def user_profile(topicid=None):
     else:
         print('error')
     return render_template('profile.html',user_events=user_events,attending_events=attending_events,user_topics=user_topics,user=user, topics=topics,form=form)
+
+
+### DELETE A TOPIC FROM USER
 
 @app.route('/usertopic/delete/<topicid>',methods=["GET","POST"])
 def delete_user_topic(topicid=None):
