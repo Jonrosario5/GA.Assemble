@@ -137,7 +137,7 @@ def event():
             isHost=True
         )
         flash('Event created', 'success')
-        return redirect(url_for('index'))
+        return redirect(url_for('main'))
     return render_template('event.html', form=eventForm, topics=topics)              
 
 
@@ -153,7 +153,7 @@ def user_profile(topicid=None):
     user_events = models.User_Events.select().where(models.User_Events.user == user_id)
     form=forms.User_Topics()
     if topicid != None:
-        user_topics_count = models.User_Topics.select().where(models.User_Topics.user_id == user.id and models.User_Topics.topic_id == topicid).count()
+        user_topics_count = models.User_Topics.select().where((models.User_Topics.user_id == user.id) & (models.User_Topics.topic_id == topicid)).count()
         if user_topics_count > 0:
             flash('Already Exists')
             print('Working')

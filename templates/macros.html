@@ -29,7 +29,9 @@
 <div class="topics_field">
   {{ field }}
 </div>
-{% endmacro %} {% macro render_user_event(user_event) %}
+{% endmacro %} 
+
+{% macro render_user_event(user_event) %}
 <div data-id="{{ user_event.id }}">
   <h1 class="has-background-black has-text-white">ID: {{ user_event.id }}</h1>
   <h2>Event id: {{ user_event.isHost }}</h2>
@@ -73,21 +75,5 @@
             <span class="tag is-info is-size-4 is-pulled-right">{{event.topic.name}}</span>
             <p class='subtitle'>{{event.details}}</p>
         </a>
-        <div class="modal">
-            <div class="modal-background"></div>
-            <div class="modal-card">
-                <header class="modal-card-head">
-                    <p class="modal-card-title">{{event.title}}</p>
-                    <button class="delete" aria-label="close"></button>
-                </header>
-                <section class="modal-card-body">
-                    <!-- Content ... -->
-                </section>
-                <footer class="modal-card-foot">
-                    <button class="button is-success">Save changes</button>
-                    <button class="button">Cancel</button>
-                </footer>
-            </div>
-        </div>
     </div>
 {% endmacro %}
