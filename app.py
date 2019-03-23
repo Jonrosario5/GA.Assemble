@@ -155,6 +155,7 @@ def attend_event(eventid=None):
 
 @app.route('/user',methods=["GET","POST"])
 @app.route('/user/<topicid>',methods=["GET","POST"])
+
 # @login_required
 def user_profile(topicid=None):
     user = g.user._get_current_object()
@@ -183,8 +184,20 @@ def user_profile(topicid=None):
             user=user.id
             )
             return redirect('user')
+
+    # elif form.validate_on_submit:
+    #     print(form.fullname.data)
+    #     update_user = (models.User.update({models.User.fullname:form.fullname.data}).where(models.User.id == user.id))
+    #     update_user.execute()
+    #     print(g.user._get_current_object().fullname)
+
+
+
     else:
-        print('error')
+        print("Hi")
+
+
+
     return render_template('profile.html',user_events=user_events,attending_events=attending_events,user_topics=user_topics,user=user, topics=topics,form=form)
 
 @app.route('/usertopic/delete/<topicid>',methods=["GET","POST"])
@@ -197,6 +210,19 @@ def delete_user_topic(topicid=None):
 
         return redirect('user')
 
+@app.route('/userupdate', methods=['GET','POST'])
+def edit_user():
+    update = forms.Edit_User_Form()
+
+    if update.validate_on_submit:
+        print(update.fullname)
+        update_user = (models.User.update(
+            {models.User.fullname:update.fullname.data,
+            models.User.username:update.username.data})
+            .where(models.User.id == g.user._get_current_object().id))
+        update_user.execute()
+
+        return redirect('user')
 
 
 
