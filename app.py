@@ -159,6 +159,7 @@ def attend_event(eventid=None):
 def user_profile(topicid=None):
     user = g.user._get_current_object()
     user_id = user.id
+    print("this is the user id",user_id)
     topics = models.Topic.select()
     form = forms.Edit_User_Form()
     user_topics = models.User_Topics.select().where(models.User_Topics.user_id == user.id)
@@ -168,7 +169,9 @@ def user_profile(topicid=None):
    
 
     if topicid != None:
-        user_topics_count = models.User_Topics.select().where(models.User_Topics.user_id == user.id and models.User_Topics.topic_id == topicid).count()
+        
+        user_topics_count = models.User_Topics.select().where((models.User_Topics.user_id == g.user._get_current_object().id) & (models.User_Topics.topic_id == topicid)).count()
+
         if user_topics_count > 0:
             flash('Already Exists')
             print('Working')
