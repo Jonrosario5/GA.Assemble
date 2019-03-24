@@ -91,7 +91,7 @@ class User_Events(Model):
            event = event,
            isHost = isHost
         )
-
+ 
 
 
             
