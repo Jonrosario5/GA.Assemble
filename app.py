@@ -56,7 +56,9 @@ def main(topicid=None):
         events = models.Event.select()
     topics = models.Topic.select(models.Topic.id, models.Topic.name, fn.COUNT(models.User_Topics.user_id).alias('num_of_followers')).join(models.User_Topics, JOIN.LEFT_OUTER, on=(models.Topic.id == models.User_Topics.topic_id)).group_by(models.Topic.id, models.Topic.name)
     eventForm=forms.EventForm()
-    return render_template('main.html', topics=topics, events=events, form=eventForm)
+    user_events = models.User_Events.select()
+    print(user_events)
+    return render_template('main.html', topics=topics, events=events, form=eventForm, user_events=user_events)
 
 @app.route('/signup',methods=["GET","POST"])
 def signup():
@@ -112,7 +114,6 @@ def topic():
     return render_template('topic.html',form=form)
 
 
-
 @app.route('/event', methods=('GET', 'POST'))
 def event():
     # passes list of topics for dropdown menu
@@ -140,8 +141,7 @@ def event():
         )
         flash('Event created', 'success')
         return redirect(url_for('main'))
-    return render_template('event.html', form=eventForm, topics=topics) 
-
+    return render_template('event.html', form=eventForm, topics=topics)  
 
 @app.route('/delete_event/<eventid>', methods=['GET', 'POST'])
 def delete_event(eventid=None):
@@ -179,9 +179,6 @@ def unattend_event(eventid=None):
 
         return redirect(url_for('user_profile'))
     return redirect('user')
-    
-
-
 
 @app.route('/user',methods=["GET","POST"])
 @app.route('/user/<topicid>',methods=["GET","POST"])
@@ -220,7 +217,7 @@ def user_profile(topicid=None):
 
 
 
-    return render_template('profile.html',user_events=user_events,attending_events=attending_events,user_topics=user_topics,user=user, topics=topics,form=form, event_form=event_form)
+    return render_template('profile.html', user_events=user_events, attending_events=attending_events,user_topics=user_topics, user=user, topics=topics,form=form, event_form=event_form)
 
 @app.route('/usertopic/delete/<topicid>',methods=["GET","POST"])
 def delete_user_topic(topicid=None):
@@ -229,7 +226,6 @@ def delete_user_topic(topicid=None):
     if topicid != None:
         delete_topic = models.User_Topics.delete().where(models.User_Topics.user_id == user.id and models.User_Topics.topic_id == topicid)
         delete_topic.execute()
-
         return redirect('user')
 
 @app.route('/userupdate', methods=['GET','POST'])
@@ -265,6 +261,4 @@ def edit_user_event():
 
 if __name__ == '__main__':
     models.initialize()
-    # app.jinja_env.auto_reload = True
-    # app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(debug=DEBUG, port=PORT)

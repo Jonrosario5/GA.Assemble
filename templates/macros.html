@@ -11,13 +11,13 @@
   data-name="{{ topic.name }}"
   class="topic tile box is-child has-background-light"
 >
-  <a href="{{url_for('main', topicid=topic.id)}}">
-    <p class="title has-text-left">{{ topic.name }}</p>
-    <p class="subtitle has-text-right">
-      {% if topic.num_of_followers %} Students: {{ topic.num_of_followers }}
-      {% else %} Students: 0 {% endif %}
-    </p>
-  </a>
+    <a class='level' href="{{url_for('main', topicid=topic.id)}}">
+        <p class="title level-left">{{ topic.name }}</p>
+        <p class="subtitle level-right">
+        {% if topic.num_of_followers %} Followers: {{ topic.num_of_followers }}
+        {% else %} Followers: 0 {% endif %}
+        </p>
+    </a>
 </div>
 {% endmacro %} {% macro render_topics_field(field) %}
 <div class="topics_field">
@@ -56,34 +56,9 @@
 <option data-id="{{ topic.id }}" name="{{ topic.id }}" value="{{ topic.id }}">{{
   topic.name
 }}</option>
-{% endmacro %} {% macro render_event(event) %}
-<div
-  data-id="{{ event.id }}"
-  class="event tile box is-child has-background-light"
->
-  <a role="button">
-    <p class="title">{{ event.title }}</p>
-    <p class="subtitle">{{ event.details }}</p>
-    <a href="{{url_for('attend_event', eventid=event.id)}}">Attend Event</a>
-  </a>
-  <div class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title">{{ event.title }}</p>
-        <button class="delete" aria-label="close"></button>
-      </header>
-      <section class="modal-card-body">
-        <!-- Content ... -->
-      </section>
-      <footer class="modal-card-foot">
-        <button class="button is-success">Save changes</button>
-        <button class="button">Cancel</button>
-      </footer>
-    </div>
-  </div>
-</div>
-{% endmacro %} {% macro render_user_page_topics(topic)%}
+{% endmacro %} 
+
+{% macro render_user_page_topics(topic)%}
 <div>
   <h6>{{ topic.name }}</h6>
   <a href="{{url_for('user_profile', topicid=topic.id)}}"> Add </a>
@@ -104,24 +79,39 @@
   topic.name
 }}</option>
 
-{% endmacro %} {% macro render_event(event) %}
+{% endmacro %}
+
+{% macro render_event(event) %}
 <div
   data-id="{{ event.id }}"
   class="event tile box is-child has-background-light"
 >
-  <div class="level">
-    <div class="level-left">
-      <p class="level-item tag is-info is-size-6">{{ event.topic.name }}</p>
-      <p class="level-item title">{{ event.title }}</p>
+    <div class="level">
+        <div class="level-left">
+        <p class="level-item tag is-info is-size-6">{{ event.topic.name }}</p>
+        <p class="level-item title">{{ event.title }}</p>
+        </div>
+        <div class="level-right">
+        <p class="level-item">{{ event.event_time.replace("T", ", ") }}</p>
+        <p class="level-item">{{ event.location }}</p>
+        </div>
     </div>
-    <div class="level-right">
-      <p class="level-item">{{ event.event_time.replace("T", ", ") }}</p>
-      <p class="level-item">{{ event.location }}</p>
+    <div class="level">
+        <p class="level-item box subtitle">{{ event.details }}</p>
     </div>
-  </div>
-  <div class="level">
-    <p class="subtitle">{{ event.details }}</p>
-    <p class="level-item">Hosted By {{ event.created_by_id.username }}</p>
-  </div>
+    <div class='level'>
+        <div class='level-left'>
+            <p class='level-item'>Attendees:</p>
+            {% for user_event in user_events %}
+            {% if user_event.event_id == event.id %}
+            <p class='level-item'>{{user_event.user_id.username}}</p>
+            {% endif %}
+            {% endfor %}
+        </div>
+        <div class='level-right'>
+            <a class='level-item button' href="{{url_for('attend_event', eventid=event.id)}}">Attend Event</a>
+            <p class='level-item'> Hosted By {{ event.created_by_id.username }}</p>
+        </div>
+    </div>
 </div>
 {% endmacro %}

@@ -30,7 +30,7 @@
             </div>
             <div class='event-list tile is-parent is-vertical'>
                 {% for event in events|sort(attribute='event_time') %}
-                {{ render_event(event) }}
+                {{ render_event(event)}}
                 {% endfor %}
             </div>
         </div>
