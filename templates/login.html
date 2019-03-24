@@ -18,7 +18,7 @@
     <br />
     <div class="container">
       <br />
-      <div class="columns is-centered">
+      <div class="columns is-centered is-mobile">
         <div class="column is-half">
           <h1 class="is-size-1 ">Login</h1>
           <br />
@@ -27,7 +27,11 @@
             {% for field in form %}
             {{ render_field(field) }}
             {% endfor %}
-            <button class="button is-primary" type="submit" id="submit">
+            <button
+              class="button is-primary is-rounded is-medium"
+              type="submit"
+              id="submit"
+            >
               Login
             </button>
           </form>
