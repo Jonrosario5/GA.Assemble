@@ -15,32 +15,38 @@
     {% include 'nav.html' %}
     <br>
   
-{% from 'macros.html' import render_user_event, render_edit_user, render_attending_event,render_user_topic, render_edit_user, render_user_page_topics %}
+{% from 'macros.html' import render_user_event, render_attending_event,render_user_topic, render_user_page_topics %}
 
     <div class='columns'>
         <div class='column is-one-half'>
             <div class="userHeader" style="text-align:center">
                 Welcome to GA.Assemble( )  
                 <br>
-                <span>{{user.fullname}}</span>
+                <span>{{user.username}}</span>
                 <br>
                 <img src="https://media.giphy.com/media/rRZfOOKROFUqs/giphy.gif" style="border-radius:50%">
             </div>
             <br>
             <div class="editUser">
-                {% for field in form %}
-                    {{ render_edit_user(field) }}
-                {% endfor %}
-                <a href="#">edit</a>
+                <form method="POST" action="{{ url_for('edit_user') }}" style="text-align:center">
+                    <h4>Full Name</h4>
+                    {{ form.fullname (value=user.fullname)}}
+                    <h4>Username</h4>
+                    {{ form.username(value=user.username) }}
+                    <br>
+                    <br>
+                    {{ form.submit_edit}}
+                </form>
+
             </div>
         <br>
-        <div>
+        <div style="text-align:center">
           <h2>Events You're Hosting:</h2>
           {% for user_event in user_events %}
           {{ render_user_event(user_event, event_form) }}
           {% endfor %}
         </div>
-        <div>
+        <div style="text-align:center">
           <h2>Events You're Attending:</h2>
           {% for attending_event in attending_events %}
           {{ render_attending_event(attending_event) }}

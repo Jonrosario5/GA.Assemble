@@ -202,10 +202,12 @@ def edit_event(eventid):
 
 @app.route('/user',methods=["GET","POST"])
 @app.route('/user/<topicid>',methods=["GET","POST"])
+
 # @login_required
 def user_profile(topicid=None):
     user = g.user._get_current_object()
     user_id = user.id
+    print("this is the user id",user_id)
     topics = models.Topic.select()
     event_form=forms.EventForm()
     form = forms.Edit_User_Form()
@@ -216,7 +218,9 @@ def user_profile(topicid=None):
    
 
     if topicid != None:
-        user_topics_count = models.User_Topics.select().where(models.User_Topics.user_id == user.id and models.User_Topics.topic_id == topicid).count()
+        
+        user_topics_count = models.User_Topics.select().where((models.User_Topics.user_id == g.user._get_current_object().id) & (models.User_Topics.topic_id == topicid)).count()
+
         if user_topics_count > 0:
             flash('Already Exists')
             print('Working')
@@ -228,12 +232,29 @@ def user_profile(topicid=None):
             user=user.id
             )
             return redirect('user')
+
+    # elif form.validate_on_submit:
+    #     print(form.fullname.data)
+    #     update_user = (models.User.update({models.User.fullname:form.fullname.data}).where(models.User.id == user.id))
+    #     update_user.execute()
+    #     print(g.user._get_current_object().fullname)
+
+
+
     else:
+<<<<<<< HEAD
         print('user route')
     return render_template('profile.html',user_events=user_events,attending_events=attending_events,user_topics=user_topics,user=user, topics=topics,form=form, event_form=event_form)
 
 
 ### DELETE A TOPIC FROM USER
+=======
+        print("Hi")
+
+
+
+    return render_template('profile.html',user_events=user_events,attending_events=attending_events,user_topics=user_topics,user=user, topics=topics,form=form)
+>>>>>>> 004b6de945cbde8b99ed6816f03452dc28cca10e
 
 @app.route('/usertopic/delete/<topicid>',methods=["GET","POST"])
 def delete_user_topic(topicid=None):
@@ -245,6 +266,19 @@ def delete_user_topic(topicid=None):
 
         return redirect('user')
 
+@app.route('/userupdate', methods=['GET','POST'])
+def edit_user():
+    update = forms.Edit_User_Form()
+
+    if update.validate_on_submit:
+        print(update.fullname)
+        update_user = (models.User.update(
+            {models.User.fullname:update.fullname.data,
+            models.User.username:update.username.data})
+            .where(models.User.id == g.user._get_current_object().id))
+        update_user.execute()
+
+        return redirect('user')
 
 
 
