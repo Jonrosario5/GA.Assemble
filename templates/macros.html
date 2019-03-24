@@ -19,16 +19,27 @@
 <div class="topics_field">
   {{ field }}
 </div>
-{% endmacro %} {% macro render_user_event(user_event) %}
+{% endmacro %} 
+{% macro render_user_event(user_event, event_form) %}
 <div data-id="{{ user_event.id }}">
   <h1 class="has-background-black has-text-white">
     Title: {{ user_event.event.title }}
   </h1>
   <h2>Event details: {{ user_event.event.details }}</h2>
   <h2>Event time: {{ user_event.event.event_time }}</h2>
+  <h2>Event ID: {{user_event.id}}</h2>
   <a>Edit Event</a>
+  <form method="POST" action="{{ url_for('edit_user_event') }}">
+        {{ event_form.title (value=user_event.event.title)}}
+        {{ event_form.location (value=user_event.event.location) }}
+        {{ event_form.details (value=user_event.event.details) }}
+        {{ event_form.event_id (value=user_event.event_id)}}
+        <input type="submit" value="Please Work"/>
+      </form>
 </div>
-{% endmacro %} {% macro render_attending_event(attending_event) %}
+{% endmacro %} 
+
+{% macro render_attending_event(attending_event) %}
 <div data-id="{{ attending_event.id }}">
   <h1 class="has-background-black has-text-white">
     Title: {{ attending_event.event.title }}
@@ -94,23 +105,4 @@
 
 
 
-{% macro render_edit_user_macro(field) %}
 
-<div class="modal">
-  <div class="modal-background"></div>
-  <div class="modal-card">
-    <header class="modal-card-head">
-      <p class="modal-card-title">Edit Profile</p>
-      <button class="delete" aria-label="close"></button>
-    </header>
-    <section class="modal-card-body">
-      Jon
-    </section>
-    <footer class="modal-card-foot">
-      <button class="button is-success">Save changes</button>
-      <button class="button">Cancel</button>
-    </footer>
-  </div>
-</div>
-
-{% endmacro %}

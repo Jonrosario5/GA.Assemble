@@ -18,33 +18,50 @@
 {% from 'macros.html' import render_user_event, render_attending_event,render_user_topic, render_user_page_topics %}
 
     <div class='columns'>
-        <div class='column is-one-half'>
+        <div class='column is-one-half'style="text-align:center; display: flex; flex-direction: column">
             <div class="userHeader" style="text-align:center">
                 Welcome to GA.Assemble( )  
                 <br>
-                <span>{{user.username}}</span>
+                <h4 style="color:red"> 
+                    Username:
+                    <span style="color:black">{{user.username}}</span>
+                </h4>
                 <br>
                 <img src="https://media.giphy.com/media/rRZfOOKROFUqs/giphy.gif" style="border-radius:50%">
             </div>
             <br>
+
+            <button class="toggle-user-modal" style="margin-right:25%; margin-left:25%">Edit User</button>
+
             <div class="editUser">
-                <form method="POST" action="{{ url_for('edit_user') }}" style="text-align:center">
+                <div class="edit-user-modal modal">
+                    <div class="modal-background"></div>
+                    <div class="modal-content" >
+                <form method="POST" action="{{ url_for('edit_user') }}" style="text-align:center; display: flex; flex-direction: column">
                     <h4>Full Name</h4>
-                    {{ form.fullname (value=user.fullname)}}
+
+                    
+                    {{ form.fullname (value=user.fullname, style="text-align:center")}}
                     <h4>Username</h4>
-                    {{ form.username(value=user.username) }}
+                    {{ form.username(value=user.username, style="text-align:center") }}
                     <br>
                     <br>
-                    {{ form.submit_edit}}
+                    {{ form.submit_edit(class='toggle-user-modal', style="text-align:center")}}
                 </form>
+                     </div>
+                <button class="modal-close toggle-user-modal is-large" aria-label="close"></button>
+                </div>
 
             </div>
         <br>
         <div style="text-align:center">
           <h2>Events You're Hosting:</h2>
           {% for user_event in user_events %}
-          {{ render_user_event(user_event) }}
+          {% if user_event.isHost%}
+          {{ render_user_event(user_event, event_form) }}
+          {% endif %}
           {% endfor %}
+
         </div>
         <div style="text-align:center">
           <h2>Events You're Attending:</h2>
