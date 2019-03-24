@@ -9,4 +9,8 @@ $(document).ready(function() {
     $('.toggle-user-modal').click(function(){
         $('.edit-user-modal').toggleClass('is-active')
     });
+
+    $('.toggle-event-modal').click(function(){
+        $('.event-modal').toggleClass('is-active')
+    });
 });

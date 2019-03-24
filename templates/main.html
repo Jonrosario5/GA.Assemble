@@ -14,23 +14,28 @@
     {% from 'macros.html' import render_topic, render_event %}
     <div class='columns'>
         <div class='column is-one-third'>
-            <h1 class='has-text-centered is-size-1'>Top Topics</h1>
+            <div class='level'>
+                <h1 class='level-item is-size-1'>Top Topics</h1>
+            </div>
             <div class='tile is-parent is-vertical'>
-                {% for topic in topics %}
+                {% for topic in topics|sort(reverse=True, attribute='num_of_followers')%}
                 {{ render_topic(topic) }}
                 {% endfor %}
             </div>
         </div>
         <div class='column is-two-thirds'>
-            <h1 class='event-header has-text-centered is-size-1'>Upcoming Events {{selected_topic}}</h1>
+            <div class='level'>
+                <h1 class='event-header level-item is-size-1'>Upcoming Events</h1>    
+                {% include 'event.html'%}
+            </div>
             <div class='event-list tile is-parent is-vertical'>
-                {% for event in events %}
+                {% for event in events|sort(attribute='event_time') %}
                 {{ render_event(event) }}
                 {% endfor %}
             </div>
         </div>
     </div>
-    <script src="/static/app.js"></script>
-    <!-- <script src="{{ url_for('static', filename='app.js')}}"></script> -->
+    <!-- <script src="/static/app.js"></script> -->
+    <script src="{{ url_for('static', filename='app.js')}}"></script>
 </body>
 </html>

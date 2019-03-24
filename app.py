@@ -2,10 +2,13 @@ from flask import Flask, g
 from flask import render_template, flash, redirect, url_for, request, jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_bcrypt import check_password_hash
+from peewee import fn
+from peewee import *
 
 import models
 import forms
 import json
+from datetime import datetime
 
 DEBUG = True
 PORT = 8000
@@ -51,8 +54,9 @@ def main(topicid=None):
         events = models.Event.select().where(models.Event.topic_id == topicid)
     else:
         events = models.Event.select()
-    topics = models.Topic.select()
-    return render_template('main.html', topics=topics, events=events)
+    topics = models.Topic.select(models.Topic.id, models.Topic.name, fn.COUNT(models.User_Topics.user_id).alias('num_of_followers')).join(models.User_Topics, JOIN.LEFT_OUTER, on=(models.Topic.id == models.User_Topics.topic_id)).group_by(models.Topic.id, models.Topic.name)
+    eventForm=forms.EventForm()
+    return render_template('main.html', topics=topics, events=events, form=eventForm)
 
 @app.route('/signup',methods=["GET","POST"])
 def signup():
@@ -121,7 +125,8 @@ def event():
             title=eventForm.title.data,
             event_time=request.form.get('event_time'),
             location=eventForm.location.data,
-            details=eventForm.details.data,
+            details=request.form.get('details'),
+            # details=eventForm.details.data,
             topic=request.form.get('topics'),
             created_by_id=g.user._get_current_object()
              )
@@ -134,8 +139,22 @@ def event():
             isHost=True
         )
         flash('Event created', 'success')
-        return redirect(url_for('index'))
-    return render_template('event.html', form=eventForm, topics=topics)              
+        return redirect(url_for('main'))
+    return render_template('event.html', form=eventForm, topics=topics) 
+
+
+@app.route('/delete_event/<eventid>', methods=['GET', 'POST'])
+def delete_event(eventid=None):
+    user = g.user._get_current_object()
+
+    if eventid !=None:
+        delete_user_event = models.User_Events.delete().where(models.User_Events.user_id == user.id and models.User_Events.event_id == eventid)
+        delete_user_event.execute()
+        delete_this_event = models.Event.delete().where(models.Event.created_by_id == user.id and models.Event.id ==eventid)
+        delete_this_event.execute()
+        
+        return redirect(url_for('user_profile'))
+    return redirect('user')
 
 @app.route('/attend/<eventid>', methods=['GET', 'POST'])
 def attend_event(eventid=None):
@@ -182,9 +201,7 @@ def user_profile(topicid=None):
    
 
     if topicid != None:
-        
-        user_topics_count = models.User_Topics.select().where((models.User_Topics.user_id == g.user._get_current_object().id) & (models.User_Topics.topic_id == topicid)).count()
-
+        user_topics_count = models.User_Topics.select().where((models.User_Topics.user_id == user.id) & (models.User_Topics.topic_id == topicid)).count()
         if user_topics_count > 0:
             flash('Already Exists')
             print('Working')
