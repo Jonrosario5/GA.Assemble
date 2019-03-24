@@ -69,7 +69,7 @@ def signup():
             email=form.email.data,
             password=form.password.data
         )
-        return redirect(url_for('index'))
+        return redirect(url_for('login'))
     topics = models.Topic.select()
     return render_template('register.html', form=form,topics=topics)
 
