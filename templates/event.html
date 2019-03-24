@@ -17,7 +17,7 @@
             {% endfor %}
           <div class='level'>
             <div class='level-left'>
-              <label class='label level-item'>Pick your subject:</label>
+              <label class='label level-item'>Subject</label>
               <select name="topics" class='select level-item is-size-6'>
                   {% for topic in topics %}
                   {{render_event_topic(topic)}}
@@ -27,7 +27,7 @@
           </div>
           <div class='level'>
             <div class='level-left'>
-              <label class='label level-item'>Pick a time</label>
+              <label class='label level-item'>Start Time</label>
               <input class='input level-item' id="event_time" type="datetime-local" name="event_time" value />
             </div>
           </div>

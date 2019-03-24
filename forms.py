@@ -66,8 +66,6 @@ class TopicForm(Form):
 class EventForm(Form):
     title = StringField('Title', validators=[DataRequired()])
     location = StringField('Location', validators=[DataRequired()])
-    # details = StringField('Details', validators=[DataRequired()])
-
 
 
 class MultiCheckboxField(SelectMultipleField):
