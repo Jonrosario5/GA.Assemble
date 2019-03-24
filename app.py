@@ -149,6 +149,17 @@ def attend_event(eventid=None):
         )
         return redirect(url_for('user_profile'))
     return redirect('main')
+
+
+@app.route('/unattend/<eventid>', methods=['GET', 'POST'])
+def unattend_event(eventid=None):   
+    user = g.user._get_current_object()
+    if eventid != None:
+        unattend_this_event = models.User_Events.delete().where(models.User_Events.user_id == user.id and models.User_Events.event_id == eventid)
+        unattend_this_event.execute()
+
+        return redirect(url_for('user_profile'))
+    return redirect('user')
     
 
 
