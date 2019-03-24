@@ -206,7 +206,7 @@ def user_profile(topicid=None):
 
 
 
-    return render_template('profile.html',user_events=user_events,attending_events=attending_events,user_topics=user_topics,user=user, topics=topics,form=form, event_form=event_form)
+    return render_template('profile.html',user_events=user_events, attending_events=attending_events,user_topics=user_topics, user=user, topics=topics,form=form, event_form=event_form)
 
 @app.route('/usertopic/delete/<topicid>',methods=["GET","POST"])
 def delete_user_topic(topicid=None):
