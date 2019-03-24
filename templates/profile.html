@@ -37,7 +37,7 @@
         <div>
           <h2>Events You're Hosting:</h2>
           {% for user_event in user_events %}
-          {{ render_user_event(user_event) }}
+          {{ render_user_event(user_event, event_form) }}
           {% endfor %}
         </div>
         <div>

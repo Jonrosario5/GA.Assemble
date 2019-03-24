@@ -19,14 +19,24 @@
 <div class="topics_field">
   {{ field }}
 </div>
-{% endmacro %} {% macro render_user_event(user_event) %}
+{% endmacro %} {% macro render_user_event(user_event, event_form) %}
 <div data-id="{{ user_event.id }}">
   <h1 class="has-background-black has-text-white">
     Title: {{ user_event.event.title }}
   </h1>
   <h2>Event details: {{ user_event.event.details }}</h2>
   <h2>Event time: {{ user_event.event.event_time }}</h2>
-  <a>Edit Event</a>
+  <a href="{{ url_for('edit_event', eventid=user_event.event.id)}}"
+    >Edit Event</a
+  >
+  <!-- <form method="POST" action="{{ url_for('edit_event') }}">
+    {{ event_form.title(value=user_event.event.title) }}
+    {{ event_form.location(value=user_event.event.location) }}
+    {{ event_form.details(value=user_event.event.details) }}
+    {{ event_form.event_id(value=user_event.event.event_id) }}
+
+    <button>Submit</button> -->
+  <!-- </form> -->
 </div>
 {% endmacro %} {% macro render_attending_event(attending_event) %}
 <div data-id="{{ attending_event.id }}">

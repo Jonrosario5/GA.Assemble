@@ -172,7 +172,32 @@ def unattend_event(eventid=None):
         return redirect(url_for('user_profile'))
     return redirect('user')
     
+### EDIT EVENT
+@app.route('/edit_event/<eventid>', methods=['GET', 'POST'])
+def edit_event(eventid):
+    topics = models.Topic.select()
+    edit_event_form= forms.EventForm()
+    if eventid !=None:
+        if edit_event_form.validate_on_submit():
 
+            event = models.Event.get(models.Event.id == eventid)
+            print(event)
+            # update_event = (models.Event.update(
+            #     {models.Event.title:edit_event_form.title.data,
+            #     models.Event.location:edit_event_form.location.data,
+            #     models.Event.details:edit_event_form.details.data}
+            # ).where(models.Event.id == edit_event_form.event_id.data))
+            # print(edit_event_form.event_id.data)
+            event.update(
+                title=edit_event_Form.title.data,
+                event_time=request.form.get('event_time'),
+                location=edit_event_Form.location.data,
+                details=edit_event_Form.details.data,
+                topic=request.form.get('topics'),
+                created_by_id=g.user._get_current_object()
+                )
+            update_event.execute()
+        return redirect('user')
 ### USER PROFILE ###
 
 @app.route('/user',methods=["GET","POST"])
@@ -182,6 +207,7 @@ def user_profile(topicid=None):
     user = g.user._get_current_object()
     user_id = user.id
     topics = models.Topic.select()
+    event_form=forms.EventForm()
     form = forms.Edit_User_Form()
     user_topics = models.User_Topics.select().where(models.User_Topics.user_id == user.id)
     user_events = models.User_Events.select(models.Event.title, models.Event.details, models.Event.event_time).join(models.Event).where(models.User_Events.user == user_id, models.User_Events.event == models.Event.id, models.User_Events.isHost == True) 
@@ -203,8 +229,8 @@ def user_profile(topicid=None):
             )
             return redirect('user')
     else:
-        print('error')
-    return render_template('profile.html',user_events=user_events,attending_events=attending_events,user_topics=user_topics,user=user, topics=topics,form=form)
+        print('user route')
+    return render_template('profile.html',user_events=user_events,attending_events=attending_events,user_topics=user_topics,user=user, topics=topics,form=form, event_form=event_form)
 
 
 ### DELETE A TOPIC FROM USER

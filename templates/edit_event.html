@@ -1,0 +1,30 @@
+{% from 'macros.html' import render_field, render_event_topic %} {% block
+content %}
+
+<form method="POST" action="{{ url_for('edit_event') }}" class="form">
+  {{ form.hidden_tag() }}
+
+  {% for field in form %}
+  {{ render_field(field) }}
+  {% endfor %}
+
+  <label>Pick your subject:</label>
+  <select name="topics">
+    {{
+      form.title
+    }}
+    {{
+      form.location
+    }}
+    {{
+      form.detail
+    }}
+  </select>
+
+  <label>Pick a time</label>
+  <input id="event_time" type="datetime-local" name="event_time" value />
+
+  <button type="submit" id="submit">Edit Event</button>
+</form>
+
+{% endblock %}

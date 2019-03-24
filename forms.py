@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm as Form
 from models import User
 from models import Topic
 
-from wtforms import StringField, PasswordField, TextAreaField, DateTimeField, BooleanField, SelectMultipleField,SubmitField
+from wtforms import StringField, PasswordField, TextAreaField, DateTimeField, BooleanField, SelectMultipleField,SubmitField, HiddenField
 from wtforms.widgets import ListWidget, CheckboxInput
 from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
                                Length, EqualTo,Required)
@@ -67,6 +67,7 @@ class EventForm(Form):
     title = StringField('Title', validators=[DataRequired()])
     location = StringField('Location', validators=[DataRequired()])
     details = StringField('Details', validators=[DataRequired()])
+    event_id = HiddenField('Event ID')
 
 class Edit_User_Form(Form):
     fullname = StringField('Fullname')
