@@ -89,12 +89,7 @@
 </div>
 {% endmacro %} 
 
-{% macro render_event_topic(topic) %}
-<option data-id="{{ topic.id }}" name="{{ topic.id }}" value="{{ topic.id }}">{{
-  topic.name
-}}</option>
-
-{% endmacro %} {% macro render_event(event) %}
+{% macro render_event(event) %}
 <div
   data-id="{{ event.id }}"
   class="event tile box is-child has-background-light"
