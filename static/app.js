@@ -6,6 +6,10 @@ $(document).ready(function() {
         $(".navbar-menu").toggleClass("is-active");
     });
     
+    $('.toggle-user-modal').click(function(){
+        $('.edit-user-modal').toggleClass('is-active')
+    });
+
     $('.toggle-event-modal').click(function(){
         $('.event-modal').toggleClass('is-active')
     });

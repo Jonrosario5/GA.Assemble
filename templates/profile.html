@@ -8,18 +8,68 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css"
     />
+    
     <title>GA Assemble</title>
   </head>
   <body class="has-navbar-fixed-top">
     {% include 'nav.html' %}
     <br>
   
+{% from 'macros.html' import render_user_event, render_attending_event,render_user_topic, render_user_page_topics %}
+
     <div class='columns'>
-        <div class='column is-one-half'>
-            HI  {{user.fullname}}
+        <div class='column is-one-half'style="text-align:center; display: flex; flex-direction: column">
+            <div class="userHeader" style="text-align:center">
+                Welcome to GA.Assemble( )  
+                <br>
+                <h4 style="color:red"> 
+                    Username:
+                    <span style="color:black">{{user.username}}</span>
+                </h4>
+                <br>
+                <img src="https://media.giphy.com/media/rRZfOOKROFUqs/giphy.gif" style="border-radius:50%">
+            </div>
+            <br>
+
+            <button class="toggle-user-modal" style="margin-right:25%; margin-left:25%">Edit User</button>
+
+            <div class="editUser">
+                <div class="edit-user-modal modal">
+                    <div class="modal-background"></div>
+                    <div class="modal-content" >
+                <form method="POST" action="{{ url_for('edit_user') }}" style="text-align:center; display: flex; flex-direction: column">
+                    <h4>Full Name</h4>
+
+                    
+                    {{ form.fullname (value=user.fullname, style="text-align:center")}}
+                    <h4>Username</h4>
+                    {{ form.username(value=user.username, style="text-align:center") }}
+                    <br>
+                    <br>
+                    {{ form.submit_edit(class='toggle-user-modal', style="text-align:center")}}
+                </form>
+                     </div>
+                <button class="modal-close toggle-user-modal is-large" aria-label="close"></button>
+                </div>
+
+            </div>
+        <br>
+        <div style="text-align:center">
+          <h2>Events You're Hosting:</h2>
+          {% for user_event in user_events %}
+          {% if user_event.isHost%}
+          {{ render_user_event(user_event, event_form) }}
+          {% endif %}
+          {% endfor %}
+
         </div>
-        
-        {% from 'macros.html' import render_topics_field, render_user_page_topics, render_user_topic %}
+        <div style="text-align:center">
+          <h2>Events You're Attending:</h2>
+          {% for attending_event in attending_events %}
+          {{ render_attending_event(attending_event) }}
+          {% endfor %}
+        </div>
+        </div>
         <div class='column is-two-half'>
             <div>
                 <H2 style="text-decoration:underline">Current Topics</H2>
@@ -38,39 +88,10 @@
 
                     {{ render_user_page_topics(topic) }}
 
-                    {% for field in form %}
-                <form method="POST">
-                    {{ render_topics_field(field) }}
-                </form>
-                    {% endfor %}
                     {% endfor %}
             </div>
         </div>
-
-    <!-- {% from 'macros.html' import render_topics_field, render_user_event %} -->
-
-    <!-- <div class="columns">
-      <div class="column is-one-half">
-        HI {{ user.fullname }}
-
-        <h2>Events You're Hosting:</h2>
-        {% for user_event in user_events %}
-        {{ render_user_event(user_event) }}
-        {% endfor %}
-
-        <h2>Events You're Attending:</h2>
-      </div>
-
-      <div class="column is-two-half">
-        {% for topic in topics %}
-        <h4>{{ topic.name }}</h4>
-        {% for field in form %}
-        <form method="POST">
-          {{ render_topics_field(field) }}
-        </form>
-        {% endfor %} {% endfor %}
-      </div>
-    </div> -->
-    <script src="{{ url_for('static', filename='app.js')}}"></script>
+        <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js'></script>
+        <script src="{{ url_for('static', filename='app.js')}}"></script>
   </body>
 </html>

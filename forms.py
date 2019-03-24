@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm as Form
 from models import User
 from models import Topic
 
-from wtforms import StringField, PasswordField, TextAreaField, DateTimeField, BooleanField, SelectMultipleField,SubmitField
+from wtforms import StringField, PasswordField, TextAreaField, DateTimeField, BooleanField, SelectMultipleField,SubmitField,HiddenField
 from wtforms.widgets import ListWidget, CheckboxInput
 from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
                                Length, EqualTo,Required)
@@ -66,7 +66,12 @@ class TopicForm(Form):
 class EventForm(Form):
     title = StringField('Title', validators=[DataRequired()])
     location = StringField('Location', validators=[DataRequired()])
+    event_id = HiddenField('Hidden')
 
+class Edit_User_Form(Form):
+    fullname = StringField('Fullname')
+    username = StringField('Username')
+    submit_edit = SubmitField('Edit')
 
 class MultiCheckboxField(SelectMultipleField):
 	widget			= ListWidget(prefix_label=False)
@@ -74,15 +79,6 @@ class MultiCheckboxField(SelectMultipleField):
 
 
 class User_Topics(Form):
-    # topics = SelectField('Topics', choices=[('JS','Javascript'),('PY','Python')])
     can_help = BooleanField('Can Help')
-    # def topics_selector(request, id):
-    #     topic = Topic.query.get(id)
-    #     form = User_Topics(request.POST, obj=topic)
-    #     form.topics.choices = [(t.id, t.name) for t in Topic.query.order_by('name')]
-
-    # def topics_select(request):
-    #     form = User_Topics(request.POST, obj=Topic)
-    #     form.topics.choices = [(t.id,t.name) for t in Topic.query.order_by('name')]
 
 
