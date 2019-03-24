@@ -80,15 +80,6 @@ class MultiCheckboxField(SelectMultipleField):
 
 
 class User_Topics(Form):
-    # topics = SelectField('Topics', choices=[('JS','Javascript'),('PY','Python')])
     can_help = BooleanField('Can Help')
-    # def topics_selector(request, id):
-    #     topic = Topic.query.get(id)
-    #     form = User_Topics(request.POST, obj=topic)
-    #     form.topics.choices = [(t.id, t.name) for t in Topic.query.order_by('name')]
-
-    # def topics_select(request):
-    #     form = User_Topics(request.POST, obj=Topic)
-    #     form.topics.choices = [(t.id,t.name) for t in Topic.query.order_by('name')]
 
 

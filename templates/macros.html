@@ -46,7 +46,9 @@
   </h1>
   <h2>Event details: {{ attending_event.event.details }}</h2>
   <h2>Event time: {{ attending_event.event.event_time }}</h2>
-  <a>Unattend</a>
+  <a href="{{url_for('unattend_event', eventid=attending_event.event.id)}}"
+    >Unattend Event</a
+  >
 </div>
 
 {% endmacro %} {% macro render_event_topic(topic) %}
