@@ -122,6 +122,8 @@
   <div class="level">
     <p class="subtitle">{{ event.details }}</p>
     <p class="level-item">Hosted By {{ event.created_by_id.username }}</p>
+    <a href="{{url_for('attend_event', eventid=event.id)}}">Attend Event</a>
+  </a>
   </div>
 </div>
 {% endmacro %}

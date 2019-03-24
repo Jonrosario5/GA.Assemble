@@ -113,7 +113,7 @@ def topic():
 
 
 
-@app.route('/event', methods=('GET', 'POST'))
+@app.route('/event', methods=['POST'])
 def event():
     # passes list of topics for dropdown menu
     topics = models.Topic.select()
