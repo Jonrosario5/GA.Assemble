@@ -1,56 +1,46 @@
 {% macro render_field(field) %}
 <div class="field">
-  {% if field.errors %} 
-  {% for error in field.errors %}
+  {% if field.errors %} {% for error in field.errors %}
   <div class="notification error">{{ error }}</div>
-  {% endfor %} 
-  {% endif %}
+  {% endfor %} {% endif %}
   {{ field(placeholder=field.label.text, class='input') }}
 </div>
-{% endmacro %} 
-
-{% macro render_topic(topic) %}
+{% endmacro %} {% macro render_topic(topic) %}
 <div
   data-id="{{ topic.id }}"
   data-name="{{ topic.name }}"
-  class="topic tile box is-child has-background-light">
+  class="topic tile box is-child has-background-light"
+>
   <a href="{{url_for('main', topicid=topic.id)}}">
     <p class="title has-text-left">{{ topic.name }}</p>
     <p class="subtitle has-text-right">
-        {% if topic.num_of_followers %}
-        Students: {{topic.num_of_followers}}
-        {% else %}
-        Students: 0
-        {% endif %}
+      {% if topic.num_of_followers %} Students: {{ topic.num_of_followers }}
+      {% else %} Students: 0 {% endif %}
     </p>
   </a>
 </div>
-{% endmacro %} 
-
-{% macro render_topics_field(field) %}
+{% endmacro %} {% macro render_topics_field(field) %}
 <div class="topics_field">
   {{ field }}
 </div>
-{% endmacro %} 
-{% macro render_user_event(user_event, event_form) %}
+{% endmacro %} {% macro render_user_event(user_event, event_form) %}
 <div data-id="{{ user_event.id }}">
   <h1 class="has-background-black has-text-white">
     Title: {{ user_event.event.title }}
   </h1>
   <h2>Event details: {{ user_event.event.details }}</h2>
   <h2>Event time: {{ user_event.event.event_time }}</h2>
-  <h2>Event ID: {{user_event.id}}</h2>
+  <h2>Event ID: {{ user_event.id }}</h2>
   <a>Edit Event</a>
+  <a href="{{url_for('delete_event', eventid=user_event.id)}}">Delete Event</a>
   <form method="POST" action="{{ url_for('edit_user_event') }}">
-        {{ event_form.title (value=user_event.event.title)}}
-        {{ event_form.location (value=user_event.event.location) }}
-        {{ event_form.event_id (value=user_event.event_id)}}
-        <input type="submit" value="Please Work"/>
-      </form>
+    {{ event_form.title (value=user_event.event.title)}}
+    {{ event_form.location (value=user_event.event.location) }}
+    {{ event_form.event_id (value=user_event.event_id)}}
+    <input type="submit" value="Please Work" />
+  </form>
 </div>
-{% endmacro %} 
-
-{% macro render_attending_event(attending_event) %}
+{% endmacro %} {% macro render_attending_event(attending_event) %}
 <div data-id="{{ attending_event.id }}">
   <h1 class="has-background-black has-text-white">
     Title: {{ attending_event.event.title }}
@@ -114,23 +104,24 @@
   topic.name
 }}</option>
 
-{% endmacro %} 
-
-{% macro render_event(event) %}
-    <div data-id={{event.id}} class='event tile box is-child has-background-light'>
-        <div class='level'>
-            <div class='level-left'>
-                <p class="level-item tag is-info is-size-6">{{event.topic.name}}</p>
-                <p class='level-item title'>{{event.title}}</p>
-            </div>
-            <div class='level-right'>
-                <p class='level-item'>{{event.event_time.replace('T',', ')}}</p>
-                <p class='level-item'>{{event.location}}</p>
-            </div>
-        </div>
-        <div class='level'>
-            <p class='subtitle'>{{event.details}}</p>
-            <p class='level-item'>Hosted By {{event.created_by_id.username}}</p>
-        </div>
+{% endmacro %} {% macro render_event(event) %}
+<div
+  data-id="{{ event.id }}"
+  class="event tile box is-child has-background-light"
+>
+  <div class="level">
+    <div class="level-left">
+      <p class="level-item tag is-info is-size-6">{{ event.topic.name }}</p>
+      <p class="level-item title">{{ event.title }}</p>
     </div>
+    <div class="level-right">
+      <p class="level-item">{{ event.event_time.replace("T", ", ") }}</p>
+      <p class="level-item">{{ event.location }}</p>
+    </div>
+  </div>
+  <div class="level">
+    <p class="subtitle">{{ event.details }}</p>
+    <p class="level-item">Hosted By {{ event.created_by_id.username }}</p>
+  </div>
+</div>
 {% endmacro %}

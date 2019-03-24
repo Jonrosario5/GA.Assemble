@@ -140,7 +140,21 @@ def event():
         )
         flash('Event created', 'success')
         return redirect(url_for('main'))
-    return render_template('event.html', form=eventForm, topics=topics)              
+    return render_template('event.html', form=eventForm, topics=topics) 
+
+
+@app.route('/delete_event/<eventid>', methods=['GET', 'POST'])
+def delete_event(eventid=None):
+    user = g.user._get_current_object()
+
+    if eventid !=None:
+        delete_user_event = models.User_Events.delete().where(models.User_Events.user_id == user.id and models.User_Events.event_id == eventid)
+        delete_user_event.execute()
+        delete_this_event = models.Event.delete().where(models.Event.created_by_id == user.id and models.Event.id ==eventid)
+        delete_this_event.execute()
+        
+        return redirect(url_for('user_profile'))
+    return redirect('user')
 
 @app.route('/attend/<eventid>', methods=['GET', 'POST'])
 def attend_event(eventid=None):
