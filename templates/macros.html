@@ -56,23 +56,40 @@
 <option data-id="{{ topic.id }}" name="{{ topic.id }}" value="{{ topic.id }}">{{
   topic.name
 }}</option>
-{% endmacro %}  {% macro render_user_page_topics(topic)%}
-<div>
-  <h6>{{ topic.name }}</h6>
-  <a href="{{url_for('user_profile', topicid=topic.id)}}"> Add </a>
-</div>
-{% endmacro %} {% macro render_user_topic(user_topic) %}
-<div>
+{% endmacro %}  
+
+{% macro render_user_page_topics(topic)%}
+
+<div class="card-content level" style="background:orange; color: black">
+
+        <h6 class="level-item">{{ topic.name }}</h6>
+        <a href="{{url_for('user_profile', topicid=topic.id)}}"> <button>Add</button> </a>  
+         
+    </div>
+
+
+
+{% endmacro %}
+
+{% macro render_user_topic(user_topic) %}
+<hr class="dropdown-divider">
+
+<div class="level" style="margin:10%">
   <h6>{{ user_topic.topic.name }}</h6>
   <a href="{{url_for('delete_user_topic', topicid=user_topic.topic.id)}}">
-    Delete
+    <button>Delete</button>
   </a>
+  
 </div>
-{% endmacro %} {% macro render_topics_field(field) %}
+{% endmacro %} 
+
+{% macro render_topics_field(field) %}
 <div class="topics_field">
   {{ field }}
 </div>
-{% endmacro %} {% macro render_event_topic(topic) %}
+{% endmacro %} 
+
+{% macro render_event_topic(topic) %}
 <option data-id="{{ topic.id }}" name="{{ topic.id }}" value="{{ topic.id }}">{{
   topic.name
 }}</option>
