@@ -56,34 +56,7 @@
 <option data-id="{{ topic.id }}" name="{{ topic.id }}" value="{{ topic.id }}">{{
   topic.name
 }}</option>
-{% endmacro %} {% macro render_event(event) %}
-<div
-  data-id="{{ event.id }}"
-  class="event tile box is-child has-background-light"
->
-  <a role="button">
-    <p class="title">{{ event.title }}</p>
-    <p class="subtitle">{{ event.details }}</p>
-    <a href="{{url_for('attend_event', eventid=event.id)}}">Attend Event</a>
-  </a>
-  <div class="modal">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-      <header class="modal-card-head">
-        <p class="modal-card-title">{{ event.title }}</p>
-        <button class="delete" aria-label="close"></button>
-      </header>
-      <section class="modal-card-body">
-        <!-- Content ... -->
-      </section>
-      <footer class="modal-card-foot">
-        <button class="button is-success">Save changes</button>
-        <button class="button">Cancel</button>
-      </footer>
-    </div>
-  </div>
-</div>
-{% endmacro %} {% macro render_user_page_topics(topic)%}
+{% endmacro %}  {% macro render_user_page_topics(topic)%}
 <div>
   <h6>{{ topic.name }}</h6>
   <a href="{{url_for('user_profile', topicid=topic.id)}}"> Add </a>
