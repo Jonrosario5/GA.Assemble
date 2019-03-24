@@ -8,6 +8,7 @@ from peewee import *
 import models
 import forms
 import json
+from datetime import datetime
 
 DEBUG = True
 PORT = 8000
@@ -124,7 +125,8 @@ def event():
             title=eventForm.title.data,
             event_time=request.form.get('event_time'),
             location=eventForm.location.data,
-            details=eventForm.details.data,
+            details=request.form.get('details'),
+            # details=eventForm.details.data,
             topic=request.form.get('topics'),
             created_by_id=g.user._get_current_object()
              )
@@ -137,7 +139,7 @@ def event():
             isHost=True
         )
         flash('Event created', 'success')
-        return redirect(url_for('index'))
+        return redirect(url_for('main'))
     return render_template('event.html', form=eventForm, topics=topics)              
 
 @app.route('/attend/<eventid>', methods=['GET', 'POST'])
@@ -185,9 +187,7 @@ def user_profile(topicid=None):
    
 
     if topicid != None:
-        
-        user_topics_count = models.User_Topics.select().where((models.User_Topics.user_id == g.user._get_current_object().id) & (models.User_Topics.topic_id == topicid)).count()
-
+        user_topics_count = models.User_Topics.select().where((models.User_Topics.user_id == user.id) & (models.User_Topics.topic_id == topicid)).count()
         if user_topics_count > 0:
             flash('Already Exists')
             print('Working')

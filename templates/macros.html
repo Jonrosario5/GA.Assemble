@@ -1,9 +1,11 @@
 {% macro render_field(field) %}
 <div class="field">
-  {% if field.errors %} {% for error in field.errors %}
+  {% if field.errors %} 
+  {% for error in field.errors %}
   <div class="notification error">{{ error }}</div>
-  {% endfor %} {% endif %}
-  {{ field(placeholder=field.label.text) }}
+  {% endfor %} 
+  {% endif %}
+  {{ field(placeholder=field.label.text, class='input') }}
 </div>
 {% endmacro %} 
 
@@ -42,7 +44,6 @@
   <form method="POST" action="{{ url_for('edit_user_event') }}">
         {{ event_form.title (value=user_event.event.title)}}
         {{ event_form.location (value=user_event.event.location) }}
-        {{ event_form.details (value=user_event.event.details) }}
         {{ event_form.event_id (value=user_event.event_id)}}
         <input type="submit" value="Please Work"/>
       </form>
@@ -115,6 +116,21 @@
 
 {% endmacro %} 
 
-
-
-
+{% macro render_event(event) %}
+    <div data-id={{event.id}} class='event tile box is-child has-background-light'>
+        <div class='level'>
+            <div class='level-left'>
+                <p class="level-item tag is-info is-size-6">{{event.topic.name}}</p>
+                <p class='level-item title'>{{event.title}}</p>
+            </div>
+            <div class='level-right'>
+                <p class='level-item'>{{event.event_time.replace('T',', ')}}</p>
+                <p class='level-item'>{{event.location}}</p>
+            </div>
+        </div>
+        <div class='level'>
+            <p class='subtitle'>{{event.details}}</p>
+            <p class='level-item'>Hosted By {{event.created_by_id.username}}</p>
+        </div>
+    </div>
+{% endmacro %}

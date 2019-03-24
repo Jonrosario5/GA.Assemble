@@ -66,7 +66,6 @@ class TopicForm(Form):
 class EventForm(Form):
     title = StringField('Title', validators=[DataRequired()])
     location = StringField('Location', validators=[DataRequired()])
-    details = StringField('Details', validators=[DataRequired()])
     event_id = HiddenField('Hidden')
 
 class Edit_User_Form(Form):
