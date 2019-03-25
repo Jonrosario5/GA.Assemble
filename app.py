@@ -272,7 +272,9 @@ def edit_user_event():
             models.Event.topic:request.form.get('topics')
             })
             .where(models.Event.id == update.event_id.data))
+        print('///////',update.event_id.data)
         update_user.execute()
+
 
         return redirect('user')
 
