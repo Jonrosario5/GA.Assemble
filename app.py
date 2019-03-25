@@ -193,8 +193,7 @@ def user_profile(topicid=None):
     topics = models.Topic.select()
     event_form = forms.Edit_Event_Form()
     form = forms.Edit_User_Form()
-    user_topics = models.User_Topics.select().where(models.User_Topics.user_id == user.id)
-    # user_events = models.User_Events.select(models.Event.title, models.Event.details, models.Event.event_time).join(models.Event).where(models.User_Events.user == user_id, models.User_Events.event == models.Event.id, models.User_Events.isHost == True) 
+    user_topics = models.User_Topics.select().where(models.User_Topics.user_id == user.id) 
     user_events = models.User_Events.select().where(models.User_Events.user_id == user.id)
     attending_events = models.User_Events.select().where(models.User_Events.user == user_id, models.User_Events.isHost != True)
    
