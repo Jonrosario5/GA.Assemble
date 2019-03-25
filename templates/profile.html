@@ -21,13 +21,12 @@
     <div class='columns'>
         <div class='column is-one-half'style="text-align:center; display: flex; flex-direction: column">
             <div class="card" style="text-align:center">
-                <div class="card-content has-background-light">
-                <h1 style="font-weight:800;">Welcome to GA.Assemble( )</h1>
+                <div class="card-content has-background-grey">
+                <h1 style="font-weight:800; color: white">Welcome to <img src="{{url_for('static', filename='GA_Assemble_Logo.png')}}"></h1>
                 
                 <br>
-                <h4 class="card" style="color:white; background: teal"> 
-                    Username:
-                    <span style="color:white">{{user.username}}</span>
+                <h4 class="card" style="color:black; background: red"> 
+                    <span style="color:white; font-weight: 900">{{user.username}}</span>
                 </h4>
                 <br>
                 <img src="https://media.giphy.com/media/l1L0iRZNIRvJDTvK8/giphy.gif" style="border-radius:50%">
@@ -106,6 +105,7 @@
             <br>
             <div class="recommend" style="display:flex; flex-direction:column; align-items:center; border-color: white">
                 <H2 style="text-decoration:underline">Recommended Topics To Follow</H2>
+                <br>
 
                     <div class="card" style="width:50%; text-align: center;">
                                 {% for topic in topics %}
