@@ -1,76 +1,82 @@
 {% macro render_field(field) %}
 <div class="field">
-  {% if field.errors %} 
-  {% for error in field.errors %}
+  {% if field.errors %} {% for error in field.errors %}
   <div class="notification error">{{ error }}</div>
-  {% endfor %} 
-  {% endif %}
+  {% endfor %} {% endif %}
   {{ field(placeholder=field.label.text, class='input') }}
 </div>
-{% endmacro %} 
-
-{% macro render_topic(topic) %}
+{% endmacro %} {% macro render_topic(topic) %}
 <div
   data-id="{{ topic.id }}"
   data-name="{{ topic.name }}"
   class="topic tile box is-child has-background-grey"
 >
-    <a class='level' href="{{url_for('main', topicid=topic.id)}}">
-        <p class="title has-text-white level-left">{{ topic.name }}</p>
-        <p class="subtitle has-text-white level-right">
-        {% if topic.num_of_followers %} 
-        Followers: {{ topic.num_of_followers }}
-        {% else %} 
-        Followers: 0 
-        {% endif %}
-        </p>
-    </a>
+  <a class="level" href="{{url_for('main', topicid=topic.id)}}">
+    <p class="title has-text-white level-left">{{ topic.name }}</p>
+    <p class="subtitle has-text-white level-right">
+      {% if topic.num_of_followers %} Followers: {{ topic.num_of_followers }}
+      {% else %} Followers: 0 {% endif %}
+    </p>
+  </a>
 </div>
-{% endmacro %} 
-
-{% macro render_topics_field(field) %}
+{% endmacro %} {% macro render_topics_field(field) %}
 <div class="topics_field">
   {{ field }}
 </div>
-{% endmacro %} 
-
-{% macro render_user_event(user_event, event_form) %}
-<div data-id="{{ user_event.id }}">
-  <h1 class="has-background-black has-text-white">
-    Title: {{ user_event.event.title }}
+{% endmacro %} {% macro render_user_event(user_event, event_form) %}
+<div class="card-content">
+  <div data-id="{{ user_event.id }}">
+    <h1 class="has-background-black has-text-white card-header-title">
+      Event - {{ user_event.event.title }}
+    </h1>
+    <label style="font-weight:900">Event Location: </label>
+    <span>{{ user_event.event.location }}</span>
+    <br />
+    <label style="font-weight:900">Event time: </label>
+    <span>{{ user_event.event.event_time.replace("T", ", ") }}</span>
+    <br />
+    <label class="label">Event details: </label>
+    <p>{{ user_event.event.details }}</p>
+    <br />
+    <a href="{{url_for('delete_event', eventid=user_event.id)}}"
+      ><button class="button is-danger">Delete Event</button></a
+    >
+  </div>
+</div>
+{% endmacro %} {% macro render_attending_event(attending_event) %}
+<div class="card-content" data-id="{{ attending_event.id }}">
+  <h1 class="has-background-black has-text-white card-header-title">
+    Event - {{ attending_event.event.title }}
   </h1>
-  <h2>Event details: {{ user_event.event.details }}</h2>
-  <h2>Event time: {{ user_event.event.event_time }}</h2>
-  <h2>Event ID: {{ user_event.id }}</h2>
-
-  <a href="{{url_for('delete_event', eventid=user_event.id)}}">Delete Event</a>
+  <label style="font-weight:900">Event Location: </label>
+  <span>{{ attending_event.event.location }}</span>
+  <br />
+  <label style="font-weight:900">Event time: </label>
+  <span>{{ attending_event.event.event_time.replace("T", ", ") }}</span>
+  <br />
+  <label class="label">Event details: </label>
+  <p>{{ attending_event.event.details }}</p>
+  <br />
+  <a href="{{url_for('unattend_event', eventid=attending_event.event.id)}}"
+    ><button class="button is-danger">Unattend</button></a
+  >
 </div>
-{% endmacro %} 
-
-{% macro render_attending_event(attending_event) %}
-<div data-id="{{ attending_event.id }}">
-  <h1 class="has-background-black has-text-white">
-    Title: {{ attending_event.event.title }}
-  </h1>
-  <h2>Event details: {{ attending_event.event.details }}</h2>
-  <h2>Event time: {{ attending_event.event.event_time }}</h2>
-  <a href="{{url_for('unattend_event', eventid=attending_event.event.id)}}">Unattend Event</a>
+{% endmacro %} {% macro render_event_topic(topic) %}
+<option data-id="{{ topic.id }}" name="{{ topic.id }}" value="{{ topic.id }}">{{
+  topic.name
+}}</option>
+{% endmacro %} {% macro render_user_page_topics(topic)%}
+<div
+  class="card-content level has-background-grey"
+  style="color:blanchedalmond"
+>
+  <h6 class="level-item">{{ topic.name }}</h6>
+  <a href="{{url_for('user_profile', topicid=topic.id)}}"
+    ><button class="button is-success">Add</button></a
+  >
 </div>
-{% endmacro %} 
-
-{% macro render_event_topic(topic) %}
-<option data-id="{{ topic.id }}" name="{{ topic.id }}" value="{{ topic.id }}">{{topic.name}}</option>
-{% endmacro %}  
-
-{% macro render_user_page_topics(topic)%}
-<div class="card-content level has-background-grey" style="color:blanchedalmond" >
-    <h6 class="level-item">{{ topic.name }}</h6>
-    <a href="{{url_for('user_profile', topicid=topic.id)}}"><button class="button is-success">Add</button></a>         
-</div>
-{% endmacro %}
-
-{% macro render_user_topic(user_topic) %}
-<hr class="dropdown-divider">
+{% endmacro %} {% macro render_user_topic(user_topic) %}
+<hr class="dropdown-divider" />
 
 <div class="level" style="margin:10%">
   <h6>{{ user_topic.topic.name }}</h6>
@@ -78,52 +84,63 @@
     <button class="button is-danger">Delete</button>
   </a>
 </div>
-{% endmacro %} 
-
-{% macro render_topics_field(field) %}
+{% endmacro %} {% macro render_topics_field(field) %}
 <div class="topics_field">
   {{ field }}
 </div>
-{% endmacro %}
-
-{% macro render_event(event,user_events,attending,user) %}
+{% endmacro %} {% macro render_event(event,user_events,attending,user) %}
 <div
   data-id="{{ event.id }}"
   class="event tile box is-child has-background-light"
 >
-    <div class="level">
-        <div class="level-left">
-        <p class="level-item tag is-dark is-rounded is-size-6">{{ event.topic.name }}</p>
-        <p class="level-item title">{{ event.title }}</p>
-        </div>
-        <div class="level-right">
-        <p class="level-item is-size-5">{{ event.event_time.replace("T", ", ") }}</p>
-        <p class="level-item is-size-5">-</p>
-        <p class="level-item is-size-5">{{ event.location }}</p>
-        </div>
+  <div class="level">
+    <div class="level-left">
+      <p class="level-item tag is-dark is-rounded is-size-6">
+        {{ event.topic.name }}
+      </p>
+      <p class="level-item title">{{ event.title }}</p>
     </div>
-    <div class="box">
-        <p class="subtitle is-multiline">{{ event.details }}</p>
+    <div class="level-right">
+      <p class="level-item is-size-5">
+        {{ event.event_time.replace("T", ", ") }}
+      </p>
+      <p class="level-item is-size-5">-</p>
+      <p class="level-item is-size-5">{{ event.location }}</p>
     </div>
-    <div class='level'>
-        <div class='level-left'>
-            <p class='level-item has-text-danger is-size-5'>Host: {{event.created_by_id.username}}</p>
-            <p class='level-item has-text-black is-size-6'>Other Attendees:</p>
-            {% for user_event in user_events %}
-            {% if (user_event.event_id == event.id) and (user_event.user_id != event.created_by_id.id) %}
-            <p class='level-item is-size-6'>{{user_event.user.username}}</p>
-            {% endif %}
-            {% endfor %}
-        </div>
-        <div class='level-right'>
-            {% if event.created_by_id.id == user.id %}
-            <a class='level-item button is-warning has-text-weight-semibold' disabled>Hosting</a>
-            {% elif event.id in attending|map(attribute='event_id') %}
-            <a class='level-item button is-danger has-text-weight-semibold' href="{{url_for('unattend_from_main', eventid=event.id, topicid=event.topic_id)}}">Unattend</a>
-            {% else %}
-            <a class='level-item button is-success has-text-weight-semibold' href="{{url_for('attend_event', eventid=event.id, topicid=event.topic_id)}}">Attend</a>
-            {% endif %}
-        </div>
+  </div>
+  <div class="box">
+    <p class="subtitle is-multiline">{{ event.details }}</p>
+  </div>
+  <div class="level">
+    <div class="level-left">
+      <p class="level-item has-text-danger is-size-5">
+        Host: {{ event.created_by_id.username }}
+      </p>
+      <p class="level-item has-text-black is-size-6">Other Attendees:</p>
+      {% for user_event in user_events %} {% if (user_event.event_id ==
+      event.id) and (user_event.user_id != event.created_by_id.id) %}
+      <p class="level-item is-size-6">{{ user_event.user.username }}</p>
+      {% endif %} {% endfor %}
     </div>
+    <div class="level-right">
+      {% if event.created_by_id.id == user.id %}
+      <a class="level-item button is-warning has-text-weight-semibold" disabled
+        >Hosting</a
+      >
+      {% elif event.id in attending|map(attribute='event_id') %}
+      <a
+        class="level-item button is-danger has-text-weight-semibold"
+        href="{{url_for('unattend_from_main', eventid=event.id, topicid=event.topic_id)}}"
+        >Unattend</a
+      >
+      {% else %}
+      <a
+        class="level-item button is-success has-text-weight-semibold"
+        href="{{url_for('attend_event', eventid=event.id, topicid=event.topic_id)}}"
+        >Attend</a
+      >
+      {% endif %}
+    </div>
+  </div>
 </div>
 {% endmacro %}

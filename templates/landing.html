@@ -8,25 +8,31 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"
+    />
+
     <link rel="stylesheet" href="../static/style.css" />
     <title>GA.Assemble()</title>
   </head>
   <body class="has-navbar-fixed-top">
     {% include 'nav.html' %}
     <header>
-      <section class="hero is-fullheight-with-navbar">
+      <section class="hero is-fullheight-with-navbar has-bg-img">
         <div class="hero-body">
           <div class="container">
-            <h1 class="title">
-              GA.Assemble()
+            <h1 class="title is-size-2 has-text-light">
+              GA.assemble()
             </h1>
-            <h2 class="subtitle">
+            <h2 class="subtitle has-text-white-bis">
               The best way for GA students to study together
             </h2>
           </div>
         </div>
       </section>
     </header>
+    <br />
     <main>
       <div class="level">
         <div class="level-item has-text-centered">
@@ -37,8 +43,8 @@
         </div>
         <div class="level-item has-text-centered">
           <div>
-            <p class="heading">Topics</p>
-            <p class="title">42</p>
+            <p class="heading is-2">Topics</p>
+            <p class="title has-text-primary">42</p>
           </div>
         </div>
         <div class="level-item has-text-centered">
@@ -48,24 +54,53 @@
           </div>
         </div>
       </div>
+      <br />
+      <section class="section has-background-dark has-text-centered is-small">
+        <div class="container level">
+          <h1 class="title has-text-light">Join others in learning</h1>
+          <br />
+          <i class="devicon-javascript-plain has-text-primary devcons"></i>
+          <i class="devicon-python-plain devcons has-text-light"></i>
+          <i class="devicon-react-original has-text-primary devcons"></i>
+          <i class="devicon-nodejs-plain devcons has-text-light"></i>
+          <i class="devicon-postgresql-plain has-text-primary devcons"></i>
+          <i class="devicon-django-plain devcons has-text-light"></i>
+          <i class="devicon-mocha-plain has-text-primary devcons"></i>
+        </div>
+      </section>
+      <section
+        class="section has-background-primary has-text-centered is-medium"
+      >
+        <h1 class="title ">About Us</h1>
+        <br />
+        <p class="subtitle has-text-light">
+          GA.Assemble() allows students to form study groups on their own time.
+        </p>
+        <p class="subtitle has-text-light">
+          Whether it's discussing upcoming topics, tutoring fellow classmates,
+          or just going back to the basics -- we make scheduling study groups
+          easy.
+        </p>
+      </section>
     </main>
-    <br />
-    <section id="aboutus" class="banner"></section>
     <footer class="footer has-background-dark has-text-light">
       <div class="content has-text-centered">
         <p>
           <strong class="has-text-light">Made with &hearts; and Flask</strong>
-          by <a href="https://github.com/Jonrosario5">Jon</a>,
-          <a href="https://github.com/bryantbuilt">Bryant</a>, and
-          <a href="https://github.com/vagarioustoast">Brandon</a>
+          by
+          <a class="has-text-primary" href="https://github.com/Jonrosario5"
+            >Jon</a
+          >,
+          <a class="has-text-primary" href="https://github.com/bryantbuilt"
+            >Bryant</a
+          >, and
+          <a class="has-text-primary" href="https://github.com/vagarioustoast"
+            >Brandon</a
+          >
         </p>
-        <p>&copy;2019, GA.Assemble()</p>
+        <p>&copy;2019, GA.assemble()</p>
       </div>
     </footer>
+    <script src="{{ url_for('static', filename='app.js')}}"></script>
   </body>
 </html>
-<!-- 
-GA.Assemble() allows students to form study groups on their own
-                time. Whether it's discussing upcoming topics, helping fellow
-                classmates, or just solidifying core concepts -- Assemble makes
-                scheduling study groups easy. -->

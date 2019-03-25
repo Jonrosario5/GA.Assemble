@@ -16,7 +16,6 @@
       <form method="POST" action="{{ url_for('edit_user_event') }}" class="form">
         <section class="modal-card-body">
           <div class="edit-form">
-            {{ event_form.hidden_tag() }}
             <label class="label level-left">Event Title</label>
             {{ event_form.title (value=user_event.event.title, class="input")}}
             <br>
@@ -34,7 +33,7 @@
             <div class='level-left'>
               <label class='label level-item'>Change Subject</label>
               <select name="topics" class='select level-item is-size-6'>
-                  <option>{{ user_event.event.topic.name  }}</option>
+                  <option data-id="{{ user_event.event.topic.id }}" name="{{ user_event.event.topic.id }}" value="{{ user_event.event.topic.id }}">{{ user_event.event.topic.name  }}</option>
                   {% for topic in topics %}
                   {{render_event_topic(topic)}}
                   {% endfor %}
