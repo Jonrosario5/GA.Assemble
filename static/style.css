@@ -16,3 +16,7 @@ button {
   background-size: cover;
   position: relative;
 }
+
+.devcons {
+  font-size: 6rem;
+}
