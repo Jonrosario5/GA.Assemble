@@ -1,8 +1,10 @@
 {% macro render_field(field) %}
 <div class="field">
-  {% if field.errors %} {% for error in field.errors %}
+  {% if field.errors %} 
+  {% for error in field.errors %}
   <div class="notification error">{{ error }}</div>
-  {% endfor %} {% endif %}
+  {% endfor %} 
+  {% endif %}
   {{ field(placeholder=field.label.text, class='input') }}
 </div>
 {% endmacro %} 
@@ -16,8 +18,11 @@
     <a class='level' href="{{url_for('main', topicid=topic.id)}}">
         <p class="title has-text-white level-left">{{ topic.name }}</p>
         <p class="subtitle has-text-white level-right">
-        {% if topic.num_of_followers %} Followers: {{ topic.num_of_followers }}
-        {% else %} Followers: 0 {% endif %}
+        {% if topic.num_of_followers %} 
+        Followers: {{ topic.num_of_followers }}
+        {% else %} 
+        Followers: 0 
+        {% endif %}
         </p>
     </a>
 </div>
@@ -49,49 +54,29 @@
   </h1>
   <h2>Event details: {{ attending_event.event.details }}</h2>
   <h2>Event time: {{ attending_event.event.event_time }}</h2>
-  <a href="{{url_for('unattend_event', eventid=attending_event.event.id)}}"
-    >Unattend Event</a
-  >
+  <a href="{{url_for('unattend_event', eventid=attending_event.event.id)}}">Unattend Event</a>
 </div>
 {% endmacro %} 
 
 {% macro render_event_topic(topic) %}
-<option data-id="{{ topic.id }}" name="{{ topic.id }}" value="{{ topic.id }}">{{
-  topic.name
-}}</option>
-<<<<<<< HEAD
+<option data-id="{{ topic.id }}" name="{{ topic.id }}" value="{{ topic.id }}">{{topic.name}}</option>
 {% endmacro %}  
 
 {% macro render_user_page_topics(topic)%}
-
 <div class="card-content level has-background-grey" style="color:blanchedalmond" >
-
-        <h6 class="level-item">{{ topic.name }}</h6>
-        <a href="{{url_for('user_profile', topicid=topic.id)}}"> <button class="button is-success">Add</button> </a>  
-         
-    </div>
+    <h6 class="level-item">{{ topic.name }}</h6>
+    <a href="{{url_for('user_profile', topicid=topic.id)}}"><button class="button is-success">Add</button></a>         
+</div>
 {% endmacro %}
 
 {% macro render_user_topic(user_topic) %}
 <hr class="dropdown-divider">
 
 <div class="level" style="margin:10%">
-=======
-{% endmacro %} 
-
-{% macro render_user_page_topics(topic)%}
-<div>
-  <h6>{{ topic.name }}</h6>
-  <a href="{{url_for('user_profile', topicid=topic.id)}}"> Add </a>
-</div>
-{% endmacro %} {% macro render_user_topic(user_topic) %}
-<div>
->>>>>>> bryant-2
   <h6>{{ user_topic.topic.name }}</h6>
   <a href="{{url_for('delete_user_topic', topicid=user_topic.topic.id)}}">
     <button class="button is-danger">Delete</button>
   </a>
-  
 </div>
 {% endmacro %} 
 
