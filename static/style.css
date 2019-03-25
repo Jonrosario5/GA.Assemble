@@ -2,10 +2,10 @@ button {
   cursor: pointer;
 }
 
-.banner {
+.has-bg-img {
   /* Use "linear-gradient" to add a darken background effect to the image (photographer.jpg). This will make the text easier to read */
   background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-    url("photographer.jpghttps://images.unsplash.com/photo-1531429745839-827a6a45e040?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2550&q=80");
+    url(./images/ga_assemble_hero.jpeg);
 
   /* Set a specific height */
   height: 50vh;
