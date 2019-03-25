@@ -13,4 +13,9 @@ $(document).ready(function() {
     $('.toggle-event-modal').click(function(){
         $('.event-modal').toggleClass('is-active')
     });
+
+    $('.toggle-edit-event-modal').click(function(){
+        console.log("Working")
+        $('.edit-event-modal').toggleClass('is-active')
+    });
 });

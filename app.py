@@ -69,7 +69,7 @@ def signup():
             email=form.email.data,
             password=form.password.data
         )
-        return redirect(url_for('index'))
+        return redirect(url_for('login'))
     topics = models.Topic.select()
     return render_template('register.html', form=form,topics=topics)
 
@@ -126,7 +126,6 @@ def event():
             event_time=request.form.get('event_time'),
             location=eventForm.location.data,
             details=request.form.get('details'),
-            # details=eventForm.details.data,
             topic=request.form.get('topics'),
             created_by_id=g.user._get_current_object()
              )
@@ -140,7 +139,21 @@ def event():
         )
         flash('Event created', 'success')
         return redirect(url_for('main'))
-    return render_template('event.html', form=eventForm, topics=topics)              
+    return render_template('event.html', form=eventForm, topics=topics) 
+
+
+@app.route('/delete_event/<eventid>', methods=['GET', 'POST'])
+def delete_event(eventid=None):
+    user = g.user._get_current_object()
+
+    if eventid !=None:
+        delete_user_event = models.User_Events.delete().where(models.User_Events.user_id == user.id and models.User_Events.event_id == eventid)
+        delete_user_event.execute()
+        delete_this_event = models.Event.delete().where(models.Event.created_by_id == user.id and models.Event.id ==eventid)
+        delete_this_event.execute()
+        
+        return redirect(url_for('user_profile'))
+    return redirect('user')
 
 @app.route('/attend/<eventid>', methods=['GET', 'POST'])
 def attend_event(eventid=None):
@@ -178,7 +191,7 @@ def user_profile(topicid=None):
     user_id = user.id
     print("this is the user id",user_id)
     topics = models.Topic.select()
-    event_form = forms.EventForm()
+    event_form = forms.Edit_Event_Form()
     form = forms.Edit_User_Form()
     user_topics = models.User_Topics.select().where(models.User_Topics.user_id == user.id)
     # user_events = models.User_Events.select(models.Event.title, models.Event.details, models.Event.event_time).join(models.Event).where(models.User_Events.user == user_id, models.User_Events.event == models.Event.id, models.User_Events.isHost == True) 
@@ -234,13 +247,14 @@ def edit_user():
 
 @app.route('/update_user_event', methods=['GET','POST'])
 def edit_user_event():
-    update = forms.EventForm()
+    update = forms.Edit_Event_Form()
 
     if update.validate_on_submit:
         update_user = (models.Event.update(
             {models.Event.title:update.title.data,
             models.Event.location:update.location.data,
-            models.Event.details:update.details.data
+            models.Event.details:request.form.get('details'),
+            models.Event.topic:request.form.get('topics')
             })
             .where(models.Event.id == update.event_id.data))
         update_user.execute()
@@ -251,6 +265,4 @@ def edit_user_event():
 
 if __name__ == '__main__':
     models.initialize()
-    # app.jinja_env.auto_reload = True
-    # app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(debug=DEBUG, port=PORT)
