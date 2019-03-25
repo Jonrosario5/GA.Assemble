@@ -18,15 +18,17 @@
     <br>
     <div class='columns'>
         <div class='column is-one-half'style="text-align:center; display: flex; flex-direction: column">
-            <div class="userHeader" style="text-align:center">
-                Welcome to GA.Assemble( )  
+            <div class="card" style="text-align:center">
+                <div class="card-content has-background-grey">
+                <h1 style="font-weight:800; color: white">Welcome to <img src="{{url_for('static', filename='GA_Assemble_Logo.png')}}"></h1>
+                
                 <br>
-                <h4 style="color:red"> 
-                    Username:
-                    <span style="color:black">{{user.username}}</span>
+                <h4 class="card" style="color:black; background: red"> 
+                    <span style="color:white; font-weight: 900">{{user.username}}</span>
                 </h4>
                 <br>
                 <img src="https://media.giphy.com/media/l1L0iRZNIRvJDTvK8/giphy.gif" style="border-radius:50%">
+            </div>
             </div>
             <br>
 
@@ -64,18 +66,27 @@
         <div style="text-align:center">
           <h2 style= "color:black; font-weight:800 ">Events You're Hosting</h2>
           <br>
+            <div class="card">
           {% for user_event in user_events %}
-            {% if user_event.isHost%}
-                {% include 'edit_event.html'%}
-            {% endif %}
+
+          {% if user_event.isHost%}
+
+          {% include 'edit_event.html'%}
+          <br>
+
+          {% endif %}
           {% endfor %}
+         </div>
         </div>
         <br>
         <div style="text-align:center">
           <h2 style= "color:black; font-weight:800 ">Events You're Attending:</h2>
+          <br>
+          <div class="card">
           {% for attending_event in attending_events %}
           {{ render_attending_event(attending_event) }}
           {% endfor %}
+        </div>
         </div>
         </div>
         <div class='column is-two-half'>
@@ -87,7 +98,9 @@
             </div>
             <br>
             <div class="recommend" style="display:flex; flex-direction:column; align-items:center; border-color: white">
-                <h2 style="text-decoration:underline">Recommended Topics To Follow</h2>
+                <H2 style="text-decoration:underline">Recommended Topics To Follow</H2>
+                <br>
+
                     <div class="card" style="width:50%; text-align: center;">
                         {% for topic in topics %}
                             {{ render_user_page_topics(topic) }}

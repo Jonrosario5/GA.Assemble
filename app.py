@@ -17,9 +17,10 @@ app = Flask(__name__)
 app.secret_key = 'bojangles.yum'
 
 login_manager = LoginManager()
-## sets up our login for the app
+# sets up our login for the app
 login_manager.init_app(app)
 login_manager.login_view = 'login'
+
 
 @login_manager.user_loader
 def load_user(userid):
@@ -43,9 +44,11 @@ def after_request(response):
     g.db.close()
     return response
 
+
 @app.route('/')
 def index():
     return render_template('landing.html')
+
 
 @app.route('/main')
 @app.route('/main/')
@@ -56,18 +59,21 @@ def main(topicid=None):
         events = models.Event.select().where(models.Event.topic_id == topicid)
     else:
         events = models.Event.select()
-    topics = models.Topic.select(models.Topic.id, models.Topic.name, fn.COUNT(models.User_Topics.user_id).alias('num_of_followers')).join(models.User_Topics, JOIN.LEFT_OUTER, on=(models.Topic.id == models.User_Topics.topic_id)).group_by(models.Topic.id, models.Topic.name)
-    eventForm=forms.EventForm()
+    topics = models.Topic.select(models.Topic.id, models.Topic.name, fn.COUNT(models.User_Topics.user_id).alias('num_of_followers')).join(
+        models.User_Topics, JOIN.LEFT_OUTER, on=(models.Topic.id == models.User_Topics.topic_id)).group_by(models.Topic.id, models.Topic.name)
+    eventForm = forms.EventForm()
     user_events = models.User_Events.select()
     user = g.user._get_current_object()
-    attending = models.User_Events.select(models.User_Events.event_id).where(models.User_Events.user_id == user.id)
+    attending = models.User_Events.select(models.User_Events.event_id).where(
+        models.User_Events.user_id == user.id)
     return render_template('main.html', topics=topics, events=events, form=eventForm, user_events=user_events, attending=attending, user=user)
 
-@app.route('/signup',methods=["GET","POST"])
+
+@app.route('/signup', methods=["GET", "POST"])
 def signup():
     form = forms.RegisterForm()
     if form.validate_on_submit():
-        flash("Successful signup!",'success')
+        flash("Successful signup!", 'success')
         models.User.create_user(
             username=form.username.data,
             fullname=form.fullname.data,
@@ -76,9 +82,10 @@ def signup():
         )
         return redirect(url_for('login'))
     topics = models.Topic.select()
-    return render_template('register.html', form=form,topics=topics)
+    return render_template('register.html', form=form, topics=topics)
 
-@app.route('/login', methods=('GET','POST'))
+
+@app.route('/login', methods=('GET', 'POST'))
 def login():
     form = forms.LoginForm()
     if form.validate_on_submit():
@@ -88,15 +95,16 @@ def login():
             flash("Your email doesn't exist")
         else:
             if check_password_hash(user.password, form.password.data):
-                ## creates session
+                # creates session
                 login_user(user)
                 flash("You've been logged in", "success")
                 user_id = user.id
-                
+
                 return redirect(url_for('user_profile'))
             else:
                 flash("your email or password doesn't match", "error")
     return render_template('login.html', form=form)
+
 
 @app.route('/logout')
 @login_required
@@ -105,17 +113,18 @@ def logout():
     flash("You've been logged out", 'success')
     return redirect(url_for('index'))
 
-@app.route('/topic', methods=('GET','POST'))
+
+@app.route('/topic', methods=('GET', 'POST'))
 @login_required
 def topic():
-    form=forms.TopicForm()
+    form = forms.TopicForm()
     if form.validate_on_submit():
-        flash("Successful signup!",'success')
+        flash("Successful signup!", 'success')
         models.Topic.create_topic(
             name=form.name.data
         )
         return redirect(url_for('index'))
-    return render_template('topic.html',form=form)
+    return render_template('topic.html', form=form)
 
 
 @app.route('/event', methods=('GET', 'POST'))
@@ -124,7 +133,7 @@ def event():
     # passes list of topics for dropdown menu
     topics = models.Topic.select()
     # event form
-    eventForm=forms.EventForm()
+    eventForm = forms.EventForm()
     if eventForm.validate_on_submit():
 
         models.Event.create_event(
@@ -134,7 +143,7 @@ def event():
             details=request.form.get('details'),
             topic=request.form.get('topics'),
             created_by_id=g.user._get_current_object()
-             )
+        )
 
         event = models.Event.get(models.Event.title == eventForm.title.data)
 
@@ -145,26 +154,31 @@ def event():
         )
         flash('Event created', 'success')
         return redirect(url_for('main'))
-    return render_template('event.html', form=eventForm, topics=topics)  
+    return render_template('event.html', form=eventForm, topics=topics)
+
 
 @app.route('/delete_event/<eventid>', methods=['GET', 'POST'])
 @login_required
 def delete_event(eventid=None):
     user = g.user._get_current_object()
 
-    if eventid !=None:
-        delete_user_event = models.User_Events.delete().where(models.User_Events.user_id == user.id and models.User_Events.event_id == eventid)
+    if eventid != None:
+        delete_user_event = models.User_Events.delete().where(
+            models.User_Events.user_id == user.id and models.User_Events.event_id == eventid)
         delete_user_event.execute()
-        delete_this_event = models.Event.delete().where(models.Event.created_by_id == user.id and models.Event.id ==eventid)
+        delete_this_event = models.Event.delete().where(models.Event.created_by_id ==
+                                                        user.id and models.Event.id == eventid)
         delete_this_event.execute()
-        
+
         return redirect(url_for('user_profile'))
     return redirect('user')
 
+
 @app.route('/attend/<eventid>/<topicid>', methods=['GET', 'POST'])
 @login_required
-def attend_event(eventid=None,topicid=None):
-    user_events_count = models.User_Events.select().where((models.User_Events.user_id == g.user._get_current_object().id) & (models.User_Events.event_id == eventid)).count()
+def attend_event(eventid=None, topicid=None):
+    user_events_count = models.User_Events.select().where((models.User_Events.user_id ==
+                                                           g.user._get_current_object().id) & (models.User_Events.event_id == eventid)).count()
 
     if eventid != None and user_events_count <= 0:
         models.User_Events.create_user_event(
@@ -172,49 +186,56 @@ def attend_event(eventid=None,topicid=None):
             event=eventid,
             isHost=False
         )
-        return redirect(url_for('main',topicid=topicid))
+        return redirect(url_for('main', topicid=topicid))
     return redirect('main')
 
 
 @app.route('/unattend/<eventid>', methods=['GET', 'POST'])
 @login_required
-def unattend_event(eventid=None):   
+def unattend_event(eventid=None):
     user = g.user._get_current_object()
     if eventid != None:
-        unattend_this_event = models.User_Events.delete().where(models.User_Events.user_id == user.id and models.User_Events.event_id == eventid)
+        unattend_this_event = models.User_Events.delete().where(
+            models.User_Events.user_id == user.id and models.User_Events.event_id == eventid)
         unattend_this_event.execute()
 
         return redirect(url_for('user_profile'))
     return redirect('user')
 
+
 @app.route('/unattend_from_main/<eventid>/<topicid>', methods=['GET', 'POST'])
 @login_required
-def unattend_from_main(eventid=None,topicid=None):   
+def unattend_from_main(eventid=None, topicid=None):
     user = g.user._get_current_object()
     if eventid != None:
-        unattend_this_event = models.User_Events.delete().where(models.User_Events.user_id == user.id and models.User_Events.event_id == eventid)
+        unattend_this_event = models.User_Events.delete().where(
+            models.User_Events.user_id == user.id and models.User_Events.event_id == eventid)
         unattend_this_event.execute()
 
-        return redirect(url_for('main',topicid=topicid))
+        return redirect(url_for('main', topicid=topicid))
     return redirect('main')
 
-@app.route('/user',methods=["GET","POST"])
-@app.route('/user/<topicid>',methods=["GET","POST"])
+
+@app.route('/user', methods=["GET", "POST"])
+@app.route('/user/<topicid>', methods=["GET", "POST"])
 @login_required
 def user_profile(topicid=None):
     user = g.user._get_current_object()
     user_id = user.id
-    print("this is the user id",user_id)
+    print("this is the user id", user_id)
     topics = models.Topic.select()
     event_form = forms.Edit_Event_Form()
     form = forms.Edit_User_Form()
-    user_topics = models.User_Topics.select().where(models.User_Topics.user_id == user.id) 
-    user_events = models.User_Events.select().where(models.User_Events.user_id == user.id)
-    attending_events = models.User_Events.select().where(models.User_Events.user == user_id, models.User_Events.isHost != True)
-   
+    user_topics = models.User_Topics.select().where(
+        models.User_Topics.user_id == user.id)
+    user_events = models.User_Events.select().where(
+        models.User_Events.user_id == user.id)
+    attending_events = models.User_Events.select().where(
+        models.User_Events.user == user_id, models.User_Events.isHost != True)
 
     if topicid != None:
-        user_topics_count = models.User_Topics.select().where((models.User_Topics.user_id == user.id) & (models.User_Topics.topic_id == topicid)).count()
+        user_topics_count = models.User_Topics.select().where((models.User_Topics.user_id == user.id)
+                                                              & (models.User_Topics.topic_id == topicid)).count()
         if user_topics_count > 0:
             flash('Already Exists')
             print('Working')
@@ -222,28 +243,30 @@ def user_profile(topicid=None):
 
         else:
             models.User_Topics.create_usertopic(
-            topic=topicid,
-            user=user.id
+                topic=topicid,
+                user=user.id
             )
             return redirect('user')
-
 
     else:
         print("Hi")
 
-    return render_template('profile.html', user_events=user_events, attending_events=attending_events,user_topics=user_topics, user=user, topics=topics,form=form, event_form=event_form)
+    return render_template('profile.html', user_events=user_events, attending_events=attending_events, user_topics=user_topics, user=user, topics=topics, form=form, event_form=event_form)
 
-@app.route('/usertopic/delete/<topicid>',methods=["GET","POST"])
+
+@app.route('/usertopic/delete/<topicid>', methods=["GET", "POST"])
 @login_required
 def delete_user_topic(topicid=None):
     user = g.user._get_current_object()
     user_id = user.id
     if topicid != None:
-        delete_topic = models.User_Topics.delete().where(models.User_Topics.user_id == user.id and models.User_Topics.topic_id == topicid)
+        delete_topic = models.User_Topics.delete().where(models.User_Topics.user_id ==
+                                                         user.id and models.User_Topics.topic_id == topicid)
         delete_topic.execute()
         return redirect('user')
 
-@app.route('/userupdate', methods=['GET','POST'])
+
+@app.route('/userupdate', methods=['GET', 'POST'])
 @login_required
 def edit_user():
     update = forms.Edit_User_Form()
@@ -251,29 +274,32 @@ def edit_user():
     if update.validate_on_submit:
         print(update.fullname)
         update_user = (models.User.update(
-            {models.User.fullname:update.fullname.data,
-            models.User.username:update.username.data})
+            {models.User.fullname: update.fullname.data,
+             models.User.username: update.username.data})
             .where(models.User.id == g.user._get_current_object().id))
         update_user.execute()
 
         return redirect('user')
 
-@app.route('/update_user_event', methods=['GET','POST'])
+
+@app.route('/update_user_event', methods=['GET', 'POST'])
 @login_required
 def edit_user_event():
     update = forms.Edit_Event_Form()
 
     if update.validate_on_submit:
         update_user = (models.Event.update(
-            {models.Event.title:update.title.data,
-            models.Event.location:update.location.data,
-            models.Event.details:request.form.get('details'),
-            models.Event.topic:request.form.get('topics')
-            })
+            {models.Event.title: update.title.data,
+             models.Event.location: update.location.data,
+             models.Event.details: request.form.get('details'),
+             models.Event.topic: request.form.get('topics')
+             })
             .where(models.Event.id == update.event_id.data))
+        print('///////', update.event_id.data)
         update_user.execute()
 
         return redirect('user')
+
 
 if __name__ == '__main__':
     models.initialize()

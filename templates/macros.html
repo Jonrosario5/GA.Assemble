@@ -24,25 +24,41 @@
   {{ field }}
 </div>
 {% endmacro %} {% macro render_user_event(user_event, event_form) %}
-<div data-id="{{ user_event.id }}">
-  <h1 class="has-background-black has-text-white">
-    Title: {{ user_event.event.title }}
-  </h1>
-  <h2>Event details: {{ user_event.event.details }}</h2>
-  <h2>Event time: {{ user_event.event.event_time }}</h2>
-  <h2>Event ID: {{ user_event.id }}</h2>
-
-  <a href="{{url_for('delete_event', eventid=user_event.id)}}">Delete Event</a>
+<div class="card-content">
+  <div data-id="{{ user_event.id }}">
+    <h1 class="has-background-black has-text-white card-header-title">
+      Event - {{ user_event.event.title }}
+    </h1>
+    <label style="font-weight:900">Event Location: </label>
+    <span>{{ user_event.event.location }}</span>
+    <br />
+    <label style="font-weight:900">Event time: </label>
+    <span>{{ user_event.event.event_time.replace("T", ", ") }}</span>
+    <br />
+    <label class="label">Event details: </label>
+    <p>{{ user_event.event.details }}</p>
+    <br />
+    <a href="{{url_for('delete_event', eventid=user_event.id)}}"
+      ><button class="button is-danger">Delete Event</button></a
+    >
+  </div>
 </div>
 {% endmacro %} {% macro render_attending_event(attending_event) %}
-<div data-id="{{ attending_event.id }}">
-  <h1 class="has-background-black has-text-white">
-    Title: {{ attending_event.event.title }}
+<div class="card-content" data-id="{{ attending_event.id }}">
+  <h1 class="has-background-black has-text-white card-header-title">
+    Event - {{ attending_event.event.title }}
   </h1>
-  <h2>Event details: {{ attending_event.event.details }}</h2>
-  <h2>Event time: {{ attending_event.event.event_time }}</h2>
+  <label style="font-weight:900">Event Location: </label>
+  <span>{{ attending_event.event.location }}</span>
+  <br />
+  <label style="font-weight:900">Event time: </label>
+  <span>{{ attending_event.event.event_time.replace("T", ", ") }}</span>
+  <br />
+  <label class="label">Event details: </label>
+  <p>{{ attending_event.event.details }}</p>
+  <br />
   <a href="{{url_for('unattend_event', eventid=attending_event.event.id)}}"
-    >Unattend Event</a
+    ><button class="button is-danger">Unattend</button></a
   >
 </div>
 {% endmacro %} {% macro render_event_topic(topic) %}
@@ -50,12 +66,19 @@
   topic.name
 }}</option>
 {% endmacro %} {% macro render_user_page_topics(topic)%}
-<div>
-  <h6>{{ topic.name }}</h6>
-  <a href="{{url_for('user_profile', topicid=topic.id)}}"> Add </a>
+<div
+  class="card-content level has-background-grey"
+  style="color:blanchedalmond"
+>
+  <h6 class="level-item">{{ topic.name }}</h6>
+  <a href="{{url_for('user_profile', topicid=topic.id)}}"
+    ><button class="button is-success">Add</button></a
+  >
 </div>
 {% endmacro %} {% macro render_user_topic(user_topic) %}
-<div>
+<hr class="dropdown-divider" />
+
+<div class="level" style="margin:10%">
   <h6>{{ user_topic.topic.name }}</h6>
   <a href="{{url_for('delete_user_topic', topicid=user_topic.topic.id)}}">
     <button class="button is-danger">Delete</button>
