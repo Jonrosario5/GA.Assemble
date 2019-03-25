@@ -73,6 +73,13 @@ class Edit_User_Form(Form):
     username = StringField('Username')
     submit_edit = SubmitField('Edit')
 
+class Edit_Event_Form(Form):
+    title = StringField('Title')
+    location = StringField('Location')
+    details = StringField('Details')
+    event_id = HiddenField('Hidden')
+
+
 class MultiCheckboxField(SelectMultipleField):
 	widget			= ListWidget(prefix_label=False)
 	option_widget	= CheckboxInput()
