@@ -1,19 +1,4 @@
 {% from 'macros.html' import render_field %} {% block content %}
-<!-- <form method="POST" action="" class="form">
-    {{ form.hidden_tag() }}
-    {% for field in form %}
-        {{ render_field(field) }}
-    {% endfor %}
-    {% for topic in topics%}
-    <input type="checkbox" name="checks" method="POST">{{topic.name}}</input>
-
-    {% endfor %}
-    <button type="submit" id="submit">Register!</button>
-</form>
-
-{% endblock %} -->
-
-<!-- HOLD UP -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,7 +40,6 @@
         </div>
       </div>
     </div>
-    <!-- <script src="/static/app.js"></script> -->
     <script src="{{ url_for('static', filename='app.js')}}"></script>
   </body>
 </html>

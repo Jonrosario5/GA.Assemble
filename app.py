@@ -48,7 +48,9 @@ def index():
     return render_template('landing.html')
 
 @app.route('/main')
+@app.route('/main/')
 @app.route('/main/<topicid>', methods=['GET'])
+@login_required
 def main(topicid=None):
     if topicid != None:
         events = models.Event.select().where(models.Event.topic_id == topicid)
@@ -56,7 +58,10 @@ def main(topicid=None):
         events = models.Event.select()
     topics = models.Topic.select(models.Topic.id, models.Topic.name, fn.COUNT(models.User_Topics.user_id).alias('num_of_followers')).join(models.User_Topics, JOIN.LEFT_OUTER, on=(models.Topic.id == models.User_Topics.topic_id)).group_by(models.Topic.id, models.Topic.name)
     eventForm=forms.EventForm()
-    return render_template('main.html', topics=topics, events=events, form=eventForm)
+    user_events = models.User_Events.select()
+    user = g.user._get_current_object()
+    attending = models.User_Events.select(models.User_Events.event_id).where(models.User_Events.user_id == user.id)
+    return render_template('main.html', topics=topics, events=events, form=eventForm, user_events=user_events, attending=attending, user=user)
 
 @app.route('/signup',methods=["GET","POST"])
 def signup():
@@ -101,6 +106,7 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/topic', methods=('GET','POST'))
+@login_required
 def topic():
     form=forms.TopicForm()
     if form.validate_on_submit():
@@ -112,8 +118,8 @@ def topic():
     return render_template('topic.html',form=form)
 
 
-
 @app.route('/event', methods=('GET', 'POST'))
+@login_required
 def event():
     # passes list of topics for dropdown menu
     topics = models.Topic.select()
@@ -139,10 +145,10 @@ def event():
         )
         flash('Event created', 'success')
         return redirect(url_for('main'))
-    return render_template('event.html', form=eventForm, topics=topics) 
-
+    return render_template('event.html', form=eventForm, topics=topics)  
 
 @app.route('/delete_event/<eventid>', methods=['GET', 'POST'])
+@login_required
 def delete_event(eventid=None):
     user = g.user._get_current_object()
 
@@ -155,8 +161,9 @@ def delete_event(eventid=None):
         return redirect(url_for('user_profile'))
     return redirect('user')
 
-@app.route('/attend/<eventid>', methods=['GET', 'POST'])
-def attend_event(eventid=None):
+@app.route('/attend/<eventid>/<topicid>', methods=['GET', 'POST'])
+@login_required
+def attend_event(eventid=None,topicid=None):
     user_events_count = models.User_Events.select().where((models.User_Events.user_id == g.user._get_current_object().id) & (models.User_Events.event_id == eventid)).count()
 
     if eventid != None and user_events_count <= 0:
@@ -165,11 +172,12 @@ def attend_event(eventid=None):
             event=eventid,
             isHost=False
         )
-        return redirect(url_for('user_profile'))
+        return redirect(url_for('main',topicid=topicid))
     return redirect('main')
 
 
 @app.route('/unattend/<eventid>', methods=['GET', 'POST'])
+@login_required
 def unattend_event(eventid=None):   
     user = g.user._get_current_object()
     if eventid != None:
@@ -178,14 +186,21 @@ def unattend_event(eventid=None):
 
         return redirect(url_for('user_profile'))
     return redirect('user')
-    
 
+@app.route('/unattend_from_main/<eventid>/<topicid>', methods=['GET', 'POST'])
+@login_required
+def unattend_from_main(eventid=None,topicid=None):   
+    user = g.user._get_current_object()
+    if eventid != None:
+        unattend_this_event = models.User_Events.delete().where(models.User_Events.user_id == user.id and models.User_Events.event_id == eventid)
+        unattend_this_event.execute()
 
+        return redirect(url_for('main',topicid=topicid))
+    return redirect('main')
 
 @app.route('/user',methods=["GET","POST"])
 @app.route('/user/<topicid>',methods=["GET","POST"])
-
-# @login_required
+@login_required
 def user_profile(topicid=None):
     user = g.user._get_current_object()
     user_id = user.id
@@ -216,21 +231,20 @@ def user_profile(topicid=None):
     else:
         print("Hi")
 
-
-
-    return render_template('profile.html',user_events=user_events,attending_events=attending_events,user_topics=user_topics,user=user, topics=topics,form=form, event_form=event_form)
+    return render_template('profile.html', user_events=user_events, attending_events=attending_events,user_topics=user_topics, user=user, topics=topics,form=form, event_form=event_form)
 
 @app.route('/usertopic/delete/<topicid>',methods=["GET","POST"])
+@login_required
 def delete_user_topic(topicid=None):
     user = g.user._get_current_object()
     user_id = user.id
     if topicid != None:
         delete_topic = models.User_Topics.delete().where(models.User_Topics.user_id == user.id and models.User_Topics.topic_id == topicid)
         delete_topic.execute()
-
         return redirect('user')
 
 @app.route('/userupdate', methods=['GET','POST'])
+@login_required
 def edit_user():
     update = forms.Edit_User_Form()
 
@@ -245,6 +259,7 @@ def edit_user():
         return redirect('user')
 
 @app.route('/update_user_event', methods=['GET','POST'])
+@login_required
 def edit_user_event():
     update = forms.Edit_Event_Form()
 
@@ -259,8 +274,6 @@ def edit_user_event():
         update_user.execute()
 
         return redirect('user')
-
-
 
 if __name__ == '__main__':
     models.initialize()
