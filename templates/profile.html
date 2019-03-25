@@ -1,3 +1,4 @@
+{% from 'macros.html' import render_user_event, render_attending_event,render_user_topic, render_user_page_topics %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -15,9 +16,6 @@
   <body class="has-navbar-fixed-top">
     {% include 'nav.html' %}
     <br>
-  
-{% from 'macros.html' import render_user_event, render_attending_event,render_user_topic, render_user_page_topics %}
-
     <div class='columns'>
         <div class='column is-one-half'style="text-align:center; display: flex; flex-direction: column">
             <div class="userHeader" style="text-align:center">
@@ -66,16 +64,11 @@
         <div style="text-align:center">
           <h2 style= "color:black; font-weight:800 ">Events You're Hosting</h2>
           <br>
-
           {% for user_event in user_events %}
-
-          {% if user_event.isHost%}
-
-          {% include 'edit_event.html'%}
-
-          {% endif %}
+            {% if user_event.isHost%}
+                {% include 'edit_event.html'%}
+            {% endif %}
           {% endfor %}
-
         </div>
         <br>
         <div style="text-align:center">
@@ -87,35 +80,23 @@
         </div>
         <div class='column is-two-half'>
             <div class="user_topics" style="text-align: center ">
-                <H2 style="text-decoration:underline">Following</H2>
+                <h2 style="text-decoration:underline">Following</h2>
                 {% for user_topic in user_topics %}
-              
                     {{ render_user_topic(user_topic) }}
-
                 {% endfor %}
-    
-
             </div>
             <br>
             <div class="recommend" style="display:flex; flex-direction:column; align-items:center; border-color: white">
-                <H2 style="text-decoration:underline">Recommended Topics To Follow</H2>
-
+                <h2 style="text-decoration:underline">Recommended Topics To Follow</h2>
                     <div class="card" style="width:50%; text-align: center;">
-                                {% for topic in topics %}
-
-                                {{ render_user_page_topics(topic) }}
-                                
-            
-                                {% endfor %}
-                            </div>
-                            
-                        </div>
-                </div>
-
-                
-            
+                        {% for topic in topics %}
+                            {{ render_user_page_topics(topic) }}
+                        {% endfor %}
+                    </div>       
             </div>
         </div>
+     </div>
+
         <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js'></script>
         <script src="{{ url_for('static', filename='app.js')}}"></script>
   </body>
