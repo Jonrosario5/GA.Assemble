@@ -264,6 +264,4 @@ def edit_user_event():
 
 if __name__ == '__main__':
     models.initialize()
-    # app.jinja_env.auto_reload = True
-    # app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(debug=DEBUG, port=PORT)

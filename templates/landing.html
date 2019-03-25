@@ -4,48 +4,68 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css'/>
-    <title>Landing</title>
-</head>
-<body class='has-navbar-fixed-top'>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.css"
+    />
+    <link rel="stylesheet" href="../static/style.css" />
+    <title>GA.Assemble()</title>
+  </head>
+  <body class="has-navbar-fixed-top">
     {% include 'nav.html' %}
     <header>
-        <section class='hero is-fullheight-with-navbar'>
-            <div class='hero-body'>
-                <div class='container'>
-                    <h1 class='title'>
-                        GA.Assemble()    
-                    </h1>
-                    <h2 class='subtitle'>
-                        The best way for GA students to study together
-                    </h2>
-                </div>
-            </div>
-        </section>
+      <section class="hero is-fullheight-with-navbar">
+        <div class="hero-body">
+          <div class="container">
+            <h1 class="title">
+              GA.Assemble()
+            </h1>
+            <h2 class="subtitle">
+              The best way for GA students to study together
+            </h2>
+          </div>
+        </div>
+      </section>
     </header>
     <main>
-        <section>
-            <div class='tile is-ancestor is-vertical'>
-                <div class='tile'>
-                    <div class='tile is-parent'>
-                        <div class='tile card is-child has-background-info'>
-                            <p class='title'>Sample Text</p>
-                            <p class='subtitle'>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex dolor nisi error minima at fuga, officia officiis deleniti veniam. Voluptate animi, libero pariatur velit cumque ipsam quidem ut explicabo quas.</p>
-                        </div>
-                        <div class='tile box is-child has-background-primary'>
-                            <p class='title'>Sample Text</p>
-                            <p class='subtitle'>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class='tile is-parent is-8'>
-                    <div class='tile is-child is-primary'>
-                        <p class='title'>Second Row</p>
-                        <p class='subtitle'>Second Row Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste totam labore corporis officia culpa laudantium quas. Praesentium quasi quas sed vel. Illo recusandae, placeat facere excepturi non dicta nemo veniam.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
+      <div class="level">
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Events Hosted</p>
+            <p class="title">1,350</p>
+          </div>
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Topics</p>
+            <p class="title">42</p>
+          </div>
+        </div>
+        <div class="level-item has-text-centered">
+          <div>
+            <p class="heading">Members</p>
+            <p class="title">4K</p>
+          </div>
+        </div>
+      </div>
     </main>
-</body>
+    <br />
+    <section id="aboutus"></section>
+    <footer class="footer has-background-dark has-text-light">
+      <div class="content has-text-centered">
+        <p>
+          <strong class="has-text-light">Made with &hearts; and Flask</strong>
+          by <a href="https://github.com/Jonrosario5">Jon</a>,
+          <a href="https://github.com/bryantbuilt">Bryant</a>, and
+          <a href="https://github.com/vagarioustoast">Brandon</a>
+        </p>
+        <p>&copy;2019, GA.Assemble()</p>
+      </div>
+    </footer>
+  </body>
 </html>
+<!-- 
+GA.Assemble() allows students to form study groups on their own
+                time. Whether it's discussing upcoming topics, helping fellow
+                classmates, or just solidifying core concepts -- Assemble makes
+                scheduling study groups easy. -->
