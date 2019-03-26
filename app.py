@@ -113,6 +113,7 @@ def logout():
     flash("You've been logged out", 'success')
     return redirect(url_for('index'))
 
+# Route to create a new topic
 
 @app.route('/topic', methods=('GET', 'POST'))
 @login_required
@@ -126,6 +127,7 @@ def topic():
         return redirect(url_for('index'))
     return render_template('topic.html', form=form)
 
+# Creating an Event Route
 
 @app.route('/event', methods=('GET', 'POST'))
 @login_required
@@ -156,6 +158,7 @@ def event():
         return redirect(url_for('main'))
     return render_template('event.html', form=eventForm, topics=topics)
 
+# Deleting Event Route
 
 @app.route('/delete_event/<eventid>', methods=['GET', 'POST'])
 @login_required
@@ -171,6 +174,7 @@ def delete_event(eventid=None):
         return redirect(url_for('user_profile'))
     return redirect('user')
 
+# Attending an Event Route
 
 @app.route('/attend/<eventid>/<topicid>', methods=['GET', 'POST'])
 @login_required
@@ -187,6 +191,7 @@ def attend_event(eventid=None, topicid=None):
         return redirect(url_for('main', topicid=topicid))
     return redirect('main')
 
+#Unattend event route from user page
 
 @app.route('/unattend/<eventid>', methods=['GET', 'POST'])
 @login_required
@@ -201,6 +206,9 @@ def unattend_event(eventid=None):
     return redirect('user')
 
 
+#Unattend event route from main page
+
+
 @app.route('/unattend_from_main/<eventid>/<topicid>', methods=['GET', 'POST'])
 @login_required
 def unattend_from_main(eventid=None, topicid=None):
@@ -213,6 +221,8 @@ def unattend_from_main(eventid=None, topicid=None):
         return redirect(url_for('main', topicid=topicid))
     return redirect('main')
 
+
+#Profile Page route and adding a User_Topic route
 
 @app.route('/user', methods=["GET", "POST"])
 @app.route('/user/<topicid>', methods=["GET", "POST"])
@@ -252,6 +262,8 @@ def user_profile(topicid=None):
     return render_template('profile.html', user_events=user_events, attending_events=attending_events, user_topics=user_topics, user=user, topics=topics, form=form, event_form=event_form)
 
 
+# Deleting User_Topic
+
 @app.route('/usertopic/delete/<topicid>', methods=["GET", "POST"])
 @login_required
 def delete_user_topic(topicid=None):
@@ -263,6 +275,7 @@ def delete_user_topic(topicid=None):
         delete_topic.execute()
         return redirect('user')
 
+# Updating User Information
 
 @app.route('/userupdate', methods=['GET', 'POST'])
 @login_required
@@ -279,6 +292,7 @@ def edit_user():
 
         return redirect('user')
 
+# Update Hosted Event
 
 @app.route('/update_user_event', methods=['GET', 'POST'])
 @login_required

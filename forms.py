@@ -3,7 +3,7 @@ from flask_wtf import FlaskForm as Form
 from models import User
 from models import Topic
 
-from wtforms import StringField, PasswordField, TextAreaField, DateTimeField, BooleanField, SelectMultipleField,SubmitField,HiddenField
+from wtforms import StringField, PasswordField, TextAreaField, DateTimeField, BooleanField,SubmitField,HiddenField
 from wtforms.widgets import ListWidget, CheckboxInput
 from wtforms.validators import (DataRequired, Regexp, ValidationError, Email,
                                Length, EqualTo,Required)
@@ -80,11 +80,7 @@ class Edit_Event_Form(Form):
     event_id = HiddenField('Hidden')
 
 
-class MultiCheckboxField(SelectMultipleField):
-	widget			= ListWidget(prefix_label=False)
-	option_widget	= CheckboxInput()
-
-
+# Unused Form for Can Help value in User_Topics Model. 
 class User_Topics(Form):
     can_help = BooleanField('Can Help')
 

@@ -1,3 +1,5 @@
+<!-- Macro for form fields -->
+
 {% macro render_field(field) %}
 <div class="field">
   {% if field.errors %} {% for error in field.errors %}
@@ -5,7 +7,11 @@
   {% endfor %} {% endif %}
   {{ field(placeholder=field.label.text, class='input') }}
 </div>
-{% endmacro %} {% macro render_topic(topic) %}
+{% endmacro %} 
+
+<!-- Renders Topics on the Main Page -->
+
+{% macro render_topic(topic) %}
 <div
   data-id="{{ topic.id }}"
   data-name="{{ topic.name }}"
@@ -19,11 +25,19 @@
     </p>
   </a>
 </div>
-{% endmacro %} {% macro render_topics_field(field) %}
+{% endmacro %} 
+
+<!-- Macro to render Form Field for Creating Topics (Admin User Only) -->
+
+{% macro render_topics_field(field) %}
 <div class="topics_field">
   {{ field }}
 </div>
-{% endmacro %} {% macro render_user_event(user_event, event_form) %}
+{% endmacro %} 
+
+<!-- Macro for Hosted User-Events on the Profile Page -->
+
+{% macro render_user_event(user_event, event_form) %}
 <div class="card-content">
   <div data-id="{{ user_event.id }}">
     <h1 class="has-background-black has-text-white card-header-title">
@@ -43,7 +57,11 @@
     >
   </div>
 </div>
-{% endmacro %} {% macro render_attending_event(attending_event) %}
+{% endmacro %} 
+
+<!-- Macro for User-Events were the User is attending a non-hosted event -->
+
+{% macro render_attending_event(attending_event) %}
 <div class="card-content" data-id="{{ attending_event.id }}">
   <h1 class="has-background-black has-text-white card-header-title">
     Event - {{ attending_event.event.title }}
@@ -61,11 +79,19 @@
     ><button class="button is-danger">Unattend</button></a
   >
 </div>
-{% endmacro %} {% macro render_event_topic(topic) %}
+{% endmacro %} 
+
+<!-- Macro to render topic options on create event and edit modals -->
+
+{% macro render_event_topic(topic) %}
 <option data-id="{{ topic.id }}" name="{{ topic.id }}" value="{{ topic.id }}">{{
   topic.name
 }}</option>
-{% endmacro %} {% macro render_user_page_topics(topic)%}
+{% endmacro %} 
+
+<!-- Macro to render Recommended Topics to Follow on the user page -->
+
+{% macro render_user_page_topics(topic)%}
 <div
   class="card-content level has-background-grey"
   style="color:blanchedalmond"
@@ -75,7 +101,11 @@
     ><button class="button is-success">Add</button></a
   >
 </div>
-{% endmacro %} {% macro render_user_topic(user_topic) %}
+{% endmacro %} 
+
+<!-- Macro to render topics the User is following -->
+
+{% macro render_user_topic(user_topic) %}
 <hr class="dropdown-divider" />
 
 <div class="level" style="margin:10%">
@@ -84,11 +114,12 @@
     <button class="button is-danger">Delete</button>
   </a>
 </div>
-{% endmacro %} {% macro render_topics_field(field) %}
-<div class="topics_field">
-  {{ field }}
-</div>
-{% endmacro %} {% macro render_event(event,user_events,attending,user) %}
+{% endmacro %} 
+
+
+<!-- Macro to render Upcoming Events on the Main Page -->
+
+{% macro render_event(event,user_events,attending,user) %}
 <div
   data-id="{{ event.id }}"
   class="event tile box is-child has-background-light"
