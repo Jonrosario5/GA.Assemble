@@ -2,8 +2,6 @@
 
 # App Name: GA.ASSEMBLE()
 
-Wayfarer is a platform designed with the travel community in mind. Through the use of this application, users share posts or tips about their favorite locations around the world.
-
 GA.Assemble was designed for students of all kinds. Are you a wiz kid and know all your material? Then create events to showoff your knowledge base. Are you struggling in one particular lesson? Then attend an event that is based on that topic and learn from your peers. At GA.Assemble we want to build a community of learning and sharing.
 
 ---
