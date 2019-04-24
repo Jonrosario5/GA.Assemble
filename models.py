@@ -1,10 +1,15 @@
+import os
 import datetime
 from peewee import *
+from playhouse.db_url import connect
+
 
 from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash
 
-DATABASE = SqliteDatabase('whatchuknow.db')
+DATABASE = connect(os.environ.get('DATABASE_URL'))
+# DATABASE = SqliteDatabase('whatchuknow.db')
+# DATABASE = PostgresqlDatabase('ga_assemble')
 
 class Topic(Model):
     name = CharField(50, unique=True)

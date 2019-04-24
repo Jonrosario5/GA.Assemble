@@ -1,3 +1,4 @@
+import os
 from flask import Flask, g
 from flask import render_template, flash, redirect, url_for, request, jsonify
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
@@ -307,12 +308,16 @@ def edit_user_event():
              models.Event.topic: request.form.get('topics')
              })
             .where(models.Event.id == update.event_id.data))
-        print('///////', update.event_id.data)
         update_user.execute()
 
         return redirect('user')
 
+if 'ON_HEROKU' in os.environ:
+    print('hitting ')
+    models.initialize()
 
 if __name__ == '__main__':
     models.initialize()
     app.run(debug=DEBUG, port=PORT)
+
+
